@@ -1,0 +1,56 @@
+import clsx from "clsx";
+import Link from "next/link";
+import Image from "next/image";
+
+export default function Hero() {
+  return (
+    <section
+      className={clsx(
+        "hero py-[3rem] center-section flex justify-between items-center gap-[1rem]",
+      )}
+    >
+      <section className={clsx("flex-1")}>
+        <section className={clsx("text-content mb-[2rem]")}>
+          <h1 className={clsx("text-4xl font-[500] mb-[1rem]")}>
+            Track invoices, loans, and installments — all in one place
+          </h1>
+          <p className={clsx("text-2xl font-[300] text-[#555]")}>
+            Built for lenders, freelancers, and growing businesses who track
+            customer payments.
+          </p>
+        </section>
+        <section className={clsx("action-buttons flex gap-[1rem]")}>
+          <Link
+            href="/auth/signup"
+            className={clsx(
+              "bg-black p-[1em] rounded-md text-white font-bold hover:opacity-[.9]",
+            )}
+          >
+            Get Started Free
+          </Link>
+          <Link
+            href="/auth/login"
+            className={clsx(
+              "p-[1em] rounded-md border-1 border-[#ccc] hover:bg-[#eee]",
+            )}
+          >
+            Login
+          </Link>
+        </section>
+      </section>
+      <section
+        className={clsx(
+          "flex-1 border-1 border-[#ddd] rounded-[20px] shadow-2xl p-2 max-[700px]:hidden",
+        )}
+      >
+        <Image
+          src="/assets/final-dashboard.webp"
+          width={1000}
+          height={1000}
+          alt="dashboard image"
+          priority
+        />
+      </section>
+    </section>
+  );
+}
