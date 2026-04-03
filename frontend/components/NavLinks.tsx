@@ -3,7 +3,11 @@ import Link from "next/link";
 
 export default function NavLinks() {
   return (
-    <>
+    <section
+      className={clsx(
+        "flex justify-between items-center gap-[2rem] max-[760px]:hidden",
+      )}
+    >
       <section
         className={clsx(
           "nav-links flex justify-between items-center gap-[2rem]",
@@ -12,6 +16,7 @@ export default function NavLinks() {
         <a href="#features">Features</a>
         <a href="#how-it-works">How It Works</a>
         <a href="#pricing">Pricing</a>
+        <a href="#faqs">FAQs</a>
       </section>
       <section
         className={clsx(
@@ -28,6 +33,6 @@ export default function NavLinks() {
           Sign Up
         </Link>
       </section>
-    </>
+    </section>
   );
 }

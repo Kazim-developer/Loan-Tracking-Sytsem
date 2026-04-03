@@ -27,7 +27,7 @@ googleRouter.get(
       expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30),
     });
 
-    res.redirect("http://localhost:3000/hello");
+    res.redirect("http://localhost:3000/dashboard");
   },
 );
 

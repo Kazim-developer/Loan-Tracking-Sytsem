@@ -12,11 +12,11 @@ export default function Hero() {
       <section className={clsx("flex-1")}>
         <section className={clsx("text-content mb-[2rem]")}>
           <h1 className={clsx("text-4xl font-[500] mb-[1rem]")}>
-            Track invoices, loans, and installments — all in one place
+            Track Loans, Invoices, and Customer Payments — All in One Place
           </h1>
           <p className={clsx("text-2xl font-[300] text-[#555]")}>
-            Built for lenders, freelancers, and growing businesses who track
-            customer payments.
+            Built for lenders and growing businesses to manage installments,
+            outstanding balances, and send payment reminders easily.
           </p>
         </section>
         <section className={clsx("action-buttons flex gap-[1rem]")}>

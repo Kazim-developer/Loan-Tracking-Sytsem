@@ -29,10 +29,10 @@ export default function Plan({ plan }: { plan: string }) {
         <h1 className="text-2xl font-[500]">{res?.plan}</h1>
         <section className="price flex flex-col gap-[1rem] my-[1rem]">
           <section className="flex justify-left items-end gap-[8px]">
-            <h1 className="text-4xl font-[500]">${res?.day}</h1>
-            <span className="text-xl text-[#555]">{res?.recurring}</span>
+            <h1 className="text-4xl font-[500]">${res?.month}</h1>
+            <span className="text-xl text-[#555]">/month</span>
           </section>
-          <p className="text-[#555]">${res?.month} /month</p>
+          <p className="text-[#555]">${res?.day} /day</p>
         </section>
         <p className="text-xl font-[500]">{res?.title}</p>
       </section>

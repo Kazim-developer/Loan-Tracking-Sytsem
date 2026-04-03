@@ -1,6 +1,7 @@
 import "./globals.css";
 import TanstackProviders from "./TanstackProviders";
 import ReactToastifyProviders from "./ReactToastifyProviders";
+import AuthLoader from "@/components/AuthLoader";
 
 export const metadata = {
   title: "Loan Tracking App",
@@ -16,7 +17,9 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <TanstackProviders>
-          <ReactToastifyProviders>{children}</ReactToastifyProviders>
+          <ReactToastifyProviders>
+            <AuthLoader>{children}</AuthLoader>
+          </ReactToastifyProviders>
         </TanstackProviders>
       </body>
     </html>

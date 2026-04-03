@@ -2,10 +2,10 @@ import { FeatureContent } from "@/validators/featureContent.validator";
 import clsx from "clsx";
 import ClipBoardIcon from "./icons/ClipBoardIcon";
 import Calendar from "./icons/CalendarIcon";
-import Chart from "./icons/ChartIcon";
 import PaymentIcon from "./icons/PaymentIcon";
 import UserGroupIcon from "./icons/UserGroupIcon";
 import NotificationIcon from "./icons/NotificationIcon";
+import DownloadIcon from "./icons/DownloadIcon";
 
 export default function Feature({ icon, title, description }: FeatureContent) {
   return (
@@ -19,8 +19,8 @@ export default function Feature({ icon, title, description }: FeatureContent) {
           <ClipBoardIcon />
         ) : icon === "calendar" ? (
           <Calendar />
-        ) : icon === "chart" ? (
-          <Chart />
+        ) : icon === "download" ? (
+          <DownloadIcon />
         ) : icon === "notification" ? (
           <NotificationIcon />
         ) : icon === "payment" ? (

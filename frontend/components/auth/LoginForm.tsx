@@ -16,6 +16,8 @@ import useAuthStore from "@/stores/auth.store";
 export default function LoginForm() {
   const setEmail = useAuthStore((store) => store.setEmail);
   const setLoginMethod = useAuthStore((store) => store.setLoginMethod);
+  const setIsAuthenticated = useAuthStore((store) => store.setIsAuthenticated);
+  const setIsGoogleLogin = useAuthStore((s) => s.setIsGoogleLogin);
 
   const [formData, setFormData] = useState<FormData>({
     email: "",
@@ -41,8 +43,11 @@ export default function LoginForm() {
 
       setEmail(data.email);
       setLoginMethod(data.method);
+      setIsAuthenticated(true);
+      setIsGoogleLogin(false);
     },
     onError: (error) => {
+      setIsAuthenticated(false);
       if (error.errors) {
         Object.values(error.errors).forEach((msg) => {
           toast.error(msg);

@@ -38,6 +38,16 @@ passport.use(
 
           if (existingUser) {
             // Link Google account to existing user
+            if (!existingUser.imageUrl || !existingUser.name) {
+              await prisma.user.update({
+                where: { email },
+                data: {
+                  imageUrl: existingUser.imageUrl ?? image,
+                  name: existingUser.name ?? name,
+                },
+              });
+            }
+
             await prisma.account.create({
               data: {
                 userId: existingUser.id,

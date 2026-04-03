@@ -1,8 +1,11 @@
 import { usageGuide } from "@/validators/usageGuide.validator";
 import PlusIcon from "./icons/PlusIcon";
 import Calendar from "./icons/CalendarIcon";
-import Chart from "./icons/ChartIcon";
 import clsx from "clsx";
+import PaymentIcon from "./icons/PaymentIcon";
+import DownloadIcon from "./icons/DownloadIcon";
+import ClipBoardIcon from "./icons/ClipBoardIcon";
+import NotificationIcon from "./icons/NotificationIcon";
 
 export default function UsageGuide({
   index,
@@ -23,8 +26,14 @@ export default function UsageGuide({
         <PlusIcon />
       ) : icon === "calendar" ? (
         <Calendar />
+      ) : icon === "payment" ? (
+        <PaymentIcon />
+      ) : icon === "download" ? (
+        <DownloadIcon />
+      ) : icon === "notification" ? (
+        <NotificationIcon />
       ) : (
-        <Chart />
+        <ClipBoardIcon />
       )}
       <h1 className="text-2xl font-[500] my-[1rem]">{title}</h1>
       <p className="text-[#555]">{description}</p>

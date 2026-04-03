@@ -23,13 +23,7 @@ export default function Navbar() {
       >
         <MyLogo />
         <Menu setShowSidebar={setShowSidebar} />
-        <section
-          className={clsx(
-            "flex justify-between items-center gap-[2rem] max-[760px]:hidden",
-          )}
-        >
-          <NavLinks />
-        </section>
+        <NavLinks />
       </nav>
       <SidebarContainer
         showSidebar={showSidebar}

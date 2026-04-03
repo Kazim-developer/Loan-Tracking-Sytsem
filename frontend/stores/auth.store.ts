@@ -4,20 +4,29 @@ import { persist } from "zustand/middleware";
 const storeFunc = (set) => ({
   email: "",
   loginMethod: "",
-  profileUrl: "",
+  imageUrl: "",
+
+  isAuthenticated: false,
+  isGoogleLogin: false,
+  authChecked: false,
 
   setEmail: (email: string) => set({ email }),
-  setLoginMethod: (method: string) => set({ method }),
-  setProfileUrl: (url: string) => set({ profileUrl: url }),
+  setLoginMethod: (method: string) => set({ loginMethod: method }),
+  setImageUrl: (url: string) => set({ imageUrl: url }),
+
+  setIsAuthenticated: (value: boolean) => set({ isAuthenticated: value }),
+  setAuthChecked: (value: boolean) => set({ authChecked: value }),
+  setIsGoogleLogin: (value: boolean) => set({ isGoogleLogin: value }),
 });
 
 const useAuthStore = create(
   persist(storeFunc, {
     name: "login-user",
+
     partialize: (state) => ({
       email: state.email,
-      method: state.loginMethod,
-      profileUrl: state.profileUrl,
+      loginMethod: state.loginMethod,
+      imageUrl: state.imageUrl,
     }),
   }),
 );

@@ -1,7 +1,12 @@
+import { prisma } from "../db/prisma.js";
 import asyncHandler from "../middlewares/asyncHandler.middleware.js";
 
 const getCurrentUser = asyncHandler(async (req: any, res: any) => {
   const user = req.user;
+
+  const userAccount = await prisma.account.findFirst({
+    where: { userId: user.id },
+  });
 
   res.status(200).json({
     status: "success",
@@ -9,6 +14,9 @@ const getCurrentUser = asyncHandler(async (req: any, res: any) => {
       email: user.email,
       name: user.name,
       imageUrl: user.imageUrl,
+      loginMethod: userAccount?.provider,
+      isAuthenticated: true,
+      isGoogleLogin: userAccount?.provider === "google" ? true : false,
     },
   });
 });
