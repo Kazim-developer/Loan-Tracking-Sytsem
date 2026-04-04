@@ -1,7 +1,12 @@
+"use client";
+
 import Link from "next/link";
 import MyLogo from "./MyLogo";
+import { usePathname } from "next/navigation";
 
 export default function Footer() {
+  const pathName = usePathname();
+
   return (
     <footer className="bg-[#efefef] py-[3rem]">
       <section className="center-section flex justify-between items-start gap-[2rem] max-[520px]:flex-col">
@@ -15,8 +20,19 @@ export default function Footer() {
         <section className="flex flex-col gap-[1rem]">
           <h1 className="font-[500]">Product</h1>
           <section className="references flex flex-col gap-[1rem]">
-            <Link href="/#features">Features</Link>
-            <Link href="/#pricing">Pricing</Link>
+            {pathName !== "/" ? (
+              <>
+                <Link href="/#features">Features</Link>
+                <Link href="/#how-it-works">How It Works</Link>
+                <Link href="/#pricing">Pricing</Link>
+              </>
+            ) : (
+              <>
+                <a href="#features">Features</a>
+                <a href="#how-it-works">How It Works</a>
+                <a href="#pricing">Pricing</a>
+              </>
+            )}
             <Link href="/dashboard">Dashboard</Link>
           </section>
         </section>

@@ -36,7 +36,7 @@ export default function FAQs() {
           />
           <FAQ
             question="Can I manage both loans and invoices?"
-            answer="Can I manage both loans and invoices?"
+            answer="Yes, you can create both loans and invoices, set installments, and track payments for each client."
           />
           <FAQ
             question="Can I track partial payments?"

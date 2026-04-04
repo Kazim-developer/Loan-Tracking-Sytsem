@@ -18,14 +18,7 @@ export default function SidebarContainer({
       )}
       onClick={() => setShowSidebar(false)}
     >
-      <section
-        className={clsx(
-          "w-[250px] h-full bg-white pt-4 pl-6 flex flex-col justify-between absolute top-0 right-0 transition-transform duration-300 ease-in-out",
-          showSidebar ? "translate-x-0" : "translate-x-full",
-        )}
-      >
-        <Sidebar setShowSidebar={setShowSidebar} />
-      </section>
+      <Sidebar showSidebar={showSidebar} setShowSidebar={setShowSidebar} />
     </section>
   );
 }

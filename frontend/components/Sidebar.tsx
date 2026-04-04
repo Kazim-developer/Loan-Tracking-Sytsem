@@ -6,42 +6,50 @@ import Close from "./home/icons/Close";
 import useAuthStore from "@/stores/auth.store";
 import Profile from "./Profile";
 import Logout from "./Logout";
+import { usePathname } from "next/navigation";
 
 export default function Sidebar({
+  showSidebar,
   setShowSidebar,
 }: {
+  showSidebar: boolean;
   setShowSidebar: (value: boolean) => void;
 }) {
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
   const isGoogleLogin = useAuthStore((s) => s.isGoogleLogin);
 
+  const pathName = usePathname();
+
   return (
-    <section className="sidebar">
+    <section
+      className={clsx(
+        "sidebar overflow-y-auto w-[250px] h-full bg-white pt-6 pl-6 absolute top-0 right-0 transition-transform duration-300 ease-in-out",
+        showSidebar ? "translate-x-0" : "translate-x-full",
+      )}
+    >
       <Close setShowSidebar={setShowSidebar} />
       {isAuthenticated && isGoogleLogin && <Profile isNavbar={false} />}
       <section
         className={clsx("flex flex-col justify-between items-start gap-[2rem]")}
       >
-        <Link href="/dashboard">Dashboard</Link>
         {isAuthenticated && (
           <>
-            <Link href="/#features">Features</Link>
-            <Link href="/#how-it-works">How It Works</Link>
-            <Link href="/#pricing">Pricing</Link>
-            <Link href="/#faqs">FAQs</Link>
-          </>
-        )}
-        {!isAuthenticated && (
-          <>
-            <a href="#features">Features</a>
-            <a href="#how-it-works">How It Works</a>
-            <a href="#pricing">Pricing</a>
-            <a href="#faqs">FAQs</a>
-          </>
-        )}
-        {isAuthenticated && (
-          <>
-            <a href="/dashboard">Dashboard</a>
+            <Link href="/dashboard">Dashboard</Link>
+            {pathName !== "/" ? (
+              <>
+                <Link href="/#features">Features</Link>
+                <Link href="/#how-it-works">How It Works</Link>
+                <Link href="/#pricing">Pricing</Link>
+                <Link href="/#faqs">FAQs</Link>
+              </>
+            ) : (
+              <>
+                <a href="#features">Features</a>
+                <a href="#how-it-works">How It Works</a>
+                <a href="#pricing">Pricing</a>
+                <a href="#faqs">FAQs</a>
+              </>
+            )}
             <Logout />
           </>
         )}

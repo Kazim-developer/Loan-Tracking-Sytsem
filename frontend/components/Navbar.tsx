@@ -3,12 +3,20 @@
 import clsx from "clsx";
 import MyLogo from "./MyLogo";
 import Menu from "./home/icons/Menu";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import NavLinks from "./NavLinks";
 import SidebarContainer from "./SidebarContainer";
 
 export default function Navbar() {
   const [showSidebar, setShowSidebar] = useState<boolean>(false);
+
+  useEffect(() => {
+    document.body.style.overflow = showSidebar ? "hidden" : "auto";
+
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [showSidebar]);
 
   return (
     <section

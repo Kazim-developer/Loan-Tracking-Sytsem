@@ -8,7 +8,7 @@ import useAuthStore from "@/stores/auth.store";
 export default function CTA() {
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
   return (
-    <section className="cta py-[3rem] flex flex-col justify-center items-center gap-[2rem]">
+    <section className="cta center-section py-[3rem] flex flex-col justify-center items-center gap-[2rem]">
       <section>
         <h1 className="text-[#555] text-center text-xl mb-[2rem]">
           Join thousands of users who trust Loqvio with their financial

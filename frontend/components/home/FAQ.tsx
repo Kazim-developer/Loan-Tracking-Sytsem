@@ -16,16 +16,9 @@ export default function FAQ({
     <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
       <button
         onClick={() => setOpen(!open)}
-        className="w-full text-left text-2xl px-5 py-4 font-medium flex justify-between items-center"
+        className="w-full text-left text-xl px-5 py-4 font-medium flex items-center"
       >
-        {question}
-        {/* <span
-          className={`transition-transform duration-300 ${
-            open ? "rotate-180" : ""
-          }`}
-        >
-          ▼
-        </span> */}
+        <span className="truncate min-w-0 flex-1">{question}</span>
         <PlusIcon />
       </button>
 
@@ -35,7 +28,7 @@ export default function FAQ({
         }`}
       >
         <div className="overflow-hidden">
-          <p className="px-5 pb-4 text-2xl text-gray-600">{answer}</p>
+          <p className="px-5 pb-4 text-gray-600">{answer}</p>
         </div>
       </div>
     </div>
