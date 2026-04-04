@@ -1,8 +1,13 @@
+"use client";
+
 import clsx from "clsx";
 import Link from "next/link";
 import Image from "next/image";
+import useAuthStore from "@/stores/auth.store";
 
 export default function Hero() {
+  const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
+
   return (
     <section
       className={clsx(
@@ -19,24 +24,36 @@ export default function Hero() {
             outstanding balances, and send payment reminders easily.
           </p>
         </section>
-        <section className={clsx("action-buttons flex gap-[1rem]")}>
+        {!isAuthenticated && (
+          <section className={clsx("action-buttons flex gap-[1rem]")}>
+            <Link
+              href="/auth/signup"
+              className={clsx(
+                "bg-black p-[1em] rounded-md text-white font-bold hover:opacity-[.9]",
+              )}
+            >
+              Get Started Free
+            </Link>
+            <Link
+              href="/auth/login"
+              className={clsx(
+                "p-[1em] rounded-md border-1 border-[#ccc] hover:bg-[#eee]",
+              )}
+            >
+              Login
+            </Link>
+          </section>
+        )}
+        {isAuthenticated && (
           <Link
-            href="/auth/signup"
+            href="/dashboard"
             className={clsx(
               "bg-black p-[1em] rounded-md text-white font-bold hover:opacity-[.9]",
             )}
           >
-            Get Started Free
+            Go to Dashboard
           </Link>
-          <Link
-            href="/auth/login"
-            className={clsx(
-              "p-[1em] rounded-md border-1 border-[#ccc] hover:bg-[#eee]",
-            )}
-          >
-            Login
-          </Link>
-        </section>
+        )}
       </section>
       <section
         className={clsx(

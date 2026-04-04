@@ -1,7 +1,13 @@
+"use client";
+
+import useAuthStore from "@/stores/auth.store";
 import clsx from "clsx";
 import Link from "next/link";
+import Profile from "./Profile";
 
 export default function NavLinks() {
+  const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
+
   return (
     <section
       className={clsx(
@@ -13,26 +19,30 @@ export default function NavLinks() {
           "nav-links flex justify-between items-center gap-[2rem]",
         )}
       >
+        <Link href="/dashboard">Dashboard</Link>
         <a href="#features">Features</a>
         <a href="#how-it-works">How It Works</a>
         <a href="#pricing">Pricing</a>
         <a href="#faqs">FAQs</a>
       </section>
-      <section
-        className={clsx(
-          "user-auth flex justify-between items-center gap-[2rem]",
-        )}
-      >
-        <Link href="/auth/login">Login</Link>
-        <Link
-          href="/auth/signup"
+      {!isAuthenticated && (
+        <section
           className={clsx(
-            "bg-black p-2 text-white rounded-md font-bold hover:[bg-[#999]] hover:opacity-[.9]",
+            "user-auth flex justify-between items-center gap-[2rem]",
           )}
         >
-          Sign Up
-        </Link>
-      </section>
+          <Link href="login">Login</Link>
+          <Link
+            href="signup"
+            className={clsx(
+              "bg-black p-2 text-white rounded-md font-bold hover:[bg-[#999]] hover:opacity-[.9]",
+            )}
+          >
+            Sign Up
+          </Link>
+        </section>
+      )}
+      {isAuthenticated && <Profile isNavbar={true} />}
     </section>
   );
 }

@@ -23,7 +23,7 @@ export default function ForgotPasswordForm() {
     onSuccess: (data) => {
       toast.success(data.message);
       setTimeout(() => {
-        router.replace("/auth/login");
+        router.replace("/login");
       }, 3000);
     },
     onError: (error) => {

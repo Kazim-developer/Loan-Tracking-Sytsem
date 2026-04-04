@@ -1,14 +1,18 @@
+"use client";
+
 import { plans } from "@/utils/subscriptionPlanData";
 import CheckIcon from "./icons/CheckIcon";
 import clsx from "clsx";
+import useAuthStore from "@/stores/auth.store";
 
 export default function Plan({ plan }: { plan: string }) {
   const res = plans.find((p) => p.plan === plan);
+  const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
 
   return (
     <section
       className={clsx(
-        "relative p-[2rem] border-1 rounded-[20px] flex flex-col justify-between gap-[2rem]",
+        "relative p-[2rem] border-1 rounded-[20px] flex flex-col gap-[2rem]",
         plan === "Free"
           ? "border-gray-300"
           : plan === "Pro"
@@ -50,7 +54,7 @@ export default function Plan({ plan }: { plan: string }) {
         })}
       </section>
       {plan === "Free" ? (
-        <button className="upgrade-button">Sign Up</button>
+        !isAuthenticated && <button className="upgrade-button">Sign Up</button>
       ) : plan === "Pro" ? (
         <button className="upgrade-button">Upgrade</button>
       ) : plan === "Business" ? (

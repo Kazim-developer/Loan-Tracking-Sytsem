@@ -94,7 +94,7 @@ export default function SignupForm() {
       </form>
       <p className={clsx("mt-[1rem]")}>
         Already have an account?{" "}
-        <Link href="/auth/login" className={clsx("text-blue-800")}>
+        <Link href="/login" className={clsx("text-blue-800")}>
           Login
         </Link>{" "}
       </p>

@@ -32,7 +32,7 @@ export default function ResetPasswordForm({ token }: { token: string }) {
     onSuccess: (data) => {
       toast.success(data.message);
       setTimeout(() => {
-        router.replace("/auth/login");
+        router.replace("/login");
       }, 3000);
     },
     onError: (error) => {
@@ -88,7 +88,7 @@ export default function ResetPasswordForm({ token }: { token: string }) {
       </form>
       <p className={clsx("mt-[1.5rem]")}>
         Link invalid or expired?{" "}
-        <Link href="/auth/forgot-password" className={clsx("text-blue-800")}>
+        <Link href="/forgot-password" className={clsx("text-blue-800")}>
           Get again
         </Link>
       </p>

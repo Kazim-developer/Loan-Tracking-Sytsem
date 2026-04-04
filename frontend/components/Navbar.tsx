@@ -22,8 +22,8 @@ export default function Navbar() {
         )}
       >
         <MyLogo />
-        <Menu setShowSidebar={setShowSidebar} />
         <NavLinks />
+        <Menu setShowSidebar={setShowSidebar} />
       </nav>
       <SidebarContainer
         showSidebar={showSidebar}

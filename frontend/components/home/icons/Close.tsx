@@ -10,7 +10,7 @@ export default function Close({
       viewBox="0 0 24 24"
       strokeWidth={1.5}
       stroke="currentColor"
-      className="w-10 h-10 cursor-pointer mb-[2rem]"
+      className="w-10 h-10 cursor-pointer mb-[1rem]"
       onClick={() => setShowSidebar(false)}
     >
       <path

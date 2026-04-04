@@ -8,8 +8,8 @@ export default function Footer() {
         <section className="flex flex-col gap-[1rem]">
           <MyLogo />
           <h1>
-            Modern loan tracking and installment management for individuals and
-            businesses. Take control of your finances with confidence.
+            Loqvio helps businesses track clients, invoices, loans,
+            installments, and payments — all in one place.
           </h1>
         </section>
         <section className="flex flex-col gap-[1rem]">
@@ -23,8 +23,8 @@ export default function Footer() {
         <section className="flex flex-col gap-[1rem]">
           <h1 className="font-[500]">Account</h1>
           <section className="references flex flex-col gap-[1rem]">
-            <Link href="/auth/signup">Sign Up</Link>
-            <Link href="/auth/login">Login</Link>
+            <Link href="/signup">Sign Up</Link>
+            <Link href="/login">Login</Link>
           </section>
         </section>
       </section>

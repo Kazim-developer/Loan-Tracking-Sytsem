@@ -17,7 +17,6 @@ export default function LoginForm() {
   const setEmail = useAuthStore((store) => store.setEmail);
   const setLoginMethod = useAuthStore((store) => store.setLoginMethod);
   const setIsAuthenticated = useAuthStore((store) => store.setIsAuthenticated);
-  const setIsGoogleLogin = useAuthStore((s) => s.setIsGoogleLogin);
 
   const [formData, setFormData] = useState<FormData>({
     email: "",
@@ -38,13 +37,12 @@ export default function LoginForm() {
     onSuccess: (data) => {
       toast.success(data.message);
       setTimeout(() => {
-        router.replace("/hello");
+        router.replace("/dashboard");
       }, 3000);
 
       setEmail(data.email);
       setLoginMethod(data.method);
       setIsAuthenticated(true);
-      setIsGoogleLogin(false);
     },
     onError: (error) => {
       setIsAuthenticated(false);
@@ -97,7 +95,7 @@ export default function LoginForm() {
           showPassword={showPassword}
           setShowPassword={setShowPassword}
         />
-        <Link href="/auth/forgot-password" className={clsx("text-blue-800")}>
+        <Link href="/forgot-password" className={clsx("text-blue-800")}>
           Forget Password?
         </Link>
         <button
@@ -109,7 +107,7 @@ export default function LoginForm() {
       </form>
       <p className={clsx("mt-[1rem]")}>
         Dont have an account?{" "}
-        <Link href="/auth/signup" className={clsx("text-blue-800")}>
+        <Link href="/signup" className={clsx("text-blue-800")}>
           Sign Up
         </Link>{" "}
       </p>
