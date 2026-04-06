@@ -7,13 +7,20 @@ import crypto from "crypto";
 const createLoginSession = asyncHandler(async (req: any, res: any) => {
   const { email, password } = req.body;
 
-  const account = await prisma.account.findFirst({
+  const account = await prisma.account.findUnique({
     where: {
-      provider: "credentials",
-      providerAccountId: email,
+      provider_providerAccountId: {
+        provider: "credentials",
+        providerAccountId: email,
+      },
     },
     include: {
       user: true,
+      subscription: {
+        include: {
+          plan: true,
+        },
+      },
     },
   });
 
@@ -27,18 +34,52 @@ const createLoginSession = asyncHandler(async (req: any, res: any) => {
     throw new AppError("Invalid email or password", 401);
   }
 
+  // Subscription checks
+  if (!account.subscription) {
+    // auto-create free subscription
+    const freePlan = await prisma.plan.findUnique({
+      where: { name: "Free" },
+    });
+
+    if (!freePlan) {
+      throw new AppError("System error: Free plan missing", 500);
+    }
+
+    const subscription = await prisma.subscription.create({
+      data: {
+        accountId: account.id,
+        planId: freePlan.id,
+        status: "ACTIVE",
+        billingCycle: "MONTHLY",
+        startDate: new Date(),
+      },
+      include: { plan: true },
+    });
+
+    account.subscription = subscription;
+  }
+
+  if (account.subscription.status !== "ACTIVE") {
+    throw new AppError("Subscription is not active", 403);
+  }
+
+  if (
+    account.subscription.endDate &&
+    account.subscription.endDate < new Date()
+  ) {
+    throw new AppError("Subscription expired", 403);
+  }
+
   // Delete expired sessions
   await prisma.session.deleteMany({
     where: {
-      expiresAt: {
-        lt: new Date(),
-      },
+      expiresAt: { lt: new Date() },
     },
   });
 
-  // Limit sessions per user
+  // Limit sessions per ACCOUNT
   const sessions = await prisma.session.findMany({
-    where: { userId: account.userId },
+    where: { accountId: account.id },
     orderBy: { createdAt: "asc" },
   });
 
@@ -53,6 +94,7 @@ const createLoginSession = asyncHandler(async (req: any, res: any) => {
   const session = await prisma.session.create({
     data: {
       userId: account.userId,
+      accountId: account.id,
       sessionToken,
       expiresAt: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30),
     },
@@ -60,7 +102,7 @@ const createLoginSession = asyncHandler(async (req: any, res: any) => {
 
   res.cookie("session_token", sessionToken, {
     httpOnly: true,
-    secure: false,
+    secure: false, // true in production
     sameSite: "lax",
     expires: session.expiresAt,
   });
@@ -70,6 +112,14 @@ const createLoginSession = asyncHandler(async (req: any, res: any) => {
     message: "Logged in successfully",
     email: account.user.email,
     method: account.provider,
+    subscription: {
+      plan: account.subscription.plan.name,
+      status: account.subscription.status,
+      limits: {
+        maxClients: account.subscription.plan.maxClients,
+        maxAccounts: account.subscription.plan.maxAccounts,
+      },
+    },
   });
 });
 

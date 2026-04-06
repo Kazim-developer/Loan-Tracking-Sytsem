@@ -32,7 +32,7 @@ export default function SignupForm() {
     onSuccess: () => {
       toast.success("account created successfully");
       setTimeout(() => {
-        router.replace("/auth/login");
+        router.replace("/login");
       }, 3000);
     },
     onError: (error) => {

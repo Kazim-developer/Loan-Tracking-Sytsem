@@ -36,6 +36,10 @@ model Account {
   refreshToken      String?
   expiresAt         Int?
 
+  clients Client[]
+  sessions Session[]
+  subscription  Subscription?
+
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
@@ -44,11 +48,13 @@ model Account {
 model Session {
   id           String   @id @default(uuid())
   userId       String
+  accountId String
   sessionToken String   @unique
   createdAt DateTime @default(now())
   expiresAt    DateTime
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  account Account @relation(fields:[accountId], references:[id], onDelete: Cascade)
 }
 
 model PasswordResetToken {
@@ -59,3 +65,175 @@ model PasswordResetToken {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
+model Client {
+  id        String   @id @default(uuid())
+  accountId String
+  name      String
+  email     String?
+  phone     String?
+  address   String?
+  notes     String?
+
+  clientAccounts  ClientAccount[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+
+  account Account @relation(fields:[accountId], references:[id], onDelete: Cascade)
+}
+
+model ClientAccount {
+  id            String   @id @default(uuid())
+  clientId      String
+
+  type          AccountType   // LOAN or INVOICE
+  title         String?
+  description   String?
+
+  totalAmount   Float
+  paidAmount    Float   @default(0)
+
+  startDate     DateTime?
+  dueDate       DateTime?
+
+  installments  Installment[]
+  payments      Payment[]
+  reminders     Reminder[]
+
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  client Client @relation(fields: [clientId], references: [id], onDelete: Cascade)
+}
+
+enum AccountType {
+  LOAN
+  INVOICE
+}
+
+model Installment {
+  id          String   @id @default(uuid())
+  clientAccountId   String
+
+  amount      Float
+  dueDate     DateTime
+  paidAmount  Float   @default(0)
+  status      InstallmentStatus
+
+  payments    Payment[]
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  account ClientAccount @relation(fields: [clientAccountId], references: [id], onDelete: Cascade)
+}
+
+enum InstallmentStatus {
+  PENDING
+  PARTIAL
+  PAID
+  OVERDUE
+}
+
+model Payment {
+  id            String   @id @default(uuid())
+  clientAccountId     String
+  installmentId String?
+
+  amount        Float
+  paymentDate   DateTime
+  method        PaymentMethod?
+  reference     String?
+  notes         String?
+
+  createdAt     DateTime @default(now())
+
+  account     ClientAccount @relation(fields: [clientAccountId], references: [id], onDelete: Cascade)
+  installment Installment?  @relation(fields: [installmentId], references: [id], onDelete: SetNull)
+}
+
+enum PaymentMethod {
+  CASH
+  BANK_TRANSFER
+  STRIPE
+  PAYPAL
+  OTHER
+}
+
+model Reminder {
+  id         String   @id @default(uuid())
+  clientAccountId  String
+
+  reminderDate DateTime
+  sent        Boolean  @default(false)
+  type        ReminderType
+
+  createdAt   DateTime @default(now())
+
+  account ClientAccount @relation(fields: [clientAccountId], references: [id], onDelete: Cascade)
+}
+
+enum ReminderType {
+  EMAIL
+  WHATSAPP
+}
+
+// saas subscription billing
+
+model Plan {
+  id          String   @id @default(uuid())
+  name        String   @unique
+  description String?
+  priceMonth  Int
+  priceYear   Int?
+  maxClients  Int?
+  maxAccounts Int?
+  features    Json?
+  isActive    Boolean  @default(true)
+
+  subscription Subscription[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Subscription {
+  id        String   @id @default(uuid())
+  accountId String   @unique  
+  planId    String
+
+  status       SubscriptionStatus
+  billingCycle BillingCycle
+  autoRenew    Boolean @default(true)
+
+  startDate DateTime
+  endDate   DateTime?
+  cancelAt  DateTime?
+
+  provider                String?
+  providerSubscriptionId  String?
+  providerCustomerId      String?
+
+  account Account @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  plan    Plan    @relation(fields: [planId], references: [id], onDelete: Restrict)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([planId])
+  @@index([accountId])
+  @@index([providerCustomerId])
+}
+
+enum SubscriptionStatus {
+  ACTIVE
+  EXPIRED
+  CANCELED
+  PAST_DUE
+}
+
+enum BillingCycle {
+  MONTHLY
+  YEARLY
+}

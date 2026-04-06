@@ -16,7 +16,6 @@ export default function Sidebar({
   setShowSidebar: (value: boolean) => void;
 }) {
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
-  const isGoogleLogin = useAuthStore((s) => s.isGoogleLogin);
 
   const pathName = usePathname();
 
@@ -28,7 +27,7 @@ export default function Sidebar({
       )}
     >
       <Close setShowSidebar={setShowSidebar} />
-      {isAuthenticated && isGoogleLogin && <Profile isNavbar={false} />}
+      {isAuthenticated && <Profile isNavbar={false} />}
       <section
         className={clsx("flex flex-col justify-between items-start gap-[2rem]")}
       >
@@ -61,11 +60,17 @@ export default function Sidebar({
             "flex flex-col justify-between items-start gap-[2rem] mt-[2rem]",
           )}
         >
-          <Link href="login">Login</Link>
           <Link
-            href="signup"
+            href="/login"
+            className={clsx(pathName === "/login" ? "active-link" : null)}
+          >
+            Login
+          </Link>
+          <Link
+            href="/signup"
             className={clsx(
               "bg-black p-2 text-white rounded-md font-bold hover:[bg-[#999]] hover:opacity-[.9]",
+              pathName === "/login" ? "active-link" : null,
             )}
           >
             Sign Up

@@ -27,7 +27,7 @@ export default function Hero() {
         {!isAuthenticated && (
           <section className={clsx("action-buttons flex gap-[1rem]")}>
             <Link
-              href="/auth/signup"
+              href="/signup"
               className={clsx(
                 "bg-black p-[1em] rounded-md text-white font-bold hover:opacity-[.9]",
               )}
@@ -35,7 +35,7 @@ export default function Hero() {
               Get Started Free
             </Link>
             <Link
-              href="/auth/login"
+              href="/login"
               className={clsx(
                 "p-[1em] rounded-md border-1 border-[#ccc] hover:bg-[#eee]",
               )}

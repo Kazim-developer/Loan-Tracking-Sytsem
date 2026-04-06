@@ -9,9 +9,13 @@ const requireAuth = asyncHandler(async (req: any, res: any, next: any) => {
     throw new AppError("Not authenticated", 401);
   }
 
+  // Include accountId along with user
   const session = await prisma.session.findUnique({
     where: { sessionToken },
-    include: { user: true },
+    include: {
+      user: true,
+      account: true,
+    },
   });
 
   if (!session) {
@@ -19,14 +23,17 @@ const requireAuth = asyncHandler(async (req: any, res: any, next: any) => {
   }
 
   if (session.expiresAt < new Date()) {
-    await prisma.session.delete({
-      where: { sessionToken },
-    });
-
+    await prisma.session.delete({ where: { sessionToken } });
     throw new AppError("Session expired", 401);
   }
 
+  // Attach both user and account to request
   req.user = session.user;
+  req.sessionData = {
+    userId: session.userId,
+    accountId: session.accountId,
+  };
+
   next();
 });
 

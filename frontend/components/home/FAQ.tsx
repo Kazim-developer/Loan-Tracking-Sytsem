@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import PlusIcon from "./icons/PlusIcon";
 
 export default function FAQ({
   question,
@@ -13,13 +12,12 @@ export default function FAQ({
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
+    <div className="bg-white border border-gray-200 rounded-xl">
       <button
+        className="w-full gap-3 px-5 py-4 text-left text-xl font-medium"
         onClick={() => setOpen(!open)}
-        className="w-full text-left text-xl px-5 py-4 font-medium flex items-center"
       >
-        <span className="truncate min-w-0 flex-1">{question}</span>
-        <PlusIcon />
+        <span>{question}</span>
       </button>
 
       <div

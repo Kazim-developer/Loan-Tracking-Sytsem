@@ -44,7 +44,8 @@ html {
 
 body,
 p,
-span {
+span,
+button {
   font-family: "Satoshi", sans-serif;
 }
 
@@ -70,4 +71,13 @@ body {
 
 .sidebar-container {
   @apply fixed inset-0 bg-black/30 z-50 flex justify-end min-[760px]:hidden;
+}
+
+button,
+a {
+  display: inline-block;
+}
+
+.active-link {
+  @apply px-[10px] py-[5px] rounded-[10px] bg-[#efefef] font-bold;
 }
