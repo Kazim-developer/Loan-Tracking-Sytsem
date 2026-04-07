@@ -1,5 +1,5 @@
 export const checkAuth = async () => {
-  const res = await fetch(`http://localhost:5000/auth/me`, {
+  const res = await fetch(`http://localhost:5000/me`, {
     method: "GET",
     credentials: "include",
   });

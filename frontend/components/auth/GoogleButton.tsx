@@ -8,9 +8,9 @@ interface GoogleButtonProps {
 
 const GoogleButton: React.FC<GoogleButtonProps> = ({ text }) => {
   return (
-    <button
+    <section
       className={clsx(
-        "flex items-center justify-center gap-2 px-4 py-2 border-1 rounded-md hover:bg-[#eee] cursor-pointer mx-auto",
+        "flex items-center justify-center gap-[1rem] px-4 py-2 border-1 rounded-md hover:bg-[#eee] cursor-pointer mx-auto",
       )}
       onClick={() => {
         window.location.href = "http://localhost:5000/auth/google";
@@ -22,8 +22,8 @@ const GoogleButton: React.FC<GoogleButtonProps> = ({ text }) => {
         width={20}
         height={20}
       />
-      {text + " with Google"}
-    </button>
+      <p>{text + " with Google"}</p>
+    </section>
   );
 };
 

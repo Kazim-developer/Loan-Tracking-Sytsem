@@ -17,6 +17,19 @@ const storeFunc = (set) => ({
   setIsAuthenticated: (value: boolean) => set({ isAuthenticated: value }),
   setAuthChecked: (value: boolean) => set({ authChecked: value }),
   setIsGoogleLogin: (value: boolean) => set({ isGoogleLogin: value }),
+
+  resetAuthStore: () => {
+    set({
+      email: "",
+      loginMethod: "",
+      imageUrl: "",
+      isAuthenticated: false,
+      isGoogleLogin: false,
+      authChecked: false,
+    });
+
+    localStorage.removeItem("login-user");
+  },
 });
 
 const useAuthStore = create(

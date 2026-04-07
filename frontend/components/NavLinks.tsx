@@ -21,42 +21,34 @@ export default function NavLinks() {
           "nav-links flex justify-between items-center gap-[2rem]",
         )}
       >
-        <Link href="/dashboard">Dashboard</Link>
-        {pathName !== "/" ? (
-          <>
-            <Link
-              href="/#features"
-              className={clsx(pathName === "/#features" ? "active-link" : null)}
-            >
-              Features
-            </Link>
-            <Link
-              href="/#how-it-works"
-              className={clsx(
-                pathName === "/#how-it-works" ? "active-link" : null,
-              )}
-            >
-              How It Works
-            </Link>
-            <Link
-              href="/#pricing"
-              className={clsx(pathName === "/#pricing" ? "active-link" : null)}
-            >
-              Pricing
-            </Link>
-            <Link
-              href="/#faqs"
-              className={clsx(pathName === "/#faqs" ? "active-link" : null)}
-            >
-              FAQs
-            </Link>
-          </>
-        ) : (
+        {!isAuthenticated && (
           <>
             <a href="#features">Features</a>
             <a href="#how-it-works">How It Works</a>
             <a href="#pricing">Pricing</a>
             <a href="#faqs">FAQs</a>
+          </>
+        )}
+        {isAuthenticated && (
+          <>
+            <Link
+              href="/"
+              className={clsx(pathName === "/" ? "active-link" : null)}
+            >
+              Home
+            </Link>
+            <Link
+              href="/dashboard"
+              className={clsx(pathName === "/dashboard" ? "active-link" : null)}
+            >
+              Dashboard
+            </Link>
+            <Link
+              href="/upgrade"
+              className={clsx(pathName === "/upgrade" ? "active-link" : null)}
+            >
+              Upgrade
+            </Link>
           </>
         )}
       </section>

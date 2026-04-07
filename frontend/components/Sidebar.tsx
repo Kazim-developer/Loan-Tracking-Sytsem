@@ -33,22 +33,24 @@ export default function Sidebar({
       >
         {isAuthenticated && (
           <>
-            <Link href="/dashboard">Dashboard</Link>
-            {pathName !== "/" ? (
-              <>
-                <Link href="/#features">Features</Link>
-                <Link href="/#how-it-works">How It Works</Link>
-                <Link href="/#pricing">Pricing</Link>
-                <Link href="/#faqs">FAQs</Link>
-              </>
-            ) : (
-              <>
-                <a href="#features">Features</a>
-                <a href="#how-it-works">How It Works</a>
-                <a href="#pricing">Pricing</a>
-                <a href="#faqs">FAQs</a>
-              </>
-            )}
+            <Link
+              href="/"
+              className={clsx(pathName === "/" ? "active-link" : null)}
+            >
+              Home
+            </Link>
+            <Link
+              href="/dashboard"
+              className={clsx(pathName === "/dashboard" ? "active-link" : null)}
+            >
+              Dashboard
+            </Link>
+            <Link
+              href="/upgrade"
+              className={clsx(pathName === "/upgrade" ? "active-link" : null)}
+            >
+              Upgrade
+            </Link>
             <Logout />
           </>
         )}

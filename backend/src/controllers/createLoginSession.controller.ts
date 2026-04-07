@@ -64,8 +64,8 @@ const createLoginSession = asyncHandler(async (req: any, res: any) => {
   }
 
   if (
-    account.subscription.endDate &&
-    account.subscription.endDate < new Date()
+    account.subscription?.endDate &&
+    account.subscription.endDate.getTime() <= new Date().getTime()
   ) {
     throw new AppError("Subscription expired", 403);
   }
@@ -108,17 +108,14 @@ const createLoginSession = asyncHandler(async (req: any, res: any) => {
   });
 
   res.status(200).json({
-    status: "success",
     message: "Logged in successfully",
     email: account.user.email,
     method: account.provider,
-    subscription: {
-      plan: account.subscription.plan.name,
-      status: account.subscription.status,
-      limits: {
-        maxClients: account.subscription.plan.maxClients,
-        maxAccounts: account.subscription.plan.maxAccounts,
-      },
+    plan: account.subscription.plan.name,
+    status: account.subscription.status,
+    limits: {
+      maxClients: account.subscription.plan.maxClients,
+      maxAccounts: account.subscription.plan.maxAccounts,
     },
   });
 });
