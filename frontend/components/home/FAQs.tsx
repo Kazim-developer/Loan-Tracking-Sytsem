@@ -15,6 +15,10 @@ export default function FAQs() {
             answer="Loqvio is built for lenders, freelancers, and businesses that need to track customer payments, invoices, loans, or installments."
           />
           <FAQ
+            question="Is Loqvio vibe coded?"
+            answer="No. Loqvio is engineered by experienced developer using production-grade architecture and best practices to ensure reliability, accuracy, and security."
+          />
+          <FAQ
             question="Why not just use Excel?"
             answer="Excel sheets become difficult to manage as your data grows. Loqvio automatically tracks paid and outstanding amounts, manages installments, and lets you send reminders without manual work."
           />

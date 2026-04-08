@@ -17,7 +17,7 @@ export default function HowItWorks() {
         </section>
         <section
           className={clsx(
-            "grid grid-cols-3 gap-[2rem] my-[2rem] max-[800px]:grid-cols-2 max-[550px]:grid-cols-1",
+            "grid grid-cols-3 gap-[2rem] my-[2rem] max-[880px]:grid-cols-2 max-[750px]:grid-cols-1",
           )}
         >
           <UsageGuide
@@ -53,8 +53,8 @@ export default function HowItWorks() {
           <UsageGuide
             index="6"
             icon="download"
-            title="Download Reports & Invoices"
-            description="Download client statements, installment reports, and invoices in Excel or PDF anytime."
+            title="Download Reports"
+            description="Download client statements, installment reports (Excel), and invoices in PDF anytime."
           />
         </section>
       </section>

@@ -13,7 +13,8 @@ export default function NavLinks() {
   return (
     <section
       className={clsx(
-        "flex justify-between items-center gap-[2rem] max-[760px]:hidden",
+        "flex justify-between items-center gap-[2rem]",
+        !isAuthenticated ? "max-[860px]:hidden" : "max-[760px]:hidden",
       )}
     >
       <section

@@ -11,7 +11,7 @@ export default function Hero() {
   return (
     <section
       className={clsx(
-        "hero py-[3rem] center-section flex justify-between items-center gap-[1rem]",
+        "hero py-[3rem] center-section flex justify-between items-center gap-[1rem] max-[1000px]:flex-col max-[1000px]:gap-[2rem]",
       )}
     >
       <section className={clsx("flex-1")}>
@@ -57,7 +57,7 @@ export default function Hero() {
       </section>
       <section
         className={clsx(
-          "flex-1 border-1 border-[#ddd] rounded-[20px] shadow-2xl p-2 max-[700px]:hidden",
+          "flex-1 border-1 border-[#ddd] rounded-[20px] shadow-2xl p-2 ",
         )}
       >
         <Image

@@ -1,17 +1,13 @@
-"use client";
-
-import useAuthStore from "@/stores/auth.store";
 import handleLogout from "@/utils/logoutMethod";
 import { useMutation } from "@tanstack/react-query";
 
 export default function Logout() {
-  const resetAuthStore = useAuthStore((s) => s.resetAuthStore);
-
   const { mutate: logout } = useMutation({
     mutationFn: handleLogout,
     onSuccess: () => {
-      resetAuthStore();
       window.location.href = "/";
+
+      localStorage.clear();
     },
   });
 

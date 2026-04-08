@@ -5,11 +5,15 @@ import Image from "next/image";
 import useAuthStore from "@/stores/auth.store";
 import ProfileIcon from "./home/icons/ProfileIcon";
 import Logout from "./Logout";
+import useSubscriptionStore from "@/stores/subscription.store";
 
 export default function Profile({ isNavbar }: { isNavbar: boolean }) {
   const email = useAuthStore((s) => s.email);
   const imageUrl = useAuthStore((s) => s.imageUrl);
   const isGoogleLogin = useAuthStore((s) => s.isGoogleLogin);
+  const subscriptionPlan = useSubscriptionStore(
+    (s) => s.activeSubscriptionPlan,
+  );
 
   const [showMenu, setShowMenu] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -42,8 +46,8 @@ export default function Profile({ isNavbar }: { isNavbar: boolean }) {
           {isGoogleLogin && imageUrl ? (
             <Image
               src={imageUrl}
-              width={40}
-              height={40}
+              width={50}
+              height={50}
               alt="profile"
               className="rounded-full cursor-pointer"
             />
@@ -56,15 +60,17 @@ export default function Profile({ isNavbar }: { isNavbar: boolean }) {
 
         {!isNavbar && (
           <div className="flex flex-col justify-start gap-[1rem]">
+            <p className="text-center font-[500]">{subscriptionPlan}</p>
             <p className="text-md text-gray-700 text-center">{email}</p>
-            <hr className="text-gray-700 rounded-full" />
+            <hr className="text-gray-300 rounded-full" />
           </div>
         )}
       </section>
 
       {isNavbar && showMenu && (
         <section className="absolute right-0 mt-2 w-56 bg-white border border-gray-200 rounded-xl shadow-lg p-4 z-50 flex flex-col gap-[1rem]">
-          <p className="text-sm text-gray-700 break-all">{email}</p>
+          <p className="text-center font-[500]">{subscriptionPlan}</p>
+          <p className="text-sm text-gray-700 break-all text-center">{email}</p>
           <hr className="text-gray-200 rounded-full" />
           <Logout />
         </section>

@@ -1,8 +1,14 @@
+"use client";
+
+import useAuthStore from "@/stores/auth.store";
+import clsx from "clsx";
+
 export default function Menu({
   setShowSidebar,
 }: {
   setShowSidebar: (value: boolean) => void;
 }) {
+  const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -10,7 +16,10 @@ export default function Menu({
       viewBox="0 0 24 24"
       strokeWidth={1.5}
       stroke="currentColor"
-      className="w-10 h-10 min-[760px]:hidden cursor-pointer"
+      className={clsx(
+        "w-10 h-10 cursor-pointer",
+        !isAuthenticated ? "min-[860px]:hidden" : "min-[760px]:hidden",
+      )}
       onClick={() => setShowSidebar(true)}
     >
       <path

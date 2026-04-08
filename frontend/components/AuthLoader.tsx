@@ -1,6 +1,7 @@
 "use client";
 
 import useAuthStore from "@/stores/auth.store";
+import useSubscriptionStore from "@/stores/subscription.store";
 import { checkAuth } from "@/utils/checkAuth";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
@@ -25,6 +26,10 @@ export default function AuthLoader({
     setIsGoogleLogin,
   } = useAuthStore();
 
+  const setActiveSubscriptionPlan = useSubscriptionStore(
+    (s) => s.setSubscriptionPlan,
+  );
+
   useEffect(() => {
     if (isSuccess && data?.user) {
       setEmail(data.user.email);
@@ -32,6 +37,7 @@ export default function AuthLoader({
       setIsGoogleLogin(data.user.isGoogleLogin);
       setLoginMethod(data.user.loginMethod);
 
+      setActiveSubscriptionPlan(data.user.activeSubscriptionPlan);
       setIsAuthenticated(data.user.isAuthenticated);
       setAuthChecked(true);
     }
