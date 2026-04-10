@@ -1,6 +1,6 @@
 "use client";
 
-import ShowPasswordCheckbox from "@/components/ShowPasswordCheckbox";
+import ShowPasswordCheckbox from "./ShowPasswordCheckbox";
 import { postFormData } from "@/utils/postFormData.util";
 import { ResetPassword } from "@/validators/resetPassword.validator";
 import { useMutation } from "@tanstack/react-query";

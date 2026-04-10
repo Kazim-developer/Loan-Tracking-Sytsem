@@ -36,14 +36,14 @@ const createForgotPassword = asyncHandler(async (req: any, res: any) => {
     `
     <h1>Reset link will be invalid after 15 minutes</h1>
     <p>Click the link below to reset your password:</p>
-    <a href="http://localhost:3000/auth/reset-password?token=${token}">
+    <a href="http://localhost:3000/reset-password?token=${token}">
       Reset Password
     </a>
   `,
   );
 
   res.status(200).json({
-    message: "If an account exists, a reset link has been sent",
+    message: "a reset link has been sent",
   });
 });
 

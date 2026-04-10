@@ -5,6 +5,8 @@ import CheckIcon from "./icons/CheckIcon";
 import clsx from "clsx";
 import useAuthStore from "@/stores/auth.store";
 import useSubscriptionStore from "@/stores/subscription.store";
+import ActiveSubscriptionTag from "../ActiveSubscriptionTag";
+import MostPopularPlan from "../MostPopularPlan";
 
 export default function Plan({ plan }: { plan: string }) {
   const res = plans.find((p) => p.plan === plan);
@@ -29,19 +31,9 @@ export default function Plan({ plan }: { plan: string }) {
                 : null,
       )}
     >
-      {plan === "Pro" ? (
-        <span className="popular px-[1rem] py-[0.5rem] rounded-[10px] border-2 absolute top-[-1rem] left-1/2 -translate-x-1/2 bg-yellow-300 text-black font-bold">
-          Most Popular
-        </span>
-      ) : null}
+      {plan === "Pro" ? <MostPopularPlan /> : null}
       {isAuthenticated && plan === activeSubscriptionPlan && (
-        <section
-          className={clsx(
-            "absolute top-[2rem] right-[2rem] p-2 bg-green-200 rounded-[5px] ",
-          )}
-        >
-          <h1 className="text-green-600 font-[500] text-xl">Active</h1>
-        </section>
+        <ActiveSubscriptionTag />
       )}
       <section>
         <h1 className="text-2xl font-[500]">{res?.plan}</h1>
