@@ -15,11 +15,8 @@ datasource db {
 model User {
   id        String   @id @default(uuid())
   email     String   @unique
-  name      String?
-  imageUrl  String?
 
   accounts  Account[]
-  sessions  Session[]
   passwordRestTokens PasswordResetToken[]
 
   createdAt DateTime @default(now())
@@ -29,6 +26,10 @@ model User {
 model Account {
   id                String  @id @default(uuid())
   userId            String
+
+  name      String?
+  imageUrl  String?
+
   provider          String
   providerAccountId String
   passwordHash      String?
@@ -47,13 +48,12 @@ model Account {
 
 model Session {
   id           String   @id @default(uuid())
-  userId       String
+
   accountId String
   sessionToken String   @unique
   createdAt DateTime @default(now())
   expiresAt    DateTime
 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
   account Account @relation(fields:[accountId], references:[id], onDelete: Cascade)
 }
 

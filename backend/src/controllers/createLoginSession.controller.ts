@@ -93,7 +93,6 @@ const createLoginSession = asyncHandler(async (req: any, res: any) => {
 
   const session = await prisma.session.create({
     data: {
-      userId: account.userId,
       accountId: account.id,
       sessionToken,
       expiresAt: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30),

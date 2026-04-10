@@ -62,6 +62,9 @@ passport.use(
           // ---- CASE 2: Account does NOT exist ----
           const existingUser = await prisma.user.findUnique({
             where: { email },
+            include: {
+              accounts: true,
+            },
           });
 
           const result = await prisma.$transaction(async (tx) => {
@@ -69,16 +72,6 @@ passport.use(
             let account;
 
             if (existingUser) {
-              if (!existingUser.imageUrl || !existingUser.name) {
-                await tx.user.update({
-                  where: { email },
-                  data: {
-                    imageUrl: existingUser.imageUrl ?? image,
-                    name: existingUser.name ?? name,
-                  },
-                });
-              }
-
               user = existingUser;
 
               account = await tx.account.create({
@@ -86,6 +79,8 @@ passport.use(
                   userId: existingUser.id,
                   provider: "google",
                   providerAccountId: googleId,
+                  name,
+                  imageUrl: image,
                   accessToken,
                   refreshToken,
                 },
@@ -94,8 +89,6 @@ passport.use(
               user = await tx.user.create({
                 data: {
                   email,
-                  name,
-                  imageUrl: image,
                 },
               });
 
@@ -104,6 +97,8 @@ passport.use(
                   userId: user.id,
                   provider: "google",
                   providerAccountId: googleId,
+                  name,
+                  imageUrl: image,
                   accessToken,
                   refreshToken,
                 },
@@ -167,7 +162,6 @@ passport.use(
 
         await prisma.session.create({
           data: {
-            userId: user.id,
             accountId: currentAccount.id,
             sessionToken,
             expiresAt: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30),

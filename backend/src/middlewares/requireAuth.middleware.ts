@@ -13,7 +13,6 @@ const requireAuth = asyncHandler(async (req: any, res: any, next: any) => {
   const session = await prisma.session.findUnique({
     where: { sessionToken },
     include: {
-      user: true,
       account: true,
     },
   });
@@ -28,9 +27,8 @@ const requireAuth = asyncHandler(async (req: any, res: any, next: any) => {
   }
 
   // Attach both user and account to request
-  req.user = session.user;
+  // req.user = session.user;
   req.sessionData = {
-    userId: session.userId,
     accountId: session.accountId,
   };
 
