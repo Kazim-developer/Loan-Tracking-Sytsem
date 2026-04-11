@@ -2,6 +2,7 @@ import "./globals.css";
 import TanstackProviders from "./TanstackProviders";
 import ReactToastifyProviders from "./ReactToastifyProviders";
 import AuthLoader from "@/components/AuthLoader";
+import PaddleScriptTag from "@/components/PaddleScriptTag";
 
 export default function RootLayout({
   children,
@@ -13,7 +14,10 @@ export default function RootLayout({
       <body>
         <TanstackProviders>
           <ReactToastifyProviders>
-            <AuthLoader>{children}</AuthLoader>
+            <AuthLoader>
+              <PaddleScriptTag />
+              {children}
+            </AuthLoader>
           </ReactToastifyProviders>
         </TanstackProviders>
       </body>

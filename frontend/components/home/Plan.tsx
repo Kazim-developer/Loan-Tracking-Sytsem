@@ -7,13 +7,23 @@ import useAuthStore from "@/stores/auth.store";
 import useSubscriptionStore from "@/stores/subscription.store";
 import ActiveSubscriptionTag from "../ActiveSubscriptionTag";
 import MostPopularPlan from "../MostPopularPlan";
+import { openCheckout } from "@/lib/openCheckout";
+import { PRICES } from "@/config/pricing";
 
-export default function Plan({ plan }: { plan: string }) {
+export default function Plan({
+  plan,
+}: {
+  plan: string;
+  priceId: string;
+  email: string;
+}) {
   const res = plans.find((p) => p.plan === plan);
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
   const activeSubscriptionPlan = useSubscriptionStore(
     (s) => s.activeSubscriptionPlan,
   );
+
+  const email = useAuthStore((s) => s.email);
 
   return (
     <section
@@ -61,12 +71,20 @@ export default function Plan({ plan }: { plan: string }) {
       {plan === "Free" ? (
         !isAuthenticated && <button className="upgrade-button">Sign Up</button>
       ) : plan === "Pro" ? (
-        <button className="upgrade-button">Upgrade</button>
+        <button
+          className="upgrade-button"
+          onClick={() => openCheckout(PRICES.PRO_MONTHLY, email)}
+        >
+          Upgrade to Pro
+        </button>
       ) : plan === "Business" ? (
-        <button className="upgrade-button">Upgrade</button>
-      ) : (
-        <button className="upgrade-button">Upgrade</button>
-      )}
+        <button
+          className="upgrade-button"
+          onClick={() => openCheckout(PRICES.BUSINESS_MONTHLY, email)}
+        >
+          Upgrade to Business
+        </button>
+      ) : null}
     </section>
   );
 }

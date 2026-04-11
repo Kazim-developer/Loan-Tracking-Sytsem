@@ -13,6 +13,7 @@ import forgotPasswordRouter from "./routes/forgotPassword.route.js";
 import resetPasswordRouter from "./routes/resetPassword.route.js";
 import currentUserRouter from "./routes/currentUser.route.js";
 import logoutRouter from "./routes/logout.route.js";
+import { paddleWebhookHandler } from "./controllers/paddleWebhookHandler.controller.js";
 
 const app = express();
 
@@ -21,6 +22,12 @@ app.use(
     origin: "http://localhost:3000",
     credentials: true,
   }),
+);
+
+app.post(
+  "/paddle-webhook",
+  express.raw({ type: "application/json" }),
+  paddleWebhookHandler,
 );
 
 app.use(express.json());
