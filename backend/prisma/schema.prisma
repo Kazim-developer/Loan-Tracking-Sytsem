@@ -182,20 +182,27 @@ enum ReminderType {
 // saas subscription billing
 
 model Plan {
-  id          String   @id @default(uuid())
-  name        String   @unique
-  description String?
-  priceMonth  Int
-  priceYear   Int?
-  maxClients  Int?
-  maxAccounts Int?
-  features    Json?
-  isActive    Boolean  @default(true)
+  id                 String   @id @default(uuid())
+  name               String   @unique
+  description        String?
 
-  subscription Subscription[]
+  priceMonth         Int      // store cents
+  priceYear          Int?
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  maxAccounts        Int?
+  maxTeamMembers     Int?
+
+  maxEmailReminders  Int?
+  maxWhatsappReminders Int?
+
+  features           Json?
+
+  isActive           Boolean  @default(true)
+
+  subscriptions      Subscription[]
+
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
 }
 
 model Subscription {

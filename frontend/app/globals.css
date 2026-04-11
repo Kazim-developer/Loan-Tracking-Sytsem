@@ -79,5 +79,5 @@ a {
 }
 
 .active-link {
-  @apply px-[10px] py-[5px] rounded-[10px] bg-[#efefef] font-bold;
+  @apply px-[10px] py-[5px] rounded-[10px] bg-[#efefef] border-2 font-bold;
 }

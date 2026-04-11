@@ -10,20 +10,18 @@ const prisma = new PrismaClient({ adapter });
 
 const plans = [
   {
-    name: "Free",
-    priceDay: 0,
+    name: "Starter",
     priceMonth: 0,
 
-    maxClients: 5,
     maxAccounts: 10,
+    maxTeamMembers: 0,
+
+    maxEmailReminders: 0,
+    maxWhatsappReminders: 0,
 
     features: {
-      email_reminder: false,
-      whatsapp_reminder: false,
       excel_report: false,
       invoice_pdf: false,
-      team_access: false,
-      unlimited_team_members: false,
       automatic_reminder: false,
       api_access: false,
     },
@@ -34,19 +32,17 @@ const plans = [
 
   {
     name: "Pro",
-    priceDay: Math.round(0.49 * 100),
-    priceMonth: Math.round(14.85 * 100),
+    priceMonth: 14.99,
 
-    maxClients: 50,
     maxAccounts: 100,
+    maxTeamMembers: 0,
+
+    maxEmailReminders: 100,
+    maxWhatsappReminders: 0,
 
     features: {
-      email_reminder: true,
-      whatsapp_reminder: false,
       excel_report: true,
       invoice_pdf: true,
-      team_access: false,
-      unlimited_team_members: false,
       automatic_reminder: false,
       api_access: false,
     },
@@ -57,19 +53,17 @@ const plans = [
 
   {
     name: "Business",
-    priceDay: Math.round(1.65 * 100),
-    priceMonth: Math.round(49.65 * 100),
+    priceMonth: 59.99,
 
-    maxClients: null,
-    maxAccounts: null,
+    maxAccounts: 500,
+    maxTeamMembers: 5,
+
+    maxEmailReminders: 500,
+    maxWhatsappReminders: 0,
 
     features: {
-      email_reminder: true,
-      whatsapp_reminder: true,
       excel_report: true,
       invoice_pdf: true,
-      team_access: true,
-      unlimited_team_members: false,
       automatic_reminder: true,
       api_access: false,
     },
@@ -86,8 +80,10 @@ async function main() {
       update: {}, // do nothing if exists
       create: {
         name: plan.name,
-        maxClients: plan.maxClients,
         maxAccounts: plan.maxAccounts,
+        maxTeamMembers: plan.maxTeamMembers,
+        maxEmailReminders: plan.maxEmailReminders,
+        maxWhatsappReminders: plan.maxWhatsappReminders,
         description: plan.description,
         priceMonth: plan.priceMonth,
         priceYear: plan.priceMonth * 12,

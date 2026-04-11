@@ -14,10 +14,11 @@ export default function CTA() {
           Join thousands of users who trust Loqvio with their financial
           management
         </h1>
-        <section className="hooks center-section flex justify-center items-center gap-[2rem] max-[600px]:flex-col max-[600px]:items-start">
+        <section className="hooks flex justify-between items-center gap-[2rem] max-[830px]:flex-col max-[830px]:items-start">
           <Hook desc="Sign Up to start using" />
           <Hook desc="Upgrade later" />
           <Hook desc="Cancel anytime" />
+          <Hook desc="No refund" />
         </section>
       </section>
       {!isAuthenticated && (

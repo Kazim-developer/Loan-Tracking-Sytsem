@@ -6,7 +6,7 @@ export default function ProfileIcon() {
       viewBox="0 0 24 24"
       strokeWidth={1.5}
       stroke="currentColor"
-      className="w-10 h-10 relative"
+      className="w-10 h-10 relative mx-auto"
     >
       <path
         strokeLinecap="round"

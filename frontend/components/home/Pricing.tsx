@@ -10,12 +10,14 @@ export default function Pricing() {
               Simple, Transparent Pricing
             </h1>
             <p className="text-center text-2xl text-[#555]">
-              Choose the plan that fits your needs.
+              Choose the plan that fits your needs — no surprise price
+              increases.
             </p>
           </section>
           <section className="plans grid grid-cols-2 gap-[2rem] mt-[3rem] max-[740px]:grid-cols-1">
             <Plan plan="Free" />
             <Plan plan="Pro" />
+            <Plan plan="Business" />
           </section>
         </section>
       </section>

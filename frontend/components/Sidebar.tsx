@@ -22,7 +22,7 @@ export default function Sidebar({
   return (
     <section
       className={clsx(
-        "sidebar overflow-y-auto w-[250px] h-full bg-white pt-6 pl-6 absolute top-0 right-0 transition-transform duration-300 ease-in-out",
+        "sidebar overflow-y-auto w-[250px] h-full bg-white pt-6 px-6 absolute top-0 right-0 transition-transform duration-300 ease-in-out",
         showSidebar ? "translate-x-0" : "translate-x-full",
       )}
     >

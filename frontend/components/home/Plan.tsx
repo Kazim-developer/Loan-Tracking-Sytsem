@@ -42,7 +42,6 @@ export default function Plan({ plan }: { plan: string }) {
             <h1 className="text-4xl font-[500]">${res?.month}</h1>
             <span className="text-xl text-[#555]">/month</span>
           </section>
-          <p className="text-[#555]">${res?.day} /day</p>
         </section>
         <p className="text-xl font-[500]">{res?.title}</p>
       </section>
@@ -51,10 +50,10 @@ export default function Plan({ plan }: { plan: string }) {
           return (
             <section
               key={index}
-              className="list flex items-center justify-left gap-[0.5rem]"
+              className="list flex items-center justify-left gap-[0.85rem]"
             >
               <CheckIcon />
-              <span className="text-[#555]">{feature}</span>
+              <span className="text-[#555] text-md">{feature}</span>
             </section>
           );
         })}
