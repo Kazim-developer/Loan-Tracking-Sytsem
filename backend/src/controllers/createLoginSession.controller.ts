@@ -108,12 +108,13 @@ const createLoginSession = asyncHandler(async (req: any, res: any) => {
 
   res.status(200).json({
     message: "Logged in successfully",
+    userId: account.user.id,
+    accountId: account.id,
     email: account.user.email,
     method: account.provider,
     plan: account.subscription.plan.name,
     status: account.subscription.status,
     limits: {
-      maxClients: account.subscription.plan.maxClients,
       maxAccounts: account.subscription.plan.maxAccounts,
     },
   });

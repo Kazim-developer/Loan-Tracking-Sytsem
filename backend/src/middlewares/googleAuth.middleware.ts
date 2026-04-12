@@ -172,6 +172,7 @@ passport.use(
           user,
           sessionToken,
           accountId: currentAccount.id,
+          userId: user.id,
           plan: currentAccount.subscription.plan.name,
           status: currentAccount.subscription.plan.status,
         });

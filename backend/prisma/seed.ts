@@ -34,7 +34,7 @@ const plans = [
     name: "Pro",
     priceMonth: 14.99,
 
-    maxAccounts: 100,
+    maxAccounts: 50,
     maxTeamMembers: 0,
 
     maxEmailReminders: 100,
@@ -55,16 +55,16 @@ const plans = [
     name: "Business",
     priceMonth: 59.99,
 
-    maxAccounts: 500,
+    maxAccounts: 300,
     maxTeamMembers: 5,
 
-    maxEmailReminders: 500,
+    maxEmailReminders: 600,
     maxWhatsappReminders: 0,
 
     features: {
       excel_report: true,
       invoice_pdf: true,
-      automatic_reminder: true,
+      automatic_reminder: false,
       api_access: false,
     },
 

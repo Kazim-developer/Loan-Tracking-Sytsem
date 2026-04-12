@@ -3,7 +3,7 @@ export const plans = [
     plan: "Free",
     month: "0",
     features: [
-      "Up to 10 Accounts (Loans or Invoices)",
+      "Up to 10 Accounts (Loans & Invoices)",
       "Basic Dashboard",
       "Manual Installment Tracking",
       "Record Payments",
@@ -16,7 +16,7 @@ export const plans = [
     plan: "Pro",
     month: "14.99",
     features: [
-      "Up to 100 Accounts (Loans & Invoices)",
+      "Up to 50 Accounts (Loans & Invoices)",
       "Up to 100 email reminders /month",
       "Unlimited Installment Reports (Excel) downloads",
       "Unlimited Invoice PDF generation",
@@ -32,8 +32,8 @@ export const plans = [
     plan: "Business",
     month: "59.99",
     features: [
-      "Handle up to 500 Accounts",
-      "Up to 500 Email Reminders /month",
+      "Handle up to 300 Accounts",
+      "Up to 600 Email Reminders /month",
       "Unlimited Report (Excel) Exports",
       "Unlimited Invoice PDF Generation",
       "Advanced Dashboard & Analytics",

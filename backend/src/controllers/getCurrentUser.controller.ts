@@ -20,6 +20,8 @@ const getCurrentUser = asyncHandler(async (req: any, res: any) => {
   res.status(200).json({
     status: "success",
     user: {
+      accountId: userAccount?.id,
+      userId: userAccount?.user.id,
       email: userAccount?.user.email,
       name: userAccount?.name,
       imageUrl: userAccount?.imageUrl,

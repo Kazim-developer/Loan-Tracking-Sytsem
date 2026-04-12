@@ -39,11 +39,28 @@ model Account {
 
   clients Client[]
   sessions Session[]
+
   subscription  Subscription?
+  usage Usage?
+  subscriptionAddOn SubscriptionAddOn[]
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
+}
+
+model Usage{
+  id String @id @default(uuid())
+
+  accountId String @unique
+
+  billingPeriodStart DateTime
+  billingPeriodEnd DateTime
+
+  accountsUsed Int @default(0)
+  remindersUsed Int @default(0)
+
+  account Account @relation(fields:[accountId], references:[id], onDelete:Cascade)
 }
 
 model Session {
@@ -218,8 +235,8 @@ model Subscription {
   endDate   DateTime?
   cancelAt  DateTime?
 
-  provider                String?
-  providerSubscriptionId  String?
+  provider                String @default("paddle")
+  providerSubscriptionId  String? @unique
   providerCustomerId      String?
 
   account Account @relation(fields: [accountId], references: [id], onDelete: Cascade)
@@ -231,6 +248,41 @@ model Subscription {
   @@index([planId])
   @@index([accountId])
   @@index([providerCustomerId])
+}
+
+model SubscriptionAddOn{
+  id String @id @default(uuid())
+
+  accountId String
+
+  type AddOnType
+  quantity Int
+  used Int @default(0)
+
+  paddleTransactionId String? @unique
+
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  account Account @relation(fields:[accountId], references:[id], onDelete:Cascade)
+
+  @@index([accountId])
+}
+
+model WebhookEvent {
+  id          String   @id @default(uuid())
+  eventId     String   @unique
+  type        String
+  processedAt DateTime @default(now())
+
+  createdAt   DateTime @default(now())
+}
+
+enum AddOnType {
+  EMAIL_REMINDERS
+  WHATSAPP_REMINDERS
+  ACCOUNTS
 }
 
 enum SubscriptionStatus {

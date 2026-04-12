@@ -24,6 +24,8 @@ export default function Plan({
   );
 
   const email = useAuthStore((s) => s.email);
+  const userId = useAuthStore((s) => s.userId);
+  const accountId = useAuthStore((s) => s.accountId);
 
   return (
     <section
@@ -73,14 +75,18 @@ export default function Plan({
       ) : plan === "Pro" ? (
         <button
           className="upgrade-button"
-          onClick={() => openCheckout(PRICES.PRO_MONTHLY, email)}
+          onClick={() =>
+            openCheckout(PRICES.PRO_MONTHLY, email, userId, accountId)
+          }
         >
           Upgrade to Pro
         </button>
       ) : plan === "Business" ? (
         <button
           className="upgrade-button"
-          onClick={() => openCheckout(PRICES.BUSINESS_MONTHLY, email)}
+          onClick={() =>
+            openCheckout(PRICES.BUSINESS_MONTHLY, email, userId, accountId)
+          }
         >
           Upgrade to Business
         </button>

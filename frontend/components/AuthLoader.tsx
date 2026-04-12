@@ -24,6 +24,8 @@ export default function AuthLoader({
     setImageUrl,
     setAuthChecked,
     setIsGoogleLogin,
+    setAccountId,
+    setUserId,
   } = useAuthStore();
 
   const setActiveSubscriptionPlan = useSubscriptionStore(
@@ -32,6 +34,9 @@ export default function AuthLoader({
 
   useEffect(() => {
     if (isSuccess && data?.user) {
+      setUserId(data.user.userId);
+      setAccountId(data.user.accountId);
+
       setEmail(data.user.email);
       setImageUrl(data.user.imageUrl);
       setIsGoogleLogin(data.user.isGoogleLogin);
