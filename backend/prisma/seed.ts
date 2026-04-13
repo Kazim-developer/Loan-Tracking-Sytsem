@@ -10,7 +10,7 @@ const prisma = new PrismaClient({ adapter });
 
 const plans = [
   {
-    name: "Starter",
+    name: "Free",
     priceMonth: 0,
 
     maxAccounts: 10,
@@ -18,6 +18,8 @@ const plans = [
 
     maxEmailReminders: 0,
     maxWhatsappReminders: 0,
+
+    monthlyPriceId: null,
 
     features: {
       excel_report: false,
@@ -32,13 +34,15 @@ const plans = [
 
   {
     name: "Pro",
-    priceMonth: 14.99,
+    priceMonth: 1499,
 
     maxAccounts: 50,
     maxTeamMembers: 0,
 
     maxEmailReminders: 100,
     maxWhatsappReminders: 0,
+
+    monthlyPriceId: "pri_01knpe2npgqjm1yk79mc0dz772",
 
     features: {
       excel_report: true,
@@ -53,13 +57,15 @@ const plans = [
 
   {
     name: "Business",
-    priceMonth: 59.99,
+    priceMonth: 5999,
 
     maxAccounts: 300,
     maxTeamMembers: 5,
 
     maxEmailReminders: 600,
     maxWhatsappReminders: 0,
+
+    monthlyPriceId: "pri_01knpe67753cvzbxt3kxnbkrf6",
 
     features: {
       excel_report: true,
@@ -77,13 +83,26 @@ async function main() {
   for (const plan of plans) {
     await prisma.plan.upsert({
       where: { name: plan.name },
-      update: {}, // do nothing if exists
+      update: {
+        name: plan.name,
+        maxAccounts: plan.maxAccounts,
+        maxTeamMembers: plan.maxTeamMembers,
+        maxEmailReminders: plan.maxEmailReminders,
+        maxWhatsappReminders: plan.maxWhatsappReminders,
+        monthlyPriceId: plan.monthlyPriceId,
+        description: plan.description,
+        priceMonth: plan.priceMonth,
+        priceYear: plan.priceMonth * 12,
+        features: plan.features,
+        isActive: true,
+      }, // do nothing if exists
       create: {
         name: plan.name,
         maxAccounts: plan.maxAccounts,
         maxTeamMembers: plan.maxTeamMembers,
         maxEmailReminders: plan.maxEmailReminders,
         maxWhatsappReminders: plan.maxWhatsappReminders,
+        monthlyPriceId: plan.monthlyPriceId,
         description: plan.description,
         priceMonth: plan.priceMonth,
         priceYear: plan.priceMonth * 12,

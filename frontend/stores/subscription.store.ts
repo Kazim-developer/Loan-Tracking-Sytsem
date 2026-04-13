@@ -3,9 +3,16 @@ import { persist } from "zustand/middleware";
 
 const storeFunc = (set) => ({
   activeSubscriptionPlan: "",
+  pendingSubscriptionPlan: "",
+
+  isPolling: false,
 
   setSubscriptionPlan: (value: string) =>
     set({ activeSubscriptionPlan: value }),
+
+  setPendingPlan: (plan: string) => set({ pendingSubscriptionPlan: plan }),
+
+  setIsPolling: (value: boolean) => set({ isPolling: value }),
 });
 
 const useSubscriptionStore = create(

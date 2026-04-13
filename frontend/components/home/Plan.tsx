@@ -9,6 +9,9 @@ import ActiveSubscriptionTag from "../ActiveSubscriptionTag";
 import MostPopularPlan from "../MostPopularPlan";
 import { openCheckout } from "@/lib/openCheckout";
 import { PRICES } from "@/config/pricing";
+import { useQuery } from "@tanstack/react-query";
+import { checkAuth } from "@/utils/checkAuth";
+import { useEffect } from "react";
 
 export default function Plan({
   plan,
@@ -23,9 +26,36 @@ export default function Plan({
     (s) => s.activeSubscriptionPlan,
   );
 
+  const setSubscriptionPlan = useSubscriptionStore(
+    (s) => s.setSubscriptionPlan,
+  );
+
+  const expectedPlan = useSubscriptionStore((s) => s.pendingSubscriptionPlan);
+  const setExpectedPlan = useSubscriptionStore((s) => s.setPendingPlan);
+
+  const isPolling = useSubscriptionStore((s) => s.isPolling);
+  const setIsPolling = useSubscriptionStore((s) => s.setIsPolling);
+
   const email = useAuthStore((s) => s.email);
-  const userId = useAuthStore((s) => s.userId);
   const accountId = useAuthStore((s) => s.accountId);
+
+  const { data } = useQuery({
+    queryKey: ["current-subscription-plan"],
+    queryFn: checkAuth,
+    refetchInterval: isPolling ? 2000 : false,
+  });
+
+  useEffect(() => {
+    if (
+      isPolling &&
+      expectedPlan &&
+      data?.subscription?.plan === expectedPlan
+    ) {
+      setIsPolling(false);
+      setExpectedPlan("");
+      setSubscriptionPlan(data?.activeSubscriptionPlan);
+    }
+  }, [data, isPolling, expectedPlan]);
 
   return (
     <section
@@ -72,20 +102,36 @@ export default function Plan({
       </section>
       {plan === "Free" ? (
         !isAuthenticated && <button className="upgrade-button">Sign Up</button>
-      ) : plan === "Pro" ? (
+      ) : plan === "Pro" && activeSubscriptionPlan !== "Pro" ? (
         <button
           className="upgrade-button"
           onClick={() =>
-            openCheckout(PRICES.PRO_MONTHLY, email, userId, accountId)
+            openCheckout(
+              PRICES.PRO_MONTHLY,
+              email,
+              accountId,
+              false,
+              undefined,
+              undefined,
+              () => setIsPolling(true),
+            )
           }
         >
           Upgrade to Pro
         </button>
-      ) : plan === "Business" ? (
+      ) : plan === "Business" && activeSubscriptionPlan !== "Business" ? (
         <button
           className="upgrade-button"
           onClick={() =>
-            openCheckout(PRICES.BUSINESS_MONTHLY, email, userId, accountId)
+            openCheckout(
+              PRICES.BUSINESS_MONTHLY,
+              email,
+              accountId,
+              false,
+              undefined,
+              undefined,
+              () => setIsPolling(true),
+            )
           }
         >
           Upgrade to Business

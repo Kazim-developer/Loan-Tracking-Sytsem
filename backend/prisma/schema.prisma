@@ -49,19 +49,6 @@ model Account {
   @@unique([provider, providerAccountId])
 }
 
-model Usage{
-  id String @id @default(uuid())
-
-  accountId String @unique
-
-  billingPeriodStart DateTime
-  billingPeriodEnd DateTime
-
-  accountsUsed Int @default(0)
-  remindersUsed Int @default(0)
-
-  account Account @relation(fields:[accountId], references:[id], onDelete:Cascade)
-}
 
 model Session {
   id           String   @id @default(uuid())
@@ -206,6 +193,8 @@ model Plan {
   priceMonth         Int      // store cents
   priceYear          Int?
 
+  monthlyPriceId String? @unique
+
   maxAccounts        Int?
   maxTeamMembers     Int?
 
@@ -273,10 +262,23 @@ model SubscriptionAddOn{
 model WebhookEvent {
   id          String   @id @default(uuid())
   eventId     String   @unique
-  type        String
+  eventType        String
   processedAt DateTime @default(now())
 
   createdAt   DateTime @default(now())
+}
+
+model Usage{
+  id String @id @default(uuid())
+
+  accountId String @unique
+
+  billingPeriodStart DateTime
+  billingPeriodEnd DateTime
+
+  remindersUsed Int @default(0)
+
+  account Account @relation(fields:[accountId], references:[id], onDelete:Cascade)
 }
 
 enum AddOnType {
