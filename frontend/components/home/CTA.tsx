@@ -3,7 +3,7 @@
 import Hook from "./Hook";
 import Link from "next/link";
 import clsx from "clsx";
-import useAuthStore from "@/stores/auth.store";
+import { useAuthStore } from "@/stores/auth.store";
 
 export default function CTA() {
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated);

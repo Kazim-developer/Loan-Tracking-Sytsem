@@ -1,55 +1,73 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
-const storeFunc = (set) => ({
-  email: "",
-  loginMethod: "",
-  imageUrl: "",
+type AuthState = {
+  email: string;
+  loginMethod: string;
+  imageUrl: string;
 
-  isAuthenticated: false,
-  isGoogleLogin: false,
-  authChecked: false,
+  isAuthenticated: boolean;
+  isGoogleLogin: boolean;
+  authChecked: boolean;
+  hydrated: boolean;
 
-  userId: "",
-  accountId: "",
+  userId: string;
+  accountId: string;
 
-  setEmail: (email: string) => set({ email }),
-  setLoginMethod: (method: string) => set({ loginMethod: method }),
-  setImageUrl: (url: string) => set({ imageUrl: url }),
+  setAuthUser: (user: Partial<AuthState>) => void;
+  setAuthChecked: (value: boolean) => void;
+  setHydrated: (value: boolean) => void;
+  resetAuthStore: () => void;
+};
 
-  setIsAuthenticated: (value: boolean) => set({ isAuthenticated: value }),
-  setAuthChecked: (value: boolean) => set({ authChecked: value }),
-  setIsGoogleLogin: (value: boolean) => set({ isGoogleLogin: value }),
-
-  setUserId: (id: string) => set({ userId: id }),
-  setAccountId: (id: string) => set({ accountId: id }),
-
-  resetAuthStore: () => {
-    set({
+export const useAuthStore = create<AuthState>()(
+  persist(
+    (set) => ({
       email: "",
       loginMethod: "",
       imageUrl: "",
-      userId: "",
-      accountId: "",
+
       isAuthenticated: false,
       isGoogleLogin: false,
       authChecked: false,
-    });
+      hydrated: false,
 
-    localStorage.removeItem("login-user");
-  },
-});
+      userId: "",
+      accountId: "",
 
-const useAuthStore = create(
-  persist(storeFunc, {
-    name: "login-user",
+      setAuthUser: (user) => set(user),
 
-    partialize: (state) => ({
-      email: state.email,
-      loginMethod: state.loginMethod,
-      imageUrl: state.imageUrl,
+      setAuthChecked: (value) => set({ authChecked: value }),
+      setHydrated: (value) => set({ hydrated: value }),
+
+      resetAuthStore: () =>
+        set({
+          email: "",
+          loginMethod: "",
+          imageUrl: "",
+          isAuthenticated: false,
+          isGoogleLogin: false,
+          authChecked: false,
+          userId: "",
+          accountId: "",
+        }),
     }),
-  }),
-);
+    {
+      name: "auth-store",
 
-export default useAuthStore;
+      partialize: (state) => ({
+        email: state.email,
+        loginMethod: state.loginMethod,
+        imageUrl: state.imageUrl,
+        isAuthenticated: state.isAuthenticated,
+        isGoogleLogin: state.isGoogleLogin,
+        userId: state.userId,
+        accountId: state.accountId,
+      }),
+
+      onRehydrateStorage: () => (state) => {
+        state?.setHydrated(true);
+      },
+    },
+  ),
+);

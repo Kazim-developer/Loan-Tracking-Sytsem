@@ -3,7 +3,7 @@
 import clsx from "clsx";
 import Link from "next/link";
 import Close from "./home/icons/Close";
-import useAuthStore from "@/stores/auth.store";
+import { useAuthStore } from "@/stores/auth.store";
 import Profile from "./Profile";
 import Logout from "./Logout";
 import { usePathname } from "next/navigation";

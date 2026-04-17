@@ -1,5 +1,5 @@
 import Pricing from "@/components/home/Pricing";
 
-export default function upgradePage() {
+export default function UpgradePage() {
   return <Pricing />;
 }

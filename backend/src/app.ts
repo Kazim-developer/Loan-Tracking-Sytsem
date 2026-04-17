@@ -14,6 +14,7 @@ import resetPasswordRouter from "./routes/resetPassword.route.js";
 import currentUserRouter from "./routes/currentUser.route.js";
 import logoutRouter from "./routes/logout.route.js";
 import { paddleWebhookHandler } from "./controllers/paddleWebhookHandler.controller.js";
+import cancelSubscriptionRouter from "./routes/cancelSubscription.route.js";
 
 const app = express();
 
@@ -44,6 +45,8 @@ app.use("/auth", resetPasswordRouter);
 app.use("/auth", logoutRouter);
 
 app.use(currentUserRouter);
+
+app.use(cancelSubscriptionRouter);
 
 app.use(errorHandler);
 

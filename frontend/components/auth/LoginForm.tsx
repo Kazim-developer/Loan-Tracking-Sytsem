@@ -11,15 +11,13 @@ import { useMutation } from "@tanstack/react-query";
 import { FormData } from "@/validators/formData.validator";
 import { postFormData } from "@/utils/postFormData.util";
 import ShowPasswordCheckbox from "@/components/auth/ShowPasswordCheckbox";
-import useAuthStore from "@/stores/auth.store";
-import useSubscriptionStore from "@/stores/subscription.store";
+import { useAuthStore } from "@/stores/auth.store";
+import { useSubscriptionStore } from "@/stores/subscription.store";
 
 export default function LoginForm() {
-  const setEmail = useAuthStore((store) => store.setEmail);
-  const setLoginMethod = useAuthStore((store) => store.setLoginMethod);
-  const setIsAuthenticated = useAuthStore((store) => store.setIsAuthenticated);
-  const setSubscriptionPlan = useSubscriptionStore(
-    (s) => s.setSubscriptionPlan,
+  const setAuthUser = useAuthStore((store) => store.setAuthUser);
+  const setSubscriptionData = useSubscriptionStore(
+    (s) => s.setSubscriptionData,
   );
 
   const [formData, setFormData] = useState<FormData>({
@@ -44,13 +42,13 @@ export default function LoginForm() {
         router.replace("/dashboard");
       }, 3000);
 
-      setSubscriptionPlan(data.plan);
-      setEmail(data.email);
-      setLoginMethod(data.method);
-      setIsAuthenticated(true);
+      setSubscriptionData({ activeSubscriptionPlan: data.plan });
+      setAuthUser({ email: data.email });
+      setAuthUser({ loginMethod: data.method });
+      setAuthUser({ isAuthenticated: true });
     },
     onError: (error) => {
-      setIsAuthenticated(false);
+      setAuthUser({ isAuthenticated: false });
       if (error.errors) {
         Object.values(error.errors).forEach((msg) => {
           toast.error(msg);

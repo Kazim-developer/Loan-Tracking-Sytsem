@@ -37,6 +37,25 @@
   font-style: normal;
 }
 
+@layer utilities {
+  /* Loader animation */
+  @keyframes loaderBar {
+    0%,
+    100% {
+      transform: scaleY(0.5);
+      opacity: 0.4;
+    }
+    50% {
+      transform: scaleY(1.4);
+      opacity: 1;
+    }
+  }
+
+  .animate-loaderBar {
+    animation: loaderBar 1s ease-in-out infinite;
+  }
+}
+
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 80px;
@@ -47,6 +66,11 @@ p,
 span,
 button {
   font-family: "Satoshi", sans-serif;
+}
+
+button,
+a {
+  @apply inline-block active:scale-95;
 }
 
 h1 {
@@ -69,15 +93,24 @@ body {
   @apply px-[1rem] py-[0.5rem] cursor-pointer bg-black text-2xl text-white;
 }
 
-.sidebar-container {
-  @apply fixed inset-0 bg-black/30 z-50 flex justify-end min-[760px]:hidden;
+.cancel-subscription {
+  @apply px-4 py-2 rounded-lg
+         border border-red-300
+         text-red-600 text-sm font-semibold
+         hover:bg-red-50
+         active:scale-[0.98]
+         transition-all duration-200
+         cursor-pointer;
 }
 
-button,
-a {
-  display: inline-block;
+.model-container {
+  @apply h-full w-[100%] flex justify-center items-center fixed inset-0 bg-black/30 z-50 backdrop-blur-md;
+}
+
+.sidebar-container {
+  @apply fixed inset-0 bg-black/30 backdrop-blur-md z-50 flex justify-end min-[760px]:hidden;
 }
 
 .active-link {
-  @apply px-[10px] py-[5px] rounded-[10px] bg-[#efefef] border-2 font-bold;
+  @apply px-[10px] py-[5px] rounded-[10px] bg-[#efefef] font-bold;
 }

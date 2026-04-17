@@ -1,8 +1,9 @@
 import "./globals.css";
 import TanstackProviders from "./TanstackProviders";
 import ReactToastifyProviders from "./ReactToastifyProviders";
-import AuthLoader from "@/components/AuthLoader";
-import PaddleScriptTag from "@/components/PaddleScriptTag";
+import AuthLoader from "@/components/providers/AuthLoader";
+import PaddleScriptTag from "@/components/providers/PaddleScriptTag";
+import SubscriptionProvider from "@/components/providers/SubscriptionProvider";
 
 export default function RootLayout({
   children,
@@ -16,7 +17,7 @@ export default function RootLayout({
           <ReactToastifyProviders>
             <AuthLoader>
               <PaddleScriptTag />
-              {children}
+              <SubscriptionProvider>{children}</SubscriptionProvider>
             </AuthLoader>
           </ReactToastifyProviders>
         </TanstackProviders>

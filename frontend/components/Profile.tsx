@@ -2,10 +2,10 @@
 
 import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
-import useAuthStore from "@/stores/auth.store";
+import { useAuthStore } from "@/stores/auth.store";
 import ProfileIcon from "./home/icons/ProfileIcon";
 import Logout from "./Logout";
-import useSubscriptionStore from "@/stores/subscription.store";
+import { useSubscriptionStore } from "@/stores/subscription.store";
 
 export default function Profile({ isNavbar }: { isNavbar: boolean }) {
   const email = useAuthStore((s) => s.email);

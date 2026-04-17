@@ -31,7 +31,7 @@ export default function FAQs() {
             answer="Yes, you can send payment reminders via email or WhatsApp with a single click before due dates."
           />
           <FAQ
-            question="Can I download payment, installment, or invoice reports?"
+            question="Can I download installment, or invoice reports?"
             answer="Yes, you can download client statements, installment reports, payment history in Excel, and invoices in PDF anytime."
           />
           <FAQ

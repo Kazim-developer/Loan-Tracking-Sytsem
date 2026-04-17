@@ -5,7 +5,6 @@ export function openCheckout(
   isAddon: boolean,
   addonType?: string,
   addonQuantity?: number,
-  onSuccess?: () => void,
 ) {
   if (!window.Paddle?.Checkout) return;
 
@@ -21,16 +20,6 @@ export function openCheckout(
       isAddon,
       addonType,
       addonQuantity,
-    },
-
-    settings: {
-      successUrl: window.location.href,
-    },
-
-    eventCallback: (event: any) => {
-      if (event.name === "checkout.completed") {
-        onSuccess?.();
-      }
     },
   });
 }

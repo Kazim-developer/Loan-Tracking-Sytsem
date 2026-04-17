@@ -1,6 +1,14 @@
+"use client";
+
 import Plan from "./Plan";
+import ShowCancelSubscriptionContainer from "../CancelSubscriptionModelContainer";
+import useShowModelStore from "@/stores/showElement.store";
 
 export default function Pricing() {
+  const showCancelSubscriptionModel = useShowModelStore(
+    (s) => s.showCancelSubscription,
+  );
+
   return (
     <section id="pricing" className="center-section py-[3rem]">
       <section>
@@ -21,6 +29,7 @@ export default function Pricing() {
           </section>
         </section>
       </section>
+      {showCancelSubscriptionModel && <ShowCancelSubscriptionContainer />}
     </section>
   );
 }

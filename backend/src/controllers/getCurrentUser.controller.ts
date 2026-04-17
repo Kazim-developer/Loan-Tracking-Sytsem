@@ -2,33 +2,70 @@ import { prisma } from "../db/prisma.js";
 import asyncHandler from "../middlewares/asyncHandler.middleware.js";
 
 const getCurrentUser = asyncHandler(async (req: any, res: any) => {
-  // const user = req.user;
   const accountId = req.sessionData.accountId;
 
-  const userAccount = await prisma.account.findFirst({
-    where: { id: accountId },
-    include: { user: true },
-  });
+  if (!accountId) {
+    return res.status(401).json({
+      status: "unauthorized",
+    });
+  }
 
-  const subscription = await prisma.subscription.findUnique({
-    where: { accountId },
-    include: {
-      plan: true,
-    },
-  });
+  const [account, subscription] = await prisma.$transaction([
+    prisma.account.findUnique({
+      where: { id: accountId },
+      select: {
+        id: true,
+        name: true,
+        imageUrl: true,
+        provider: true,
+        user: {
+          select: {
+            id: true,
+            email: true,
+          },
+        },
+      },
+    }),
+
+    prisma.subscription.findUnique({
+      where: { accountId },
+      select: {
+        autoRenew: true,
+        cancelAt: true,
+        endDate: true,
+        plan: {
+          select: {
+            name: true,
+          },
+        },
+      },
+    }),
+  ]);
+
+  if (!account) {
+    return res.status(401).json({
+      status: "fail",
+      message: "Unauthorized",
+    });
+  }
 
   res.status(200).json({
     status: "success",
     user: {
-      accountId: userAccount?.id,
-      userId: userAccount?.user.id,
-      email: userAccount?.user.email,
-      name: userAccount?.name,
-      imageUrl: userAccount?.imageUrl,
-      loginMethod: userAccount?.provider,
+      accountId: account.id,
+      userId: account.user.id,
+      email: account.user.email,
+      name: account.name,
+      imageUrl: account.imageUrl,
+      loginMethod: account.provider,
       isAuthenticated: true,
-      isGoogleLogin: userAccount?.provider === "google" ? true : false,
-      activeSubscriptionPlan: subscription?.plan.name,
+      isGoogleLogin: account.provider === "google",
+      activeSubscriptionPlan: subscription?.plan?.name ?? null,
+      autoRenew: subscription?.autoRenew ?? null,
+      cancelAt: subscription?.cancelAt
+        ? subscription.cancelAt.toISOString().split("T")[0]
+        : null,
+      endDate: subscription?.endDate ?? null,
     },
   });
 });

@@ -1,25 +1,40 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
-const storeFunc = (set) => ({
-  activeSubscriptionPlan: "",
-  pendingSubscriptionPlan: "",
+type SubscriptionState = {
+  activeSubscriptionPlan: string;
+  pendingSubscriptionPlan: string;
+  cancellingPlan: string;
+  cancelAt: string;
 
-  isPolling: false,
+  setSubscriptionData: (data: Partial<SubscriptionState>) => void;
+  resetWorkflowState: () => void;
+};
 
-  setSubscriptionPlan: (value: string) =>
-    set({ activeSubscriptionPlan: value }),
+export const useSubscriptionStore = create<SubscriptionState>()(
+  persist(
+    (set) => ({
+      activeSubscriptionPlan: "",
+      pendingSubscriptionPlan: "",
+      cancellingPlan: "",
+      cancelAt: "",
 
-  setPendingPlan: (plan: string) => set({ pendingSubscriptionPlan: plan }),
+      setSubscriptionData: (data) => set((state) => ({ ...state, ...data })),
 
-  setIsPolling: (value: boolean) => set({ isPolling: value }),
-});
+      resetWorkflowState: () =>
+        set({
+          pendingSubscriptionPlan: "",
+          cancellingPlan: "",
+        }),
+    }),
+    {
+      name: "subscription-store",
 
-const useSubscriptionStore = create(
-  persist(storeFunc, {
-    name: "active-subscription",
-    partialize: (state) => ({ activePlan: state.activeSubscriptionPlan }),
-  }),
+      // ONLY persist workflow intent, NOT server state
+      partialize: (state) => ({
+        pendingSubscriptionPlan: state.pendingSubscriptionPlan,
+        cancellingPlan: state.cancellingPlan,
+      }),
+    },
+  ),
 );
-
-export default useSubscriptionStore;

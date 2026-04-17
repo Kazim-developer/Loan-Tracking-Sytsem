@@ -3,7 +3,7 @@
 import clsx from "clsx";
 import Link from "next/link";
 import Image from "next/image";
-import useAuthStore from "@/stores/auth.store";
+import { useAuthStore } from "@/stores/auth.store";
 
 export default function Hero() {
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
@@ -28,9 +28,7 @@ export default function Hero() {
           <section className={clsx("action-buttons flex gap-[1rem]")}>
             <Link
               href="/signup"
-              className={clsx(
-                "bg-black p-[1em] rounded-md text-white font-bold hover:opacity-[.9]",
-              )}
+              className="relative overflow-hidden bg-black p-[1em] rounded-md text-white font-bold hover:opacity-[.9]"
             >
               Get Started Free
             </Link>
@@ -47,9 +45,7 @@ export default function Hero() {
         {isAuthenticated && (
           <Link
             href="/dashboard"
-            className={clsx(
-              "bg-black p-[1em] rounded-md text-white font-bold hover:opacity-[.9]",
-            )}
+            className="relative overflow-hidden bg-black p-[1em] rounded-md text-white font-bold hover:opacity-[.9]"
           >
             Go to Dashboard
           </Link>

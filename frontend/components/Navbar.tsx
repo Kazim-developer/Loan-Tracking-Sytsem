@@ -11,10 +11,17 @@ export default function Navbar() {
   const [showSidebar, setShowSidebar] = useState<boolean>(false);
 
   useEffect(() => {
-    document.body.style.overflow = showSidebar ? "hidden" : "auto";
+    if (!showSidebar) return;
+
+    const scrollbarWidth =
+      window.innerWidth - document.documentElement.clientWidth;
+
+    document.body.style.overflow = "hidden";
+    document.body.style.paddingRight = `${scrollbarWidth}px`;
 
     return () => {
-      document.body.style.overflow = "auto";
+      document.body.style.overflow = "";
+      document.body.style.paddingRight = "";
     };
   }, [showSidebar]);
 

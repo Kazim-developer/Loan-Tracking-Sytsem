@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import PlusIcon from "./icons/PlusIcon";
 
 export default function FAQ({
   question,
@@ -13,12 +14,13 @@ export default function FAQ({
 
   return (
     <div className="bg-white border border-gray-200 rounded-xl">
-      <button
-        className="w-full gap-3 px-5 py-4 text-left text-xl font-medium"
+      <div
+        className="w-full gap-3 px-5 py-4 text-left text-xl font-medium flex justify-between items-center gap-[1rem]"
         onClick={() => setOpen(!open)}
       >
         <span>{question}</span>
-      </button>
+        <PlusIcon />
+      </div>
 
       <div
         className={`grid transition-all duration-300 ${

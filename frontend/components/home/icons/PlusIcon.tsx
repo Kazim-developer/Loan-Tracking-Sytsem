@@ -8,7 +8,7 @@ export default function PlusIcon({ className }: { className?: string }) {
       viewBox="0 0 24 24"
       strokeWidth={1.5}
       stroke="currentColor"
-      className={clsx("w-10 h-10", `${className}`)}
+      className={clsx("w-10 h-10 min-w-10 min-h-10", `${className}`)}
     >
       <path
         strokeLinecap="round"

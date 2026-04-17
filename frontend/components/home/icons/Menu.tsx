@@ -1,6 +1,6 @@
 "use client";
 
-import useAuthStore from "@/stores/auth.store";
+import { useAuthStore } from "@/stores/auth.store";
 import clsx from "clsx";
 
 export default function Menu({
