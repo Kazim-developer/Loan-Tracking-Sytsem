@@ -1,11 +1,11 @@
 import { usageGuide } from "@/validators/usageGuide.validator";
-import PlusIcon from "./icons/PlusIcon";
-import Calendar from "./icons/CalendarIcon";
+import PlusIcon from "../icons/PlusIcon";
+import Calendar from "../icons/CalendarIcon";
 import clsx from "clsx";
-import PaymentIcon from "./icons/PaymentIcon";
-import DownloadIcon from "./icons/DownloadIcon";
-import ClipBoardIcon from "./icons/ClipBoardIcon";
-import NotificationIcon from "./icons/NotificationIcon";
+import PaymentIcon from "../icons/PaymentIcon";
+import DownloadIcon from "../icons/DownloadIcon";
+import ClipBoardIcon from "../icons/ClipBoardIcon";
+import NotificationIcon from "../icons/NotificationIcon";
 
 export default function UsageGuide({
   index,

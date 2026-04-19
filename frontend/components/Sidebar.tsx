@@ -2,7 +2,7 @@
 
 import clsx from "clsx";
 import Link from "next/link";
-import Close from "./home/icons/Close";
+import Close from "./icons/Close";
 import { useAuthStore } from "@/stores/auth.store";
 import Profile from "./Profile";
 import Logout from "./Logout";
@@ -38,6 +38,18 @@ export default function Sidebar({
               className={clsx(pathName === "/" ? "active-link" : null)}
             >
               Home
+            </Link>
+            <Link
+              href="/loans"
+              className={clsx(pathName === "/loans" ? "active-link" : null)}
+            >
+              Loans
+            </Link>
+            <Link
+              href="/invoices"
+              className={clsx(pathName === "/invoices" ? "active-link" : null)}
+            >
+              Invoices
             </Link>
             <Link
               href="/dashboard"

@@ -70,7 +70,7 @@ button {
 
 button,
 a {
-  @apply inline-block active:scale-95;
+  @apply inline-block cursor-pointer active:scale-95;
 }
 
 h1 {
@@ -101,6 +101,22 @@ body {
          active:scale-[0.98]
          transition-all duration-200
          cursor-pointer;
+}
+
+.create-client {
+  @apply px-1 py-2 bg-black text-white font-bold cursor-pointer rounded-[10px] flex items-center justify-center gap-3;
+}
+
+.loan-created-form {
+  @apply flex flex-col gap-[0.8rem];
+
+  & input,
+  select {
+    @apply p-1 w-full rounded-[10px] border-2 border-[#555] focus:outline-none;
+  }
+  & span {
+    @apply ml-1 mb-2 text-[#555];
+  }
 }
 
 .model-container {

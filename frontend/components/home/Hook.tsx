@@ -1,4 +1,4 @@
-import CheckSolid from "./icons/CheckSolid";
+import CheckSolid from "../icons/CheckSolid";
 
 export default function Hook({ desc }: { desc: string }) {
   return (

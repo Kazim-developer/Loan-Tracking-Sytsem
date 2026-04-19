@@ -1,11 +1,11 @@
 import { FeatureContent } from "@/validators/featureContent.validator";
 import clsx from "clsx";
-import ClipBoardIcon from "./icons/ClipBoardIcon";
-import Calendar from "./icons/CalendarIcon";
-import PaymentIcon from "./icons/PaymentIcon";
-import UserGroupIcon from "./icons/UserGroupIcon";
-import NotificationIcon from "./icons/NotificationIcon";
-import DownloadIcon from "./icons/DownloadIcon";
+import ClipBoardIcon from "../icons/ClipBoardIcon";
+import Calendar from "../icons/CalendarIcon";
+import PaymentIcon from "../icons/PaymentIcon";
+import UserGroupIcon from "../icons/UserGroupIcon";
+import NotificationIcon from "../icons/NotificationIcon";
+import DownloadIcon from "../icons/DownloadIcon";
 
 export default function Feature({ icon, title, description }: FeatureContent) {
   return (

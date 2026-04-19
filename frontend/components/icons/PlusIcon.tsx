@@ -1,6 +1,6 @@
 import clsx from "clsx";
 
-export default function PlusIcon({ className }: { className?: string }) {
+export default function PlusIcon({ size }: { size?: string }) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -8,7 +8,11 @@ export default function PlusIcon({ className }: { className?: string }) {
       viewBox="0 0 24 24"
       strokeWidth={1.5}
       stroke="currentColor"
-      className={clsx("w-10 h-10 min-w-10 min-h-10", `${className}`)}
+      className={clsx(
+        !size
+          ? `w-10 h-10 min-w-10 min-h-10`
+          : `w-${size} h-${size} min-w-${size} min-h-${size}`,
+      )}
     >
       <path
         strokeLinecap="round"

@@ -2,7 +2,7 @@
 
 import clsx from "clsx";
 import MyLogo from "./MyLogo";
-import Menu from "./home/icons/Menu";
+import Menu from "./icons/Menu";
 import { useState, useEffect } from "react";
 import NavLinks from "./NavLinks";
 import SidebarContainer from "./SidebarContainer";

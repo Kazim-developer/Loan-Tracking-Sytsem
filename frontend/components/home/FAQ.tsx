@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import PlusIcon from "./icons/PlusIcon";
+import PlusIcon from "../icons/PlusIcon";
 
 export default function FAQ({
   question,

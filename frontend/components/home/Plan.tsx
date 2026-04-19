@@ -1,7 +1,7 @@
 "use client";
 
 import { plans } from "@/utils/subscriptionPlanData";
-import CheckIcon from "./icons/CheckIcon";
+import CheckIcon from "../icons/CheckIcon";
 import clsx from "clsx";
 import { useAuthStore } from "@/stores/auth.store";
 import { useSubscriptionStore } from "@/stores/subscription.store";
