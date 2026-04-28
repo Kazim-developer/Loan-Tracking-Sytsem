@@ -1,6 +1,6 @@
 "use client";
 
-import { postFormData } from "@/utils/postFormData.util";
+import { postFormData } from "@/handlers/postFormData.util";
 import { useMutation } from "@tanstack/react-query";
 import clsx from "clsx";
 import { useEffect, useRef } from "react";
@@ -9,7 +9,7 @@ import { ForgotPassword } from "@/validators/forgotPassword.validator";
 import { useRouter } from "next/navigation";
 
 export default function ForgotPasswordForm() {
-  const emailRef = useRef(null);
+  const emailRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     emailRef?.current?.focus();
@@ -29,7 +29,7 @@ export default function ForgotPasswordForm() {
     onError: (error) => {
       if (error.errors) {
         Object.values(error.errors).forEach((msg) => {
-          toast.error(msg);
+          toast.error(String(msg));
         });
       } else {
         toast.error(error.message || "Something went wrong");
@@ -50,7 +50,7 @@ export default function ForgotPasswordForm() {
         className={clsx("flex flex-col gap-[1rem]")}
         onSubmit={(e) => {
           e.preventDefault();
-          mutate({ email: emailRef?.current?.value });
+          mutate({ email: emailRef?.current?.value as string });
         }}
       >
         <input

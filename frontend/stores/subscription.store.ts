@@ -4,6 +4,7 @@ import { persist } from "zustand/middleware";
 type SubscriptionState = {
   activeSubscriptionPlan: string;
   pendingSubscriptionPlan: string;
+  pendingCancellationPlan: string;
   cancellingPlan: string;
   cancelAt: string;
 
@@ -16,6 +17,7 @@ export const useSubscriptionStore = create<SubscriptionState>()(
     (set) => ({
       activeSubscriptionPlan: "",
       pendingSubscriptionPlan: "",
+      pendingCancellationPlan: "",
       cancellingPlan: "",
       cancelAt: "",
 

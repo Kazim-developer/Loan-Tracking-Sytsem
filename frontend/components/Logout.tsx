@@ -3,10 +3,11 @@
 import { useRouter } from "next/navigation";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-import handleLogout from "@/utils/logoutMethod";
+import handleLogout from "@/handlers/logoutMethod";
 
 import { useAuthStore } from "@/stores/auth.store";
 import { useSubscriptionStore } from "@/stores/subscription.store";
+import useShowElementStore from "@/stores/showElement.store";
 
 export default function Logout() {
   const router = useRouter();
@@ -14,8 +15,10 @@ export default function Logout() {
 
   const resetAuthStore = useAuthStore((s) => s.resetAuthStore);
   const resetSubscriptionStore = useSubscriptionStore(
-    (s) => s.resetSubscriptionStore,
+    (s) => s.resetWorkflowState,
   );
+
+  const setShowSidebar = useShowElementStore((s) => s.setShowSidebar);
 
   const { mutate: logout, isPending } = useMutation({
     mutationFn: handleLogout,
@@ -25,6 +28,8 @@ export default function Logout() {
       resetSubscriptionStore();
 
       queryClient.clear();
+
+      setShowSidebar(false);
 
       router.replace("/");
       router.refresh();

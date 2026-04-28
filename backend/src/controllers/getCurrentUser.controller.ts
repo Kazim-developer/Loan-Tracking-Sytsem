@@ -1,8 +1,9 @@
+import { Request, Response } from "express";
 import { prisma } from "../db/prisma.js";
 import asyncHandler from "../middlewares/asyncHandler.middleware.js";
 
-const getCurrentUser = asyncHandler(async (req: any, res: any) => {
-  const accountId = req.sessionData.accountId;
+const getCurrentUser = asyncHandler(async (req: Request, res: Response) => {
+  const accountId = req.sessionData?.accountId;
 
   if (!accountId) {
     return res.status(401).json({

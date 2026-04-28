@@ -3,8 +3,9 @@ import asyncHandler from "../middlewares/asyncHandler.middleware.js";
 import bcrypt from "bcrypt";
 import AppError from "../utils/customErrorClass.js";
 import crypto from "crypto";
+import { Request, Response } from "express";
 
-const createLoginSession = asyncHandler(async (req: any, res: any) => {
+const createLoginSession = asyncHandler(async (req: Request, res: Response) => {
   const { email, password } = req.body;
 
   const account = await prisma.account.findUnique({

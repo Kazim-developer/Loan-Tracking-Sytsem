@@ -123,7 +123,7 @@ export default function Plan({ plan }: { plan: string }) {
           className="cancel-subscription"
           onClick={() => {
             setShowCancelSubscriptionModel(true);
-            setSubscriptionData({ cancellingPlan: "Pro" });
+            setSubscriptionData({ pendingCancellationPlan: "Pro" });
           }}
         >
           Cancel Subscription
@@ -135,7 +135,7 @@ export default function Plan({ plan }: { plan: string }) {
           className="cancel-subscription"
           onClick={() => {
             setShowCancelSubscriptionModel(true);
-            setSubscriptionData({ cancellingPlan: "Business" });
+            setSubscriptionData({ pendingCancellationPlan: "Business" });
           }}
         >
           Cancel Subscription

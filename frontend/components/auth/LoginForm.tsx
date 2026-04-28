@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { useMutation } from "@tanstack/react-query";
 import { FormData } from "@/validators/formData.validator";
-import { postFormData } from "@/utils/postFormData.util";
+import { postFormData } from "@/handlers/postFormData.util";
 import ShowPasswordCheckbox from "@/components/auth/ShowPasswordCheckbox";
 import { useAuthStore } from "@/stores/auth.store";
 import { useSubscriptionStore } from "@/stores/subscription.store";
@@ -26,7 +26,7 @@ export default function LoginForm() {
   });
 
   const [showPassword, setShowPassword] = useState<boolean>(false);
-  const emailRef = useRef(null);
+  const emailRef = useRef<HTMLInputElement>(null);
 
   const router = useRouter();
 
@@ -51,7 +51,7 @@ export default function LoginForm() {
       setAuthUser({ isAuthenticated: false });
       if (error.errors) {
         Object.values(error.errors).forEach((msg) => {
-          toast.error(msg);
+          toast.error(String(msg));
         });
       } else {
         toast.error(error.message || "Something went wrong");

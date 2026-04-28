@@ -1,7 +1,7 @@
 "use client";
 
 import ShowPasswordCheckbox from "./ShowPasswordCheckbox";
-import { postFormData } from "@/utils/postFormData.util";
+import { postFormData } from "@/handlers/postFormData.util";
 import { ResetPassword } from "@/validators/resetPassword.validator";
 import { useMutation } from "@tanstack/react-query";
 import clsx from "clsx";
@@ -16,7 +16,7 @@ export default function ResetPasswordForm({ token }: { token: string }) {
     newPassword: "",
   });
 
-  const newPasswordRef = useRef(null);
+  const newPasswordRef = useRef<HTMLInputElement>(null);
 
   const router = useRouter();
 
@@ -38,7 +38,7 @@ export default function ResetPasswordForm({ token }: { token: string }) {
     onError: (error) => {
       if (error.errors) {
         Object.values(error.errors).forEach((msg) => {
-          toast.error(msg);
+          toast.error(String(msg));
         });
       } else {
         toast.error(error.message || "Something went wrong");

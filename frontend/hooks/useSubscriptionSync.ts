@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { checkAuth } from "@/utils/checkAuth";
+import { checkAuth } from "@/handlers/checkAuth";
 import { useSubscriptionStore } from "@/stores/subscription.store";
 
 export function useSubscriptionSync() {
@@ -14,7 +14,11 @@ export function useSubscriptionSync() {
 
   const cancellingPlan = useSubscriptionStore((s) => s.cancellingPlan);
 
-  const shouldSync = !!pendingSubscriptionPlan || !!cancellingPlan;
+  const pendingCancellationPlan = useSubscriptionStore(
+    (s) => s.pendingCancellationPlan,
+  );
+
+  const shouldSync = !!pendingSubscriptionPlan || !!pendingCancellationPlan;
 
   const query = useQuery({
     queryKey: ["me"],

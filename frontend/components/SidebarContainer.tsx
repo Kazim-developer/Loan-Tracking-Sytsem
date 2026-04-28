@@ -1,13 +1,11 @@
 import clsx from "clsx";
 import Sidebar from "./Sidebar";
+import useShowElementStore from "@/stores/showElement.store";
 
-export default function SidebarContainer({
-  showSidebar,
-  setShowSidebar,
-}: {
-  showSidebar: boolean;
-  setShowSidebar: (value: boolean) => void;
-}) {
+export default function SidebarContainer() {
+  const showSidebar = useShowElementStore((s) => s.showSidebar);
+  const setShowSidebar = useShowElementStore((s) => s.setShowSidebar);
+
   return (
     <section
       className={clsx(
@@ -18,7 +16,7 @@ export default function SidebarContainer({
       )}
       onClick={() => setShowSidebar(false)}
     >
-      <Sidebar showSidebar={showSidebar} setShowSidebar={setShowSidebar} />
+      <Sidebar />
     </section>
   );
 }

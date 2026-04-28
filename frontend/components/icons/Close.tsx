@@ -1,7 +1,14 @@
+import clsx from "clsx";
 export default function Close({
+  size,
   setShowSidebar,
+  setShowCreateClientModel,
+  setShowCreateLoanModel,
 }: {
-  setShowSidebar: (value: boolean) => void;
+  size?: string;
+  setShowSidebar?: (value: boolean) => void;
+  setShowCreateClientModel?: (value: boolean) => void;
+  setShowCreateLoanModel?: (value: boolean) => void;
 }) {
   return (
     <svg
@@ -10,8 +17,20 @@ export default function Close({
       viewBox="0 0 24 24"
       strokeWidth={1.5}
       stroke="currentColor"
-      className="w-10 h-10 cursor-pointer mb-[1rem]"
-      onClick={() => setShowSidebar(false)}
+      className={clsx(
+        !size
+          ? `w-10 h-10 min-w-10 min-h-10`
+          : `w-${size} h-${size} min-w-${size} min-h-${size}`,
+      )}
+      onClick={() =>
+        setShowSidebar
+          ? setShowSidebar(false)
+          : setShowCreateClientModel
+            ? setShowCreateClientModel(false)
+            : setShowCreateLoanModel
+              ? setShowCreateLoanModel(false)
+              : null
+      }
     >
       <path
         strokeLinecap="round"

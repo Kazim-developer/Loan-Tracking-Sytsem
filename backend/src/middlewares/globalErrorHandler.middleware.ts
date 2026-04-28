@@ -1,5 +1,11 @@
+import { NextFunction, Request, Response } from "express";
 import { ZodError } from "zod";
-const errorHandler = (err: any, req: any, res: any, next: any) => {
+const errorHandler = (
+  err: any,
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   console.error(err);
   if (err instanceof ZodError) {
     const errors: { [key: string]: string } = {};

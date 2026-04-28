@@ -2,15 +2,11 @@
 
 import clsx from "clsx";
 import { useSubscriptionStore } from "@/stores/subscription.store";
-import cancelSubscription from "@/utils/cancelSubscription";
+import cancelSubscription from "@/handlers/cancelSubscription";
 import useShowModelStore from "@/stores/showElement.store";
 import { useMutation } from "@tanstack/react-query";
 
 export default function CancelSubscriptionModel() {
-  const { mutate } = useMutation({
-    mutationFn: () => cancelSubscription(),
-  });
-
   const activeSubscriptionPlan = useSubscriptionStore(
     (s) => s.activeSubscriptionPlan,
   );
@@ -22,6 +18,13 @@ export default function CancelSubscriptionModel() {
   const setShowCancelSubscriptionModel = useShowModelStore(
     (s) => s.setShowCancelSubscription,
   );
+
+  const { mutate } = useMutation({
+    mutationFn: () => cancelSubscription(),
+    onSuccess: () => {
+      setSubscriptionData({ pendingCancellationPlan: "" });
+    },
+  });
 
   return (
     <div

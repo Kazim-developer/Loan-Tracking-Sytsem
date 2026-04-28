@@ -12,80 +12,73 @@ const plans = [
   {
     name: "Free",
     priceMonth: 0,
-
-    maxAccounts: 10,
+    maxClients: 50,
+    maxActiveLoans: 25,
+    maxTotalLoans: 100,
     maxTeamMembers: 0,
-
-    maxEmailReminders: 0,
+    maxEmailReminders: 20,
     maxWhatsappReminders: 0,
-
     monthlyPriceId: null,
+    description: "Start managing your loans with zero cost",
 
-    features: {
-      excel_report: false,
-      invoice_pdf: false,
-      automatic_reminder: false,
-      api_access: false,
-    },
-
-    description:
-      "Perfect for individuals getting started with tracking client payments.",
+    features: [
+      { key: "email_reminder", enabled: true },
+      { key: "excel_report", enabled: false },
+      { key: "automatic_reminder", enabled: false },
+      { key: "team_access", enabled: false },
+    ],
   },
 
   {
     name: "Pro",
     priceMonth: 1499,
-
-    maxAccounts: 50,
+    maxClients: 1000,
+    maxActiveLoans: 200,
+    maxTotalLoans: 5000,
     maxTeamMembers: 0,
-
-    maxEmailReminders: 100,
+    maxEmailReminders: 300,
     maxWhatsappReminders: 0,
-
     monthlyPriceId: "pri_01knpe2npgqjm1yk79mc0dz772",
+    description: "Everything you need to run a growing lending business",
 
-    features: {
-      excel_report: true,
-      invoice_pdf: true,
-      automatic_reminder: false,
-      api_access: false,
-    },
-
-    description:
-      "For freelancers and small businesses managing client payments and invoices.",
+    features: [
+      { key: "email_reminder", enabled: true },
+      { key: "excel_report", enabled: true },
+      { key: "automatic_reminder", enabled: false },
+      { key: "team_access", enabled: false },
+    ],
   },
 
   {
     name: "Business",
     priceMonth: 5999,
-
-    maxAccounts: 300,
-    maxTeamMembers: 5,
-
-    maxEmailReminders: 600,
+    maxClients: null,
+    maxActiveLoans: 1000,
+    maxTotalLoans: 50000,
+    maxTeamMembers: 0,
+    maxEmailReminders: 2000,
     maxWhatsappReminders: 0,
-
     monthlyPriceId: "pri_01knpe67753cvzbxt3kxnbkrf6",
+    description: "High-capacity tools for large and scaling lending operations",
 
-    features: {
-      excel_report: true,
-      invoice_pdf: true,
-      automatic_reminder: false,
-      api_access: false,
-    },
-
-    description:
-      "For growing businesses that need automation and better control over receivables.",
+    features: [
+      { key: "email_reminder", enabled: true },
+      { key: "excel_report", enabled: true },
+      { key: "automatic_reminder", enabled: false },
+      { key: "team_access", enabled: false },
+    ],
   },
 ];
 
 async function main() {
   for (const plan of plans) {
-    await prisma.plan.upsert({
+    const createdPlan = await prisma.plan.upsert({
       where: { name: plan.name },
       update: {
         name: plan.name,
-        maxAccounts: plan.maxAccounts,
+        maxClients: plan.maxClients,
+        maxActiveLoans: plan.maxActiveLoans,
+        maxTotalLoans: plan.maxTotalLoans,
         maxTeamMembers: plan.maxTeamMembers,
         maxEmailReminders: plan.maxEmailReminders,
         maxWhatsappReminders: plan.maxWhatsappReminders,
@@ -93,12 +86,13 @@ async function main() {
         description: plan.description,
         priceMonth: plan.priceMonth,
         priceYear: plan.priceMonth * 12,
-        features: plan.features,
         isActive: true,
-      }, // do nothing if exists
+      },
       create: {
         name: plan.name,
-        maxAccounts: plan.maxAccounts,
+        maxClients: plan.maxClients,
+        maxActiveLoans: plan.maxActiveLoans,
+        maxTotalLoans: plan.maxTotalLoans,
         maxTeamMembers: plan.maxTeamMembers,
         maxEmailReminders: plan.maxEmailReminders,
         maxWhatsappReminders: plan.maxWhatsappReminders,
@@ -106,13 +100,32 @@ async function main() {
         description: plan.description,
         priceMonth: plan.priceMonth,
         priceYear: plan.priceMonth * 12,
-        features: plan.features,
         isActive: true,
       },
     });
+
+    // 🔥 STEP 2: seed features (IMPORTANT PART)
+    for (const feature of plan.features) {
+      await prisma.planFeature.upsert({
+        where: {
+          planId_key: {
+            planId: createdPlan.id,
+            key: feature.key,
+          },
+        },
+        update: {
+          enabled: feature.enabled,
+        },
+        create: {
+          planId: createdPlan.id,
+          key: feature.key,
+          enabled: feature.enabled,
+        },
+      });
+    }
   }
 
-  console.log("✅ Plans seeded successfully!");
+  console.log("✅ Plans + Features seeded successfully!");
 }
 
 main()

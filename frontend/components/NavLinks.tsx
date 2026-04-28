@@ -45,12 +45,6 @@ export default function NavLinks() {
               Loans
             </Link>
             <Link
-              href="/invoices"
-              className={clsx(pathName === "/invoices" ? "active-link" : null)}
-            >
-              Invoices
-            </Link>
-            <Link
               href="/dashboard"
               className={clsx(pathName === "/dashboard" ? "active-link" : null)}
             >

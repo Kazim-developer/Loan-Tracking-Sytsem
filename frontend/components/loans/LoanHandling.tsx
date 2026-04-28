@@ -12,6 +12,10 @@ export default function LoanHandling() {
     (s) => s.setShowCreateLoanModel,
   );
 
+  const setShowCreateClientModel = useShowElementStore(
+    (s) => s.setShowCreateClientModel,
+  );
+
   useEffect(() => {
     inputRef?.current?.focus();
   }, []);
@@ -27,7 +31,7 @@ export default function LoanHandling() {
       <FilteringSelection options={["All", "Paid", "Pending", "Partial"]} />
       <button
         className="create-client"
-        onClick={() => setShowCreateLoanModel(true)}
+        onClick={() => setShowCreateClientModel(true)}
       >
         <PlusIcon size={"5"} />
         Create Loan

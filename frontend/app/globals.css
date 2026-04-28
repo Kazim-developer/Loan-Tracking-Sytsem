@@ -81,6 +81,11 @@ body {
   position: relative;
 }
 
+th,
+td {
+  text-align: center;
+}
+
 .center-section {
   @apply w-[80%] max-w-[900px] mx-auto;
 }
@@ -112,10 +117,16 @@ body {
 
   & input,
   select {
-    @apply p-1 w-full rounded-[10px] border-2 border-[#555] focus:outline-none;
+    @apply p-2 w-full rounded-[10px] border-2 border-[#555] focus:outline-none;
   }
   & span {
-    @apply ml-1 mb-2 text-[#555];
+    @apply ml-1 inline-block mb-[3px] text-[#555];
+  }
+}
+
+.create-client-form {
+  & input {
+    @apply p-2 w-full rounded-[10px] border-2 border-[#555] focus:outline-none;
   }
 }
 

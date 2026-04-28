@@ -3,7 +3,7 @@
 import { useAuthStore } from "@/stores/auth.store";
 import { useSubscriptionStore } from "@/stores/subscription.store";
 import { useQuery } from "@tanstack/react-query";
-import { checkAuth } from "@/utils/checkAuth";
+import { checkAuth } from "@/handlers/checkAuth";
 import { useEffect } from "react";
 import Loader from "../LoadingSpinner";
 

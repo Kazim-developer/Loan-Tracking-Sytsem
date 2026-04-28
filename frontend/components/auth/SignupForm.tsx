@@ -9,7 +9,7 @@ import { FormData } from "@/validators/formData.validator";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useMutation } from "@tanstack/react-query";
-import { postFormData } from "@/utils/postFormData.util";
+import { postFormData } from "@/handlers/postFormData.util";
 import { toast } from "react-toastify";
 
 export default function SignupForm() {
@@ -19,7 +19,7 @@ export default function SignupForm() {
   });
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
-  const emailRef = useRef(null);
+  const emailRef = useRef<HTMLInputElement>(null);
 
   const router = useRouter();
 
@@ -38,7 +38,7 @@ export default function SignupForm() {
     onError: (error) => {
       if (error.errors) {
         Object.values(error.errors).forEach((msg) => {
-          toast.error(msg);
+          toast.error(String(msg));
         });
       } else {
         toast.error(error.message || "Something went wrong");

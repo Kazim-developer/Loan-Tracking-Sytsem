@@ -3,12 +3,14 @@
 import clsx from "clsx";
 import MyLogo from "./MyLogo";
 import Menu from "./icons/Menu";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import NavLinks from "./NavLinks";
 import SidebarContainer from "./SidebarContainer";
+import useShowElementStore from "@/stores/showElement.store";
 
 export default function Navbar() {
-  const [showSidebar, setShowSidebar] = useState<boolean>(false);
+  const showSidebar = useShowElementStore((s) => s.showSidebar);
+  const setShowSidebar = useShowElementStore((s) => s.setShowSidebar);
 
   useEffect(() => {
     if (!showSidebar) return;
@@ -40,10 +42,7 @@ export default function Navbar() {
         <NavLinks />
         <Menu setShowSidebar={setShowSidebar} />
       </nav>
-      <SidebarContainer
-        showSidebar={showSidebar}
-        setShowSidebar={setShowSidebar}
-      />
+      <SidebarContainer />
     </section>
   );
 }

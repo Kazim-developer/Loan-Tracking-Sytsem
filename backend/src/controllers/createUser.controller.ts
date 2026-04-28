@@ -3,8 +3,9 @@ import asyncHandler from "../middlewares/asyncHandler.middleware.js";
 import bcrypt from "bcrypt";
 import AppError from "../utils/customErrorClass.js";
 import createFreeSubscriptionTransaction from "../utils/createFreeSubscriptionTransaction.js";
+import { Request, Response } from "express";
 
-const createUser = asyncHandler(async (req: any, res: any) => {
+const createUser = asyncHandler(async (req: Request, res: Response) => {
   const { email, password } = req.body;
   const hashedPassword = await bcrypt.hash(password, 12);
 

@@ -38,6 +38,7 @@ model Account {
   expiresAt         Int?
 
   clients Client[]
+  loans Loan[]
   sessions Session[]
 
   subscription  Subscription?
@@ -78,59 +79,95 @@ model Client {
   address   String?
   notes     String?
 
-  clientAccounts  ClientAccount[]
+  loans Loan[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-
   account Account @relation(fields:[accountId], references:[id], onDelete: Cascade)
 }
 
-model ClientAccount {
-  id            String   @id @default(uuid())
-  clientId      String
+model Loan {
+  id                String   @id @default(uuid())
 
-  type          AccountType   // LOAN or INVOICE
-  title         String?
-  description   String?
+  accountId String
+  account Account @relation(fields:[accountId], references:[id], onDelete: Cascade)
 
-  totalAmount   Float
-  paidAmount    Float   @default(0)
+  clientId          String
+  client            Client   @relation(fields: [clientId], references: [id], onDelete:Cascade)
 
-  startDate     DateTime?
-  dueDate       DateTime?
+  totalAmount       Float
+  totalPayable Float
+  remainingAmount   Float?
 
-  installments  Installment[]
-  payments      Payment[]
-  reminders     Reminder[]
+  interestRate      Float?   // e.g. 8%
+  interestType      InterestType? // SIMPLE or COMPOUND
 
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  startingDate         DateTime
+  endDate DateTime?
 
-  client Client @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  status LoanStatus @default(ACTIVE)
+
+  // Installments
+  hasInstallments   Boolean  @default(false)
+  totalInstallments  Int?
+  installmentAmount Float?   // calculated (optional to store)
+  installmentFrequency         Frequency?
+  firstInstallmentDate  DateTime?
+  lastInstallmentDate DateTime?
+
+  // Relations
+  installments      LoanInstallment[]
+  payments          LoanPayment[]
+  reminders Reminder[]
+
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
 }
 
-enum AccountType {
-  LOAN
-  INVOICE
+model LoanInstallment {
+  id           String   @id @default(uuid())
+
+  loanId       String
+  loan         Loan     @relation(fields: [loanId], references: [id], onDelete:Cascade)
+
+  dueDate      DateTime
+  amount       Float
+  paidAmount   Float    @default(0)
+
+  status       InstallmentStatus @default(PENDING)
+
+  reminders Reminder[]
+
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 }
 
-model Installment {
-  id          String   @id @default(uuid())
-  clientAccountId   String
+model LoanPayment {
+  id        String   @id @default(uuid())
 
-  amount      Float
-  dueDate     DateTime
-  paidAmount  Float   @default(0)
-  status      InstallmentStatus
+  loanId    String
+  loan      Loan     @relation(fields: [loanId], references: [id], onDelete:Cascade)
 
-  payments    Payment[]
+  amount    Float
+  date      DateTime @default(now())
 
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  createdAt DateTime @default(now())
+}
 
-  account ClientAccount @relation(fields: [clientAccountId], references: [id], onDelete: Cascade)
+enum InterestType {
+  SIMPLE
+  COMPOUND
+}
+
+enum Frequency {
+  WEEKLY
+  MONTHLY
+}
+
+enum LoanStatus{
+  ACTIVE
+  CLOSED
 }
 
 enum InstallmentStatus {
@@ -140,42 +177,21 @@ enum InstallmentStatus {
   OVERDUE
 }
 
-model Payment {
-  id            String   @id @default(uuid())
-  clientAccountId     String
-  installmentId String?
-
-  amount        Float
-  paymentDate   DateTime
-  method        PaymentMethod?
-  reference     String?
-  notes         String?
-
-  createdAt     DateTime @default(now())
-
-  account     ClientAccount @relation(fields: [clientAccountId], references: [id], onDelete: Cascade)
-  installment Installment?  @relation(fields: [installmentId], references: [id], onDelete: SetNull)
-}
-
-enum PaymentMethod {
-  CASH
-  BANK_TRANSFER
-  STRIPE
-  PAYPAL
-  OTHER
-}
-
 model Reminder {
-  id         String   @id @default(uuid())
-  clientAccountId  String
+  id              String   @id @default(uuid())
 
-  reminderDate DateTime
-  sent        Boolean  @default(false)
-  type        ReminderType
+  installmentId   String?
+  installment     LoanInstallment? @relation(fields: [installmentId], references: [id])
 
-  createdAt   DateTime @default(now())
+  loanId String?
+  loan Loan? @relation(fields:[loanId], references:[id])
 
-  account ClientAccount @relation(fields: [clientAccountId], references: [id], onDelete: Cascade)
+  reminderDate    DateTime
+  sent            Boolean  @default(false)
+
+  type            ReminderType
+
+  createdAt       DateTime @default(now())
 }
 
 enum ReminderType {
@@ -195,13 +211,15 @@ model Plan {
 
   monthlyPriceId String? @unique
 
-  maxAccounts        Int?
+  maxClients Int?
+  maxActiveLoans        Int?
+  maxTotalLoans Int?
   maxTeamMembers     Int?
 
   maxEmailReminders  Int?
   maxWhatsappReminders Int?
 
-  features           Json?
+  features  PlanFeature[]
 
   isActive           Boolean  @default(true)
 
@@ -209,6 +227,18 @@ model Plan {
 
   createdAt          DateTime @default(now())
   updatedAt          DateTime @updatedAt
+}
+
+model PlanFeature {
+  id      String @id @default(uuid())
+  planId  String
+  key     String
+  enabled Boolean
+
+  plan Plan @relation(fields: [planId], references: [id], onDelete: Cascade)
+
+  @@unique([planId, key])
+  @@index([key])
 }
 
 model Subscription {
@@ -250,7 +280,6 @@ model SubscriptionAddOn{
 
   paddleTransactionId String? @unique
 
-
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -276,7 +305,10 @@ model Usage{
   billingPeriodStart DateTime
   billingPeriodEnd DateTime
 
-  remindersUsed Int @default(0)
+  usedClients Int @default(0)
+  usedActiveLoans Int @default(0)
+  usedTotalLoans Int @default(0)
+  usedEmailReminders Int @default(0)
 
   account Account @relation(fields:[accountId], references:[id], onDelete:Cascade)
 }
@@ -284,7 +316,6 @@ model Usage{
 enum AddOnType {
   EMAIL_REMINDERS
   WHATSAPP_REMINDERS
-  ACCOUNTS
 }
 
 enum SubscriptionStatus {
