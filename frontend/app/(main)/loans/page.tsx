@@ -8,9 +8,19 @@ import LoanModelContainer from "@/components/loans/LoanModelContainer";
 import LoansTable from "@/components/loans/LoansTable";
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { getLoans } from "@/utils/getLoans";
+import { useSearchParams } from "next/navigation";
 
-export default function LoanPage() {
+import {
+  getLoans,
+  RepaymentStatus,
+  RepaymentType,
+  Status,
+} from "@/utils/getLoans";
+import { updateSchedule } from "@/utils/updateSchedule";
+import ProtectedRoute from "@/components/providers/ProtectedRoute";
+import PageChanger from "@/components/loans/PageChanger";
+
+export default function LoansPage() {
   const showCreateClientModel = useShowElementStore(
     (s) => s.showCreateClientModel,
   );
@@ -19,48 +29,67 @@ export default function LoanPage() {
   const [page, setPage] = useState<number>(1);
   const limit = 10;
 
-  const { data, isLoading } = useQuery({
-    queryKey: ["loans", page],
-    queryFn: () => getLoans(page, limit),
+  const searchParams = useSearchParams();
 
-    // keeps previous page data while new page loads (smooth UX)
+  const borrowerNameFiltering = searchParams.get("search") ?? "";
+
+  const rawStatus = searchParams.get("status");
+  const rawRepaymentStatus = searchParams.get("repay_status");
+  const rawRepaymentType = searchParams.get("repay_type");
+
+  const statusFilter =
+    rawStatus && rawStatus !== "ALL" ? (rawStatus as Status) : undefined;
+
+  const repaymentStatusFilter =
+    rawRepaymentStatus && rawRepaymentStatus !== "ALL"
+      ? (rawRepaymentStatus as RepaymentStatus)
+      : undefined;
+
+  const repaymentTypeFilter =
+    rawRepaymentType && rawRepaymentType !== "ALL"
+      ? (rawRepaymentType as RepaymentType)
+      : undefined;
+
+  const { data } = useQuery({
+    queryKey: [
+      "loans",
+      page,
+      borrowerNameFiltering,
+      statusFilter,
+      repaymentStatusFilter,
+      repaymentTypeFilter,
+    ],
+    queryFn: () =>
+      getLoans(
+        page,
+        limit,
+        borrowerNameFiltering || undefined,
+        statusFilter,
+        repaymentTypeFilter,
+        repaymentStatusFilter,
+      ),
     keepPreviousData: true,
+  });
+
+  useQuery({
+    queryKey: ["loan-status"],
+    queryFn: updateSchedule,
+    refetchOnWindowFocus: false,
   });
 
   const loans = data?.data || [];
   const pagination = data?.pagination;
+
   return (
-    <section className={clsx("center-section py-[3rem]")}>
-      <LoanHandling />
+    <ProtectedRoute>
+      <section className={clsx("center-section py-[3rem]")}>
+        <LoanHandling />
 
-      <LoansTable data={loans} />
-      <div className="flex items-center gap-4 mt-4">
-        <button
-          onClick={() => setPage((p) => Math.max(p - 1, 1))}
-          disabled={page === 1}
-        >
-          Prev
-        </button>
-
-        <span>
-          Page {page} of {pagination?.totalPages || 1}
-        </span>
-
-        <button
-          onClick={() =>
-            setPage((p) =>
-              pagination?.totalPages
-                ? Math.min(p + 1, pagination.totalPages)
-                : p,
-            )
-          }
-          disabled={page === pagination?.totalPages}
-        >
-          Next
-        </button>
-      </div>
-      {showCreateClientModel && <ClientModelContainer />}
-      {showCreateLoanModel && <LoanModelContainer />}
-    </section>
+        <LoansTable data={loans} />
+        <PageChanger page={page} pagination={pagination} setPage={setPage} />
+        {showCreateClientModel && <ClientModelContainer />}
+        {showCreateLoanModel && <LoanModelContainer />}
+      </section>
+    </ProtectedRoute>
   );
 }

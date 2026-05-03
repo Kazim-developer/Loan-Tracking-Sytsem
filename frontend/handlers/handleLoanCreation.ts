@@ -1,5 +1,5 @@
 import generateInstallmentSchedule from "@/utils/generateInstallmentSchedule";
-import { postFormData } from "./postFormData.util";
+import { postFormData } from "./postFormData";
 
 import {
   InstallmentFrequency,
@@ -68,8 +68,6 @@ const handleLoanCreation = (
       },
     };
   }
-
-  console.log(payload);
 
   return postFormData("create-loan", payload);
 };

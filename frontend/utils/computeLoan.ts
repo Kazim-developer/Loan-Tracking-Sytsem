@@ -33,6 +33,10 @@ export function computeLoan(
     interestType,
     startingDate,
     repaymentType,
+    firstInstallmentDate,
+    installmentFrequency,
+    lastInstallmentDate,
+    totalInstallments,
   } = loanData;
 
   const loanAmount = Number(totalAmount);
@@ -53,13 +57,6 @@ export function computeLoan(
 
     return result;
   }
-
-  const {
-    firstInstallmentDate,
-    installmentFrequency,
-    lastInstallmentDate,
-    totalInstallments,
-  } = loanData;
 
   if (!firstInstallmentDate || !installmentFrequency) return result;
 

@@ -98,28 +98,26 @@ model Loan {
 
   totalAmount       Float
   totalPayable Float
-  remainingAmount   Float?
-
-  interestRate      Float?   // e.g. 8%
-  interestType      InterestType? // SIMPLE or COMPOUND
+  
+  interestRate      Float?   
+  interestType      InterestType? 
 
   startingDate         DateTime
   endDate DateTime?
 
   status LoanStatus @default(ACTIVE)
-
-  // Installments
+  repaymentStatus RepaymentStatus @default(PENDING)
+  
   hasInstallments   Boolean  @default(false)
   totalInstallments  Int?
-  installmentAmount Float?   // calculated (optional to store)
+  installmentAmount Float?   
   installmentFrequency         Frequency?
   firstInstallmentDate  DateTime?
   lastInstallmentDate DateTime?
 
-  // Relations
   installments      LoanInstallment[]
-  payments          LoanPayment[]
-  reminders Reminder[]
+  loanPayments          LoanPayment[]
+  loanReminders Reminder[]
 
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
@@ -133,11 +131,12 @@ model LoanInstallment {
 
   dueDate      DateTime
   amount       Float
-  paidAmount   Float    @default(0)
 
   status       InstallmentStatus @default(PENDING)
 
-  reminders Reminder[]
+  paidAt      DateTime?
+
+  installmentReminders Reminder[]
 
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
@@ -150,10 +149,11 @@ model LoanPayment {
   loan      Loan     @relation(fields: [loanId], references: [id], onDelete:Cascade)
 
   amount    Float
-  date      DateTime @default(now())
+  paidAt      DateTime @default(now())
 
   createdAt DateTime @default(now())
 }
+
 
 enum InterestType {
   SIMPLE
@@ -170,10 +170,18 @@ enum LoanStatus{
   CLOSED
 }
 
-enum InstallmentStatus {
+enum RepaymentStatus {
   PENDING
   PARTIAL
   PAID
+  DUE
+  OVERDUE
+}
+
+enum InstallmentStatus {
+  PENDING
+  PAID
+  DUE
   OVERDUE
 }
 
@@ -199,14 +207,13 @@ enum ReminderType {
   WHATSAPP
 }
 
-// saas subscription billing
 
 model Plan {
   id                 String   @id @default(uuid())
   name               String   @unique
   description        String?
 
-  priceMonth         Int      // store cents
+  priceMonth         Int      
   priceYear          Int?
 
   monthlyPriceId String? @unique

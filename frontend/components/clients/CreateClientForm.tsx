@@ -4,7 +4,7 @@ import useShowElementStore from "@/stores/showElement.store";
 import Close from "../icons/Close";
 import { useEffect, useRef, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
-import { postFormData } from "@/handlers/postFormData.util";
+import { postFormData } from "@/handlers/postFormData";
 import { ClientData } from "@/validators/clientData.validator";
 import { toast } from "react-toastify";
 
@@ -19,13 +19,13 @@ export default function CreateClientForm() {
   const [clientData, setClientData] = useState<ClientData>({
     name: "",
     email: "",
-    phone: "",
+    phone: undefined,
   });
 
   const { mutate } = useMutation({
     mutationFn: (data: ClientData) => postFormData("create-client", data),
     onSuccess: (data) => {
-      setClientData({ name: "", email: "", phone: "" });
+      setClientData({ name: "", email: "", phone: undefined });
       toast.success(data.message);
     },
     onError: (error) => {
@@ -86,7 +86,7 @@ export default function CreateClientForm() {
             value={clientData.phone}
             onChange={(e) =>
               setClientData((s) => {
-                return { ...s, phone: e.target.value };
+                return { ...s, phone: Number(e.target.value) };
               })
             }
           />

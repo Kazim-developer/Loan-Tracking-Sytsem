@@ -10,19 +10,55 @@ const getLoans = asyncHandler(async (req: Request, res: Response) => {
     throw new AppError("user not authenticated", 403);
   }
 
-  const page = parseInt(req.query.page as string) || 1;
-  const limit = parseInt(req.query.limit as string) || 10;
+  // -----------------------------
+  // Pagination
+  // -----------------------------
+  const page = Math.max(parseInt(req.query.page as string) || 1, 1);
+  const limit = Math.min(parseInt(req.query.limit as string) || 10, 50);
+  const skip = (page - 1) * limit;
 
-  // Safety limits (important)
-  const safeLimit = Math.min(limit, 50); // max 50 per request
+  // -----------------------------
+  // Filters
+  // -----------------------------
+  const search = (req.query.search as string) || "";
+  const status = (req.query.status as string) || "ALL";
+  const repayment = (req.query.repayment as string) || "ALL";
 
-  const skip = (page - 1) * safeLimit;
+  // -----------------------------
+  // Prisma WHERE builder
+  // -----------------------------
+  const where: any = {
+    accountId,
+  };
 
+  // 🔍 Search by borrower name
+  if (search.trim()) {
+    where.client = {
+      name: {
+        contains: search,
+        mode: "insensitive",
+      },
+    };
+  }
+
+  // 📌 Status filter
+  if (status !== "ALL") {
+    where.status = status;
+  }
+
+  // 📌 Repayment filter
+  if (repayment !== "ALL") {
+    where.hasInstallments = repayment === "INSTALLMENTS";
+  }
+
+  // -----------------------------
+  // Query DB
+  // -----------------------------
   const [loans, total] = await Promise.all([
     prisma.loan.findMany({
-      where: { accountId },
+      where,
       skip,
-      take: safeLimit,
+      take: limit,
       orderBy: {
         createdAt: "desc",
       },
@@ -30,10 +66,11 @@ const getLoans = asyncHandler(async (req: Request, res: Response) => {
         id: true,
         totalAmount: true,
         totalPayable: true,
-        interestRate: true,
-        interestType: true,
         hasInstallments: true,
         status: true,
+        startingDate: true,
+        endDate: true,
+        repaymentStatus: true,
 
         client: {
           select: {
@@ -41,28 +78,30 @@ const getLoans = asyncHandler(async (req: Request, res: Response) => {
             name: true,
           },
         },
+
+        installments: {
+          select: {
+            dueDate: true,
+            status: true,
+          },
+        },
       },
     }),
 
-    prisma.loan.count({
-      where: { accountId },
-    }),
+    prisma.loan.count({ where }),
   ]);
 
-  // ✅ 3. Calculate total pages
-  const totalPages = Math.ceil(total / safeLimit);
-
-  // ✅ 4. Response
+  // -----------------------------
+  // Response
+  // -----------------------------
   res.status(200).json({
-    message: "request successful",
-
+    message: "loans fetched successfully",
     data: loans,
-
     pagination: {
       total,
       page,
-      limit: safeLimit,
-      totalPages,
+      limit,
+      totalPages: Math.ceil(total / limit),
     },
   });
 });

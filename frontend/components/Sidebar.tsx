@@ -4,8 +4,8 @@ import clsx from "clsx";
 import Link from "next/link";
 import Close from "./icons/Close";
 import { useAuthStore } from "@/stores/auth.store";
-import Profile from "./Profile";
-import Logout from "./Logout";
+import Profile from "./auth/Profile";
+import Logout from "./auth/Logout";
 import { usePathname } from "next/navigation";
 import useShowElementStore from "@/stores/showElement.store";
 

@@ -3,7 +3,7 @@
 import { useAuthStore } from "@/stores/auth.store";
 import clsx from "clsx";
 import Link from "next/link";
-import Profile from "./Profile";
+import Profile from "./auth/Profile";
 import { usePathname } from "next/navigation";
 
 export default function NavLinks() {

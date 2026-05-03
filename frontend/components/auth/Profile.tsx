@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import { useAuthStore } from "@/stores/auth.store";
-import ProfileIcon from "./icons/ProfileIcon";
+import ProfileIcon from "../icons/ProfileIcon";
 import Logout from "./Logout";
 import { useSubscriptionStore } from "@/stores/subscription.store";
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { postFormData } from "@/handlers/postFormData.util";
+import { postFormData } from "@/handlers/postFormData";
 import { useMutation } from "@tanstack/react-query";
 import clsx from "clsx";
 import { useEffect, useRef } from "react";

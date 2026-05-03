@@ -19,6 +19,10 @@ import createClientRouter from "./routes/createClient.route.js";
 import searchClientsRouter from "./routes/searchClients.route.js";
 import createLoanRouter from "./routes/createLoan.route.js";
 import getLoansRouter from "./routes/getLoans.route.js";
+import getLoanDetailRouter from "./routes/getLoanDetail.route.js";
+import updateInstallmentStatusRouter from "./routes/updateInstallmentStatus.route.js";
+import updateScheduleRouter from "./routes/updateSchedule.route.js";
+import addLoanPaymentRouter from "./routes/addLoanPayment.route.js";
 
 const app = express();
 
@@ -62,6 +66,10 @@ app.use(searchClientsRouter);
 // loan routes
 app.use(createLoanRouter);
 app.use(getLoansRouter);
+app.use(updateScheduleRouter);
+app.use(getLoanDetailRouter);
+app.use(updateInstallmentStatusRouter);
+app.use(addLoanPaymentRouter);
 
 app.use(errorHandler);
 

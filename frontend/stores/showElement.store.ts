@@ -9,6 +9,8 @@ const storeFunc = (set) => ({
 
   showSidebar: false,
 
+  showAddPaymentModel: false,
+
   setShowCancelSubscription: (value: boolean) =>
     set({ showCancelSubscription: value }),
 
@@ -19,6 +21,9 @@ const storeFunc = (set) => ({
     set({ showCreateClientModel: value }),
 
   setShowSidebar: (value: boolean) => set({ showSidebar: value }),
+
+  setShowAddPaymentModel: (value: boolean) =>
+    set({ showAddPaymentModel: value }),
 });
 
 const useShowElementStore = create(storeFunc);

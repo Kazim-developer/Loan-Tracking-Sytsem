@@ -74,7 +74,6 @@ const createLoan = asyncHandler(async (req: Request, res: Response) => {
       const lastInstallment = toDate(lastInstallmentDate);
 
       if (installments.installmentFrequency === "WEEKLY") {
-        console.log("weekly");
         const diffDays =
           (lastInstallment.getTime() - firstInstallment.getTime()) /
           (1000 * 60 * 60 * 24);
@@ -87,7 +86,6 @@ const createLoan = asyncHandler(async (req: Request, res: Response) => {
         }
       }
       if (installments.installmentFrequency === "MONTHLY") {
-        console.log("monthly");
         const minDate = firstInstallment;
         minDate.setMonth(minDate.getMonth() + 1);
 

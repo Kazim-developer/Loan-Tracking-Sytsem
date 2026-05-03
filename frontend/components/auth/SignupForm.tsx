@@ -9,7 +9,7 @@ import { FormData } from "@/validators/formData.validator";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useMutation } from "@tanstack/react-query";
-import { postFormData } from "@/handlers/postFormData.util";
+import { postFormData } from "@/handlers/postFormData";
 import { toast } from "react-toastify";
 
 export default function SignupForm() {

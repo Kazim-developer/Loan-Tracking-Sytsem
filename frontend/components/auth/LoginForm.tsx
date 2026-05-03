@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { useMutation } from "@tanstack/react-query";
 import { FormData } from "@/validators/formData.validator";
-import { postFormData } from "@/handlers/postFormData.util";
+import { postFormData } from "@/handlers/postFormData";
 import ShowPasswordCheckbox from "@/components/auth/ShowPasswordCheckbox";
 import { useAuthStore } from "@/stores/auth.store";
 import { useSubscriptionStore } from "@/stores/subscription.store";

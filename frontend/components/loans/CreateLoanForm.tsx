@@ -129,11 +129,13 @@ export default function CreateLoanForm() {
           className="loan-created-form"
           onSubmit={(e) => {
             e.preventDefault();
+
+            const finalLoanData = { ...loanData, lastInstallmentDate };
+
             mutate({
-              loanData,
+              loanData: finalLoanData,
               totalPayable: Math.round(totalPayable * 100) / 100,
               totalInstallments: totalInstallments as number,
-              lastInstallmentDate: lastInstallmentDate as string,
               installmentAmount,
             });
           }}
@@ -315,6 +317,7 @@ export default function CreateLoanForm() {
                   <input
                     type="date"
                     id="installment-start-date"
+                    min={loanData.startingDate}
                     required
                     value={loanData.firstInstallmentDate ?? ""}
                     onChange={(e) =>
@@ -340,13 +343,12 @@ export default function CreateLoanForm() {
                         : (loanData.lastInstallmentDate ?? "")
                     }
                     onChange={(e) => {
-                      if (automaticCalculation === "last-date") return;
-                      setLoanData((s) => {
-                        return {
+                      if (automaticCalculation !== "last-date") {
+                        setLoanData((s) => ({
                           ...s,
                           lastInstallmentDate: e.target.value,
-                        };
-                      });
+                        }));
+                      }
                     }}
                   />
                 </label>

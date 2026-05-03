@@ -1,8 +1,13 @@
+import { LoanPaymentPayload } from "@/components/loans/AddPaymentForm";
 import { ClientData } from "@/validators/clientData.validator";
 import { ForgotPassword } from "@/validators/forgotPassword.validator";
 import { FormData } from "@/validators/formData.validator";
 import { LoanCreationPayload } from "@/validators/loanCreationPayload.validator";
 import { ResetPassword } from "@/validators/resetPassword.validator";
+
+type UpdateInstallment = {
+  installId: string;
+};
 
 export const postFormData = async (
   route: string,
@@ -11,7 +16,9 @@ export const postFormData = async (
     | ForgotPassword
     | ResetPassword
     | ClientData
-    | LoanCreationPayload,
+    | LoanCreationPayload
+    | UpdateInstallment
+    | LoanPaymentPayload,
 ) => {
   const res = await fetch(`http://localhost:5000/${route}`, {
     method: "POST",

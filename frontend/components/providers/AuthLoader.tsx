@@ -78,7 +78,7 @@ export default function AuthLoader({
     }
   }, [hydrated, isSuccess, isError, data]);
 
-  if (!hydrated) {
+  if (!hydrated || !authChecked) {
     return <Loader fullScreen />;
   }
 

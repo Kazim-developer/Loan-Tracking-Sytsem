@@ -4,23 +4,21 @@ import { useAuthStore } from "@/stores/auth.store";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
-export default function ProtectedRoute({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function ProtectedRoute({ children }) {
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
   const authChecked = useAuthStore((s) => s.authChecked);
+  const hydrated = useAuthStore((s) => s.hydrated);
 
   const router = useRouter();
 
   useEffect(() => {
-    if (authChecked && !isAuthenticated) {
+    if (hydrated && authChecked && !isAuthenticated) {
       router.push("/login");
     }
-  }, [authChecked, isAuthenticated, router]);
+  }, [hydrated, authChecked, isAuthenticated, router]);
 
-  if (!authChecked) return null;
+  if (!hydrated || !authChecked) return null;
+
   if (!isAuthenticated) return null;
 
   return <>{children}</>;
