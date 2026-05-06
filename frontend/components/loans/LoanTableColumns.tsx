@@ -2,11 +2,12 @@ import { RepaymentBadge } from "@/components/loans/RepaymentBadge";
 import { StatusBadge } from "@/components/loans/StatusBadge";
 import { formatCurrency } from "@/utils/formatCurrency";
 import { ColumnDef } from "@tanstack/react-table";
+import { toTitleCase } from "@/utils/toTitleCase";
 
 export const columns: ColumnDef<any>[] = [
   {
     header: "Borrower",
-    accessorFn: (row) => row.client.name,
+    accessorFn: (row) => toTitleCase(row.client.name),
   },
 
   {
@@ -52,9 +53,16 @@ export const columns: ColumnDef<any>[] = [
     accessorFn: (row) => {
       if (!row.hasInstallments) return "-";
 
-      const next = row.installments?.find((inst) => inst.status === "PENDING");
+      const next = row.installments
+        ?.filter((inst) => inst.status === "PENDING")
+        ?.sort(
+          (a, b) =>
+            new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime(),
+        )[0];
 
-      return new Date(next?.dueDate).toLocaleDateString() || "-";
+      if (!next?.dueDate) return "-";
+
+      return new Date(next.dueDate).toLocaleDateString();
     },
   },
 

@@ -28,10 +28,6 @@ export default function UsageGuide({
         <Calendar />
       ) : icon === "payment" ? (
         <PaymentIcon />
-      ) : icon === "download" ? (
-        <DownloadIcon />
-      ) : icon === "notification" ? (
-        <NotificationIcon />
       ) : (
         <ClipBoardIcon />
       )}

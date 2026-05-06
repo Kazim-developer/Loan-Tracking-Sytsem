@@ -363,6 +363,7 @@ export default function CreateLoanForm() {
                     pattern="[0-9]*"
                     id="no.-of-installments"
                     placeholder="enter total installments"
+                    autoComplete="off"
                     required
                     readOnly={automaticCalculation === "installments"}
                     value={
@@ -388,13 +389,14 @@ export default function CreateLoanForm() {
                 </label>
 
                 <label htmlFor="installment-amount" className="flex-1">
-                  <span>Installment amount *</span>
+                  <span>Installment amount</span>
                   <input
                     type="text"
                     inputMode="numeric"
                     pattern="[0-9]*"
                     id="installment-amount"
                     placeholder="auto-generated"
+                    required
                     readOnly
                     value={installmentAmount ?? ""}
                   />

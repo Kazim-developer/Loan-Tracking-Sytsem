@@ -16,12 +16,12 @@ export default function Hero() {
     >
       <section className={clsx("flex-1")}>
         <section className={clsx("text-content mb-[2rem]")}>
-          <h1 className={clsx("text-4xl font-[500] mb-[1rem]")}>
-            Track Loans, Invoices, and Customer Payments — All in One Place
+          <h1 className="text-4xl font-[500] mb-[1rem]">
+            All your loans. One simple system.
           </h1>
-          <p className={clsx("text-2xl font-[300] text-[#555]")}>
-            Built for lenders and growing businesses to manage installments,
-            outstanding balances, and send payment reminders easily.
+          <p className="text-2xl font-[300] text-[#555]">
+            Automate calculations, monitor payments, and handle overdue accounts
+            with ease
           </p>
         </section>
         {!isAuthenticated && (
@@ -51,19 +51,16 @@ export default function Hero() {
           </Link>
         )}
       </section>
-      <section
-        className={clsx(
-          "flex-1 border-1 border-[#ddd] rounded-[20px] shadow-2xl p-2 ",
-        )}
-      >
+      <div className="flex-1 border border-[#ddd] rounded-[20px] shadow-2xl p-4 overflow-hidden">
         <Image
-          src="/assets/final-dashboard.webp"
-          width={1000}
-          height={1000}
+          src="/assets/stats-dashboard.webp"
           alt="dashboard image"
+          width={1400}
+          height={900}
+          className="w-full h-auto scale-110 object-contain"
           priority
         />
-      </section>
+      </div>
     </section>
   );
 }

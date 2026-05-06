@@ -1,6 +1,5 @@
 import clsx from "clsx";
 import UsageGuide from "./UsageGuide";
-import Link from "next/link";
 
 export default function HowItWorks() {
   return (
@@ -23,38 +22,26 @@ export default function HowItWorks() {
           <UsageGuide
             index="1"
             icon="plus"
-            title="Add Your Clients"
-            description="Add and manage all your clients in one place. Keep their contact details, accounts, and payment history organized."
+            title="Add Clients"
+            description="Start by adding your clients with basic details to keep everything organized in one place."
           />
           <UsageGuide
             index="2"
             icon="clip"
-            title="Create Loan or Invoice"
-            description="Create a loan or invoice for a client, set total amount, installments, and due dates."
+            title="Create a Loan"
+            description="Create a loan by entering the amount and letting the system automatically structure repayments."
           />
           <UsageGuide
             index="3"
-            icon="calendar"
-            title="Set Installments & Schedule"
-            description="Split payments into installments, set payment frequency, and schedule due dates easily."
+            icon="payment"
+            title="Track Repayments"
+            description="Monitor every payment, due date, and outstanding balance in real time."
           />
           <UsageGuide
             index="4"
-            icon="payment"
-            title="Track Payments"
-            description="Record payments, track paid and pending amounts, and monitor overdue installments."
-          />
-          <UsageGuide
-            index="5"
-            icon="notification"
-            title="Send Payment Reminders"
-            description="Send reminders to clients via email or WhatsApp before due dates with a single click."
-          />
-          <UsageGuide
-            index="6"
-            icon="download"
-            title="Download Reports"
-            description="Download client statements, installment reports (Excel), and invoices in PDF anytime."
+            icon="calendar"
+            title="Stay on Schedule"
+            description="Send reminders and stay on top of pending payments without manual tracking."
           />
         </section>
       </section>

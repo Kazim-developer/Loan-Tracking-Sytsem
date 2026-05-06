@@ -33,10 +33,14 @@ export const getLoanDetail = asyncHandler(
         repaymentStatus: true,
         interestRate: true,
         interestType: true,
+        lastInstallmentDate: true,
+        installmentFrequency: true,
 
         client: {
           select: {
             name: true,
+            email: true,
+            phone: true,
           },
         },
 

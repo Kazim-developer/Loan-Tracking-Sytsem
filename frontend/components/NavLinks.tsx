@@ -40,7 +40,9 @@ export default function NavLinks() {
             </Link>
             <Link
               href="/loans"
-              className={clsx(pathName === "/loans" ? "active-link" : null)}
+              className={clsx(
+                pathName.startsWith("/loans") ? "active-link" : "",
+              )}
             >
               Loans
             </Link>

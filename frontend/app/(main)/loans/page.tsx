@@ -16,7 +16,6 @@ import {
   RepaymentType,
   Status,
 } from "@/utils/getLoans";
-import { updateSchedule } from "@/utils/updateSchedule";
 import ProtectedRoute from "@/components/providers/ProtectedRoute";
 import PageChanger from "@/components/loans/PageChanger";
 
@@ -69,12 +68,6 @@ export default function LoansPage() {
         repaymentStatusFilter,
       ),
     keepPreviousData: true,
-  });
-
-  useQuery({
-    queryKey: ["loan-status"],
-    queryFn: updateSchedule,
-    refetchOnWindowFocus: false,
   });
 
   const loans = data?.data || [];

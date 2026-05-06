@@ -97,7 +97,7 @@ export default function Plan({ plan }: { plan: string }) {
                 `Your cancellation of ${cancellingPlan} plan is due on ${cancelAt}, upgrade after that`,
               );
             }
-            setSubscriptionData({ pendingSubscriptionPlan: "Pro" });
+            setSubscriptionData({ upgradingPlan: "Pro" });
             openCheckout(PRICES.PRO_MONTHLY, email, accountId, false);
           }}
         >
@@ -112,7 +112,7 @@ export default function Plan({ plan }: { plan: string }) {
                 `Your cancellation of ${cancellingPlan} plan is due on ${cancelAt}, upgrade after that`,
               );
             }
-            setSubscriptionData({ pendingSubscriptionPlan: "Business" });
+            setSubscriptionData({ upgradingPlan: "Business" });
             openCheckout(PRICES.BUSINESS_MONTHLY, email, accountId, false);
           }}
         >
@@ -123,7 +123,7 @@ export default function Plan({ plan }: { plan: string }) {
           className="cancel-subscription"
           onClick={() => {
             setShowCancelSubscriptionModel(true);
-            setSubscriptionData({ pendingCancellationPlan: "Pro" });
+            setSubscriptionData({ isCancellatingPlan: true });
           }}
         >
           Cancel Subscription
@@ -135,7 +135,7 @@ export default function Plan({ plan }: { plan: string }) {
           className="cancel-subscription"
           onClick={() => {
             setShowCancelSubscriptionModel(true);
-            setSubscriptionData({ pendingCancellationPlan: "Business" });
+            setSubscriptionData({ isCancellatingPlan: true });
           }}
         >
           Cancel Subscription

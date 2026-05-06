@@ -4,7 +4,7 @@ import clsx from "clsx";
 import { useState, useEffect } from "react";
 import { normalizeDecimalInput } from "@/utils/normalizeDecimalInput";
 import useShowElementStore from "@/stores/showElement.store";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { postFormData } from "@/handlers/postFormData";
 import { toast } from "react-toastify";
 
@@ -34,12 +34,17 @@ export default function AddPaymentForm({ data }) {
     (s) => s.setShowAddPaymentModel,
   );
 
+  const queryClient = useQueryClient();
+
   const { mutate } = useMutation({
     mutationFn: (payload: LoanPaymentPayload) =>
       postFormData("loanPayment", payload),
 
     onSuccess: () => {
       toast.success("payment is added successfully");
+
+      queryClient.invalidateQueries({ queryKey: ["loans"] });
+      queryClient.invalidateQueries({ queryKey: ["loan"] });
 
       setMode("FULL");
       setPartialValue(0);

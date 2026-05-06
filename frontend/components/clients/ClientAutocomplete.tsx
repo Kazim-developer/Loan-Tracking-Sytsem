@@ -4,6 +4,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { useSearchClients } from "@/hooks/useSearchClients";
 import clsx from "clsx";
 import { LoanData } from "@/validators/loanData.validator";
+import { toTitleCase } from "@/utils/toTitleCase";
 
 export default function ClientAutocomplete({
   setLoanData,
@@ -75,7 +76,7 @@ export default function ClientAutocomplete({
                 }}
                 className="px-3 py-2 hover:bg-gray-100 cursor-pointer"
               >
-                <p>{client.name}</p>
+                <p className="font-[500]">{toTitleCase(client.name)}</p>
                 <p className="text-sm text-gray-500">{client.email}</p>
               </div>
             ))}

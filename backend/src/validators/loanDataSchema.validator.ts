@@ -17,7 +17,12 @@ const InstallmentData = z
     installmentAmount: z.number().optional(),
     firstInstallmentDate: z.string().optional(),
     lastInstallmentDate: z.string().optional(),
-    totalInstallments: z.number().optional(),
+    totalInstallments: z
+      .number()
+      .min(2, {
+        error: "min 2 installments required, or choose one-time repayment",
+      })
+      .optional(),
 
     installmentSchedule: z.array(Installment),
   })

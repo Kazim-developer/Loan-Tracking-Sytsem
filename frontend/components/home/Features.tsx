@@ -18,33 +18,22 @@ export default function Features() {
           <Feature
             icon="group"
             title="Client Management"
-            description="Store and manage all your clients in one place. Track their loans, invoices, payment history, and outstanding balances."
+            description="Store all clients in one place with their active loans, repayments, and balances clearly organized."
           />
           <Feature
             icon="clip"
-            title="Loans & Invoices"
-            description="Create loans or invoices for clients and track total amount, paid amount, due amount, and payment status."
+            title="Smart Loan Creation"
+            description="Create loans in seconds with automatic calculations for total amount, interest, and repayment structure."
           />
           <Feature
             icon="calendar"
             title="Installment Tracking"
-            description="Create installment schedules, track due dates, and monitor paid and pending installments easily."
+            description="Record payments instantly and automatically update balances and loan status in real time."
           />
           <Feature
             icon="payment"
-            title="Payment Tracking"
-            description="Record payments, track transaction history, and automatically update outstanding balances."
-          />
-          <Feature
-            icon="download"
-            title="Reports & Exports"
-            description="Download client statements, installment reports, and payment history in Excel. Generate and download invoices anytime."
-          />
-
-          <Feature
-            icon="notification"
-            title="Reminders & Notifications"
-            description="Send payment reminders to clients via email or WhatsApp with a single click before due dates."
+            title="Loan Insights"
+            description="Get a clear view of total lending, repayments, outstanding amounts, and overdue loans at a glance."
           />
         </section>
       </section>

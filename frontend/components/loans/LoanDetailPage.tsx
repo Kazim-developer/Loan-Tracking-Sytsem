@@ -45,8 +45,6 @@ export default function LoanDetailPage({ loanId }: LoanDetail) {
 
   const isFullyPaid = totalPaid >= data.loan.totalPayable;
 
-  console.log(data);
-
   return (
     <section className="center-section my-[3rem]">
       <div className="flex flex-col gap-[2rem]">

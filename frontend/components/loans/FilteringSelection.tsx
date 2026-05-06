@@ -26,10 +26,10 @@ export default function FilteringSelection({
   const currentFilter = searchParams.get(type) ?? "ALL";
 
   return (
-    <div className="relative inline-block">
+    <div className="relative w-full">
       <p className="text-[#aaa] ml-2 mb-2">{label}</p>
       <div>
-        <div
+        {/* <div
           className="flex items-center justify-between gap-2 border-2 border-[#aaa] rounded-[10px] p-2 cursor-pointer"
           onClick={() => setIsOpen(!isOpen)}
         >
@@ -38,17 +38,31 @@ export default function FilteringSelection({
             <span className="text-center">{currentFilter}</span>
           </div>
           <DownArrow size={"5"} />
+        </div> */}
+        <div
+          className="flex items-center justify-between gap-2 border-2 border-[#aaa] rounded-[10px] p-2 cursor-pointer w-full"
+          onClick={() => setIsOpen(!isOpen)}
+        >
+          <div className="flex items-center gap-3 min-w-0">
+            <FilterIcon />
+
+            <span className="truncate text-sm font-medium text-gray-700">
+              {currentFilter}
+            </span>
+          </div>
+
+          <DownArrow size={"5"} />
         </div>
 
         {isOpen && (
-          <div className="absolute left-0 mt-1 w-full bg-white border-2 border-[#aaa] rounded-[10px] shadow-md z-10 flex flex-col gap-1">
+          <div className="absolute left-0 mt-1 w-full min-w-[180px] bg-white border-2 border-[#aaa] rounded-[10px] shadow-md z-10 flex flex-col gap-1">
             {options.map((option, index) => {
               return (
                 <span
                   key={index}
                   className={clsx(
-                    "px-3 py-2 hover:bg-gray-100 cursor-pointer rounded-[10px]",
-                    option === currentFilter ? "bg-gray-100" : null,
+                    "px-3 py-2 hover:bg-gray-100 cursor-pointer rounded-md text-sm truncate",
+                    option === currentFilter && "bg-gray-100 font-medium",
                   )}
                   onClick={() => {
                     setIsOpen(false);

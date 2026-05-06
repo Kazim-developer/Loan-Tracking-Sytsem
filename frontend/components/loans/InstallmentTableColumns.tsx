@@ -12,6 +12,7 @@ type Installment = {
 
 export const getColumns = (
   onMarkPaid: (installmentId: string) => void,
+  activeId?: string | null,
 ): ColumnDef<Installment>[] => [
   {
     id: "index",
@@ -60,13 +61,15 @@ export const getColumns = (
     cell: ({ row }) => {
       const installment = row.original;
 
+      const isLoading = activeId === installment.id;
+
       return (
         <button
           className="text-blue-600 font-medium disabled:opacity-50"
-          disabled={installment.status === "PAID"}
+          disabled={installment.status === "PAID" || isLoading}
           onClick={() => onMarkPaid(installment.id)}
         >
-          Mark as paid
+          {isLoading ? "Updating..." : "Mark as paid"}
         </button>
       );
     },

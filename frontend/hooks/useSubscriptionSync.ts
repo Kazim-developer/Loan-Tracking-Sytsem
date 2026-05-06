@@ -12,18 +12,33 @@ export function useSubscriptionSync() {
     (s) => s.pendingSubscriptionPlan,
   );
 
-  const cancellingPlan = useSubscriptionStore((s) => s.cancellingPlan);
+  const isCancellatingPlan = useSubscriptionStore((s) => s.isCancellatingPlan);
 
-  const pendingCancellationPlan = useSubscriptionStore(
-    (s) => s.pendingCancellationPlan,
-  );
-
-  const shouldSync = !!pendingSubscriptionPlan || !!pendingCancellationPlan;
+  const shouldSync = !!pendingSubscriptionPlan || isCancellatingPlan;
 
   const query = useQuery({
-    queryKey: ["me"],
+    queryKey: ["polling"],
     queryFn: checkAuth,
-    refetchInterval: shouldSync ? 2000 : false,
+    refetchInterval: (data) => {
+      if (!shouldSync) return false;
+
+      const user = data?.user;
+
+      // stop when upgrade done
+      if (
+        pendingSubscriptionPlan &&
+        user?.activeSubscriptionPlan === pendingSubscriptionPlan
+      ) {
+        return false;
+      }
+
+      // stop when cancel done
+      if (isCancellatingPlan && user?.cancelAt !== null) {
+        return false;
+      }
+
+      return 2000;
+    },
     retry: false,
   });
 
@@ -43,16 +58,17 @@ export function useSubscriptionSync() {
     ) {
       setSubscriptionData({
         pendingSubscriptionPlan: "",
+        upgradingPlan: "",
       });
     }
 
     // cancel completed
-    if (cancellingPlan && user.cancelAt !== null) {
+    if (isCancellatingPlan && user.cancelAt !== null) {
       setSubscriptionData({
-        cancellingPlan: "",
+        isCancellatingPlan: false,
       });
     }
-  }, [query.data]);
+  }, [query.data, isCancellatingPlan, pendingSubscriptionPlan]);
 
   return query;
 }

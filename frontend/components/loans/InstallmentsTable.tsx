@@ -18,8 +18,9 @@ import {
 
 import { getColumns } from "./InstallmentTableColumns";
 import { useSearchParams } from "next/navigation";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { updateInstallmentStatus } from "@/handlers/updateInstallmentStatus";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export default function InstallmentTable({ data }) {
   const searchParams = useSearchParams();
@@ -31,11 +32,30 @@ export default function InstallmentTable({ data }) {
     [statusFilter],
   );
 
-  const handleMarkPaid = async (installmentId: string) => {
-    await updateInstallmentStatus(installmentId);
+  const [activeId, setActiveId] = useState<string | null>(null);
+
+  const queryClient = useQueryClient();
+
+  const mutation = useMutation({
+    mutationFn: updateInstallmentStatus,
+
+    onMutate: (id: string) => {
+      setActiveId(id);
+    },
+
+    onSettled: () => {
+      setActiveId(null);
+
+      queryClient.invalidateQueries({ queryKey: ["loans"] });
+      queryClient.invalidateQueries({ queryKey: ["loan"] });
+    },
+  });
+
+  const handleMarkPaid = (installmentId: string) => {
+    mutation.mutate(installmentId);
   };
 
-  const columns = getColumns(handleMarkPaid);
+  const columns = getColumns(handleMarkPaid, activeId);
 
   const table = useReactTable({
     data,

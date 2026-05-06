@@ -41,8 +41,9 @@ export default function Sidebar() {
             </Link>
             <Link
               href="/loans"
-              className={clsx(pathName === "/loans" ? "active-link" : null)}
-              onClick={() => setShowSidebar(false)}
+              className={clsx(
+                pathName.startsWith("/loans") ? "active-link" : "",
+              )}
             >
               Loans
             </Link>

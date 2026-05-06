@@ -3,9 +3,11 @@
 import Link from "next/link";
 import MyLogo from "./MyLogo";
 import { usePathname } from "next/navigation";
+import { useAuthStore } from "@/stores/auth.store";
 
 export default function Footer() {
   const pathName = usePathname();
+  const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
 
   return (
     <footer className="bg-[#efefef] py-[3rem]">
@@ -13,8 +15,8 @@ export default function Footer() {
         <section className="flex flex-col gap-[1rem]">
           <MyLogo />
           <h1>
-            Loqvio helps businesses track clients, invoices, loans,
-            installments, and payments — all in one place.
+            Loqvio simplifies loan and repayment tracking, giving you full
+            control over your clients and payments in one place.
           </h1>
         </section>
         <section className="flex flex-col gap-[1rem]">
@@ -36,15 +38,17 @@ export default function Footer() {
             <Link href="/dashboard">Dashboard</Link>
           </section>
         </section>
-        <section className="flex flex-col gap-[1rem]">
-          <h1 className="font-[500]">Account</h1>
-          <section className="references flex flex-col gap-[1rem]">
-            <Link href="/signup">Sign Up</Link>
-            <Link href="/login">Login</Link>
+        {!isAuthenticated && (
+          <section className="flex flex-col gap-[1rem]">
+            <h1 className="font-[500]">Account</h1>
+            <section className="references flex flex-col gap-[1rem]">
+              <Link href="/signup">Sign Up</Link>
+              <Link href="/login">Login</Link>
+            </section>
           </section>
-        </section>
+        )}
       </section>
-      <hr className="center-section text-[#ccc] my-[1rem]" />
+      <hr className="center-section my-[1rem]" />
       <section className="center-section flex justify-between items-center max-[520px]:flex-col">
         <p className="max-[520px]:mb-[1rem]">
           © {new Date().getFullYear()} Loqvio. All rights reserved.
