@@ -37,12 +37,6 @@ export default function HowItWorks() {
             title="Track Repayments"
             description="Monitor every payment, due date, and outstanding balance in real time."
           />
-          <UsageGuide
-            index="4"
-            icon="calendar"
-            title="Stay on Schedule"
-            description="Send reminders and stay on top of pending payments without manual tracking."
-          />
         </section>
       </section>
     </section>

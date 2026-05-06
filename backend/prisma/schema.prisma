@@ -85,6 +85,9 @@ model Client {
   updatedAt DateTime @updatedAt
 
   account Account @relation(fields:[accountId], references:[id], onDelete: Cascade)
+
+  @@index([accountId])
+  @@unique([accountId, email])
 }
 
 model Loan {
@@ -121,6 +124,14 @@ model Loan {
 
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
+
+  @@index([accountId])
+
+  @@index([accountId, status])
+
+  @@index([accountId, repaymentStatus])
+
+  @@index([accountId, createdAt])
 }
 
 model LoanInstallment {
@@ -140,6 +151,10 @@ model LoanInstallment {
 
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
+
+  @@index([loanId])
+  @@index([loanId, status])
+  @@index([loanId, dueDate])
 }
 
 model LoanPayment {
@@ -152,6 +167,9 @@ model LoanPayment {
   paidAt      DateTime @default(now())
 
   createdAt DateTime @default(now())
+
+  @@index([loanId])
+  @@index([loanId, paidAt])
 }
 
 
@@ -318,6 +336,8 @@ model Usage{
   usedEmailReminders Int @default(0)
 
   account Account @relation(fields:[accountId], references:[id], onDelete:Cascade)
+
+  @@index([accountId])
 }
 
 enum AddOnType {

@@ -22,7 +22,6 @@ export const plans = [
       "Advanced loan calculations & insights",
       "Export data (CSV/PDF) — coming soon",
       "Reminder system (email) — coming soon",
-      "Buy additional usage limits",
       "Priority support",
     ],
     title: "Built for growing lending businesses that need control and scale",
