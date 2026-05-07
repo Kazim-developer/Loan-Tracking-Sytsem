@@ -33,7 +33,13 @@ export default function LoanDetailPage({ loanId }: LoanDetail) {
     queryKey: ["loan", loanId, page, statusFilter],
     queryFn: () => getLoanDetail(loanId, page),
     enabled: loanId ? true : false,
+    staleTime: 1000 * 60 * 2,
+    gcTime: 1000 * 60 * 30,
+
     refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
+
+    retry: 1,
   });
 
   if (!data) return <h1>Loading ...</h1>;

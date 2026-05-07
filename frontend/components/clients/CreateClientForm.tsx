@@ -47,7 +47,7 @@ export default function CreateClientForm() {
 
   return (
     <section
-      className="create-client-form bg-white px-3 py-5 max-w-[500px] rounded-[10px] flex flex-col gap-[0.8rem]"
+      className="create-client-form bg-white px-5 py-3 w-[80%] max-w-[500px] rounded-[10px] flex flex-col gap-[0.8rem]"
       onClick={(e) => e.stopPropagation()}
     >
       <div className="flex items-center justify-end cursor-pointer">
@@ -58,7 +58,7 @@ export default function CreateClientForm() {
         />
       </div>
       <h1 className="text-center text-2xl mb-[0.5rem] font-mb">
-        Register your client
+        Create client
       </h1>
       <form
         className="flex flex-col gap-[1rem]"
@@ -67,7 +67,7 @@ export default function CreateClientForm() {
           mutate(clientData);
         }}
       >
-        <div className="flex items-center gap-[1rem]">
+        <div className="flex items-center gap-[1rem] max-[400px]:flex-col">
           <input
             type="text"
             placeholder="client name"

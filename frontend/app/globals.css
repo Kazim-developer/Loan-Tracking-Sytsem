@@ -128,6 +128,10 @@ td {
   }
 }
 
+.responsive-loan-form {
+  @apply flex items-center gap-[1rem] max-[600px]:flex-col max-[600px]:items-start;
+}
+
 .create-client-form {
   & input {
     @apply p-2 w-full rounded-[10px] border-2 border-[#555] focus:outline-none;

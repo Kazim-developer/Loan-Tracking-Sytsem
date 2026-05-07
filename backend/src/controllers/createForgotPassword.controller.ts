@@ -32,8 +32,8 @@ const createForgotPassword = asyncHandler(
     });
 
     await sendEmail(
+      "Loqvio <notifications@loqvio.com>",
       user.email,
-      "onboarding@resend.dev",
       "Reset your password",
       `
     <h1>Reset link will be invalid after 15 minutes</h1>

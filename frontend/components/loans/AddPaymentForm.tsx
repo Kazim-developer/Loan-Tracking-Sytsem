@@ -88,7 +88,7 @@ export default function AddPaymentForm({ data }) {
       onClick={() => setShowAddPaymentModel(false)}
     >
       <section
-        className="bg-white w-full max-w-[500px] rounded-2xl shadow-xl px-5 py-6"
+        className="bg-white w-[80%] max-w-[500px] rounded-2xl shadow-xl px-5 py-6"
         onClick={(e) => e.stopPropagation()}
       >
         <form

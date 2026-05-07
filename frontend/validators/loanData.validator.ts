@@ -1,7 +1,7 @@
-export type RepaymentType = "one-time" | "installments";
-export type InterestType = "SIMPLE" | "COMPOUND";
-export type InstallmentFrequency = "WEEKLY" | "MONTHLY";
-export type AutomaticCalculations = "installments" | "last-date";
+export type RepaymentType = "one-time" | "installments" | "";
+export type InterestType = "SIMPLE" | "COMPOUND" | "";
+export type InstallmentFrequency = "WEEKLY" | "MONTHLY" | "";
+export type AutomaticCalculations = "installments" | "last-date" | "";
 
 export type LoanData = {
   clientId: string;

@@ -40,7 +40,7 @@ export default function ForgotPasswordForm() {
   return (
     <section
       className={clsx(
-        "forget-password-form border-1 w-[50%] max-w-[400px] min-w-[300px] p-5",
+        "forget-password-form border-1 w-[50%] max-w-[400px] min-w-[300px] p-5 rounded-lg",
       )}
     >
       <h1 className={clsx("mb-[1.5rem] text-2xl font-md text-center")}>
@@ -64,7 +64,9 @@ export default function ForgotPasswordForm() {
         />
         <button
           type="submit"
-          className={clsx("bg-black text-white p-3 text-bold cursor-pointer")}
+          className={clsx(
+            "bg-black text-white p-3 text-bold cursor-pointer rounded-lg",
+          )}
         >
           Get Link
         </button>

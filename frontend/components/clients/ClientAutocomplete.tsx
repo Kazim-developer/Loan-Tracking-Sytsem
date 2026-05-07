@@ -38,8 +38,8 @@ export default function ClientAutocomplete({
   }, []);
 
   return (
-    <div ref={ref} className={clsx("relative", `${className}`)}>
-      <label htmlFor="client-name" className="flex-1">
+    <div ref={ref} className={clsx("relative flex-1 w-full", `${className}`)}>
+      <label htmlFor="client-name">
         <span>Client name *</span>
         <input
           type="text"

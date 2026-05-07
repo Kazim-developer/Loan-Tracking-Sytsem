@@ -67,6 +67,14 @@ export default function LoansPage() {
         repaymentTypeFilter,
         repaymentStatusFilter,
       ),
+
+    staleTime: 1000 * 60 * 2,
+    gcTime: 1000 * 60 * 30,
+
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
+
+    retry: 1,
     keepPreviousData: true,
   });
 

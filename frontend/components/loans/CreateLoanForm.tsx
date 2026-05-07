@@ -7,7 +7,7 @@ import ClientAutocomplete from "../clients/ClientAutocomplete";
 
 import handleLoanCreation from "@/handlers/handleLoanCreation";
 import { computeLoan } from "@/utils/computeLoan";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import { handlerPayload } from "@/validators/loanCreationHandlerPayload.validator";
 import { normalizeDecimalInput } from "@/utils/normalizeDecimalInput";
@@ -16,7 +16,6 @@ import {
   InstallmentFrequency,
   InterestType,
   LoanData,
-  RepaymentType,
   AutomaticCalculations,
 } from "@/validators/loanData.validator";
 
@@ -56,6 +55,8 @@ export default function CreateLoanForm() {
     automaticCalculation,
   });
 
+  const queryClient = useQueryClient();
+
   const { mutate } = useMutation({
     mutationFn: (payload: handlerPayload) =>
       handleLoanCreation(
@@ -66,6 +67,8 @@ export default function CreateLoanForm() {
       ),
     onSuccess: () => {
       toast.success("loan has been created successfully");
+
+      queryClient.invalidateQueries({ queryKey: ["loans"] });
 
       setLoanData({
         clientId: "",
@@ -103,7 +106,7 @@ export default function CreateLoanForm() {
   return (
     <>
       <section
-        className="bg-white px-3 py-5 max-w-[500px] max-h-[80vh] rounded-[10px] flex flex-col gap-[0.8rem] overflow-y-auto"
+        className="bg-white px-3 py-5 w-[80%] max-w-[500px] max-h-[80vh] rounded-[10px] flex flex-col gap-[0.8rem] overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
       >
         <div
@@ -140,14 +143,14 @@ export default function CreateLoanForm() {
             });
           }}
         >
-          <div className="flex items-center gap-[1rem]">
+          <div className="responsive-loan-form">
             <ClientAutocomplete
               key={resetKey}
               className={"flex-1"}
               setLoanData={setLoanData}
             />
 
-            <label htmlFor="loan-start-date" className="flex-1">
+            <label htmlFor="loan-start-date" className="flex-1 w-full">
               <span>Loan Amount *</span>
               <input
                 type="text"
@@ -168,8 +171,8 @@ export default function CreateLoanForm() {
             </label>
           </div>
 
-          <div className="flex items-center gap-[1rem]">
-            <label htmlFor="loan-start-date" className="flex-1">
+          <div className="responsive-loan-form">
+            <label htmlFor="loan-start-date" className="flex-1 w-full">
               <span>Start date *</span>
               <input
                 type="date"
@@ -185,20 +188,34 @@ export default function CreateLoanForm() {
                 }
               />
             </label>
-            <label htmlFor="repyament-type" className="flex-1">
+            <label htmlFor="repyament-type" className="flex-1 w-full">
               <span>Repayment type *</span>
               <select
                 required
                 value={loanData.repaymentType ?? "one-time"}
                 onChange={(e) => {
-                  setLoanData((s) => {
-                    return {
+                  const value = e.target.value;
+
+                  if (value === "one-time") {
+                    setLoanData((s) => ({
                       ...s,
-                      repaymentType: e.target.value as RepaymentType,
-                      hasInstallments:
-                        e.target.value === "one-time" ? false : true,
-                    };
-                  });
+                      repaymentType: "one-time",
+                      hasInstallments: false,
+
+                      installmentFrequency: "",
+                      totalInstallments: 0,
+                      firstInstallmentDate: "",
+                      lastInstallmentDate: "",
+                    }));
+                  } else {
+                    setLoanData((s) => ({
+                      ...s,
+                      repaymentType: "installments",
+                      hasInstallments: true,
+
+                      endDate: "",
+                    }));
+                  }
                 }}
               >
                 <option value="one-time">one-time</option>
@@ -207,8 +224,8 @@ export default function CreateLoanForm() {
             </label>
           </div>
 
-          <div className="flex items-center gap-[1rem]">
-            <label htmlFor="annual-interest" className="flex-1">
+          <div className="responsive-loan-form">
+            <label htmlFor="annual-interest" className="flex-1 w-full">
               <span>Annual interest %</span>
               <input
                 type="text"
@@ -229,7 +246,7 @@ export default function CreateLoanForm() {
                 }}
               />{" "}
             </label>
-            <label htmlFor="interest-type" className="flex-1">
+            <label htmlFor="interest-type" className="flex-1 w-full">
               <span>Interest type *</span>
               <select
                 required
@@ -250,7 +267,7 @@ export default function CreateLoanForm() {
           </div>
 
           {loanData.repaymentType === "one-time" && (
-            <label htmlFor="end-date" className="flex-1">
+            <label htmlFor="end-date" className="flex-1 w-full">
               <span>End date *</span>
               <input
                 type="date"
@@ -271,8 +288,11 @@ export default function CreateLoanForm() {
 
           {loanData.repaymentType === "installments" && (
             <>
-              <div className="flex items-center gap-[1rem]">
-                <label htmlFor="installment-frequency" className="flex-1">
+              <div className="responsive-loan-form">
+                <label
+                  htmlFor="installment-frequency"
+                  className="flex-1 w-full"
+                >
                   <span>Installment frequency *</span>
                   <select
                     required
@@ -291,7 +311,10 @@ export default function CreateLoanForm() {
                     <option value="MONTHLY">monthly</option>
                   </select>
                 </label>
-                <label htmlFor="automatic-calculation" className="flex-1">
+                <label
+                  htmlFor="automatic-calculation"
+                  className="flex-1 w-full"
+                >
                   <span>Calculate automatically? *</span>
                   <select
                     id="automatic-calculation"
@@ -311,8 +334,11 @@ export default function CreateLoanForm() {
                 </label>
               </div>
 
-              <div className="flex items-center gap-[1rem]">
-                <label htmlFor="installment-start-date" className="flex-1">
+              <div className="responsive-loan-form">
+                <label
+                  htmlFor="installment-start-date"
+                  className="flex-1 w-full"
+                >
                   <span>First installment date *</span>
                   <input
                     type="date"
@@ -330,7 +356,10 @@ export default function CreateLoanForm() {
                     }
                   />
                 </label>
-                <label htmlFor="last-installment-date" className="flex-1">
+                <label
+                  htmlFor="last-installment-date"
+                  className="flex-1 w-full"
+                >
                   <span>Last installment date *</span>
                   <input
                     type="date"
@@ -354,8 +383,8 @@ export default function CreateLoanForm() {
                 </label>
               </div>
 
-              <div className="flex items-center gap-[1rem]">
-                <label htmlFor="no.-of-installments" className="flex-1">
+              <div className="responsive-loan-form">
+                <label htmlFor="no.-of-installments" className="flex-1 w-full">
                   <span>No. of installments *</span>
                   <input
                     type="text"
@@ -388,7 +417,7 @@ export default function CreateLoanForm() {
                   />
                 </label>
 
-                <label htmlFor="installment-amount" className="flex-1">
+                <label htmlFor="installment-amount" className="flex-1 w-full">
                   <span>Installment amount</span>
                   <input
                     type="text"

@@ -10,6 +10,13 @@ export default function DashboardPage() {
   const { data, isLoading } = useQuery({
     queryKey: ["stats"],
     queryFn: getStats,
+    staleTime: 1000 * 60 * 5,
+    gcTime: 1000 * 60 * 30,
+
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
+
+    retry: 1,
   });
 
   if (isLoading) {

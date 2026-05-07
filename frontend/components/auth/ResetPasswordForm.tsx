@@ -49,7 +49,7 @@ export default function ResetPasswordForm({ token }: { token: string }) {
   return (
     <section
       className={clsx(
-        "reset-password-form border-1 w-[50%] max-w-[400px] min-w-[300px] p-5",
+        "reset-password-form border-1 w-[50%] max-w-[400px] min-w-[300px] p-5 rounded-lg",
       )}
     >
       <h1 className={clsx("mb-[1.5rem] text-2xl font-md text-center")}>
@@ -61,7 +61,7 @@ export default function ResetPasswordForm({ token }: { token: string }) {
           e.preventDefault();
           setResetPassword({
             ...resetPassword,
-            newPassword: newPasswordRef?.current?.value,
+            newPassword: newPasswordRef?.current?.value as string,
           });
           mutate(resetPassword);
         }}
@@ -81,7 +81,9 @@ export default function ResetPasswordForm({ token }: { token: string }) {
         />
         <button
           type="submit"
-          className={clsx("bg-black text-white p-3 text-bold cursor-pointer")}
+          className={clsx(
+            "bg-black text-white p-3 text-bold cursor-pointer rounded-lg",
+          )}
         >
           Update Password
         </button>

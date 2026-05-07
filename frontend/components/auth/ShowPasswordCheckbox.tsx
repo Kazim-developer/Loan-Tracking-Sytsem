@@ -5,9 +5,16 @@ export default function ShowPasswordCheckbox({
   setShowPassword,
 }: ShowPassword) {
   return (
-    <label>
-      <input type="checkbox" onChange={() => setShowPassword(!showPassword)} />{" "}
-      Show Password
-    </label>
+    <div className="flex items-center gap-2">
+      <input
+        type="checkbox"
+        id="checkbox"
+        onChange={() => setShowPassword(!showPassword)}
+        className="w-4 h-4 accent-black"
+      />
+      <label htmlFor="checkbox" className="text-sm text-gray-700">
+        Show Password
+      </label>
+    </div>
   );
 }
