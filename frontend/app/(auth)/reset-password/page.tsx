@@ -7,5 +7,7 @@ export default function ResetPasswordPage() {
   const searchParam = useSearchParams();
   const token = searchParam.get("token");
 
+  if (!token) return null;
+
   return <ResetPasswordForm token={token} />;
 }

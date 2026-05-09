@@ -33,10 +33,10 @@ export default function NavLinks() {
         {isAuthenticated && (
           <>
             <Link
-              href="/"
-              className={clsx(pathName === "/" ? "active-link" : null)}
+              href="/dashboard"
+              className={clsx(pathName === "/dashboard" ? "active-link" : null)}
             >
-              Home
+              Dashboard
             </Link>
             <Link
               href="/loans"
@@ -47,16 +47,16 @@ export default function NavLinks() {
               Loans
             </Link>
             <Link
-              href="/dashboard"
-              className={clsx(pathName === "/dashboard" ? "active-link" : null)}
-            >
-              Dashboard
-            </Link>
-            <Link
               href="/upgrade"
               className={clsx(pathName === "/upgrade" ? "active-link" : null)}
             >
               Upgrade
+            </Link>
+            <Link
+              href="/support"
+              className={clsx(pathName === "/support" ? "active-link" : null)}
+            >
+              Support
             </Link>
           </>
         )}

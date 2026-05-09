@@ -9,6 +9,7 @@ import LoansTable from "@/components/loans/LoansTable";
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useSearchParams } from "next/navigation";
+import { getUsageBannerStatus } from "@/utils/getUsageBannerStatus";
 
 import {
   getLoans,
@@ -18,6 +19,8 @@ import {
 } from "@/utils/getLoans";
 import ProtectedRoute from "@/components/providers/ProtectedRoute";
 import PageChanger from "@/components/loans/PageChanger";
+import { getStats } from "@/utils/getStats";
+import Banner from "@/components/loans/Banner";
 
 export default function LoansPage() {
   const showCreateClientModel = useShowElementStore(
@@ -75,17 +78,40 @@ export default function LoansPage() {
     refetchOnReconnect: false,
 
     retry: 1,
-    keepPreviousData: true,
+    placeholderData: (prev) => prev,
   });
 
   const loans = data?.data || [];
   const pagination = data?.pagination;
 
+  const [dismissed, setDismissed] = useState(false);
+
+  const { data: statsData, isLoading } = useQuery({
+    queryKey: ["stats"],
+    queryFn: getStats,
+  });
+
+  if (isLoading) return <h1>Loading ...</h1>;
+
+  const bannerStatus = getUsageBannerStatus({
+    totalLoans: statsData.usage.totalLoans,
+    activeLoans: statsData.usage.activeLoans,
+    clients: statsData.usage.clients,
+  });
+
+  const shouldShow =
+    bannerStatus.show && (!dismissed || bannerStatus.limitReached);
+
   return (
     <ProtectedRoute>
       <section className={clsx("center-section py-[3rem]")}>
+        {shouldShow && (
+          <Banner
+            limitReached={bannerStatus.limitReached}
+            setDismissed={setDismissed}
+          />
+        )}
         <LoanHandling />
-
         <LoansTable data={loans} />
         <PageChanger page={page} pagination={pagination} setPage={setPage} />
         {showCreateClientModel && <ClientModelContainer />}

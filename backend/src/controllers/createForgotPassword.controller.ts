@@ -27,16 +27,16 @@ const createForgotPassword = asyncHandler(
       data: {
         token: hashedToken,
         userId: user.id,
-        expiresAt: new Date(Date.now() + 1000 * 60 * 15),
+        expiresAt: new Date(Date.now() + 1000 * 60 * 5),
       },
     });
 
     await sendEmail(
-      "Loqvio <notifications@loqvio.com>",
+      "Loqvio <noreply@send.loqvio.com>",
       user.email,
       "Reset your password",
       `
-    <h1>Reset link will be invalid after 15 minutes</h1>
+    <h1>Reset link will be invalid after 5 minutes</h1>
     <p>Click the link below to reset your password:</p>
     <a href="http://localhost:3000/reset-password?token=${token}">
       Reset Password

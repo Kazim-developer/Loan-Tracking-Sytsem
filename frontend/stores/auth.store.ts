@@ -14,9 +14,9 @@ type AuthState = {
   userId: string;
   accountId: string;
 
+  subscriptionPlan: string;
+
   setAuthUser: (user: Partial<AuthState>) => void;
-  setAuthChecked: (value: boolean) => void;
-  setHydrated: (value: boolean) => void;
   resetAuthStore: () => void;
 };
 
@@ -35,10 +35,9 @@ export const useAuthStore = create<AuthState>()(
       userId: "",
       accountId: "",
 
-      setAuthUser: (user) => set(user),
+      subscriptionPlan: "",
 
-      setAuthChecked: (value) => set({ authChecked: value }),
-      setHydrated: (value) => set({ hydrated: value }),
+      setAuthUser: (data) => set((state) => ({ ...state, ...data })),
 
       resetAuthStore: () =>
         set({
@@ -50,6 +49,7 @@ export const useAuthStore = create<AuthState>()(
           authChecked: false,
           userId: "",
           accountId: "",
+          subscriptionPlan: "",
         }),
     }),
     {
@@ -66,7 +66,7 @@ export const useAuthStore = create<AuthState>()(
       }),
 
       onRehydrateStorage: () => (state) => {
-        state?.setHydrated(true);
+        state?.setAuthUser({ hydrated: true });
       },
     },
   ),

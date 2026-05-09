@@ -34,6 +34,8 @@ const createUser = asyncHandler(async (req: Request, res: Response) => {
         },
       });
 
+      await tx.usage.create({ data: { accountId: account.id } });
+
       await createFreeSubscriptionTransaction(tx, account.id);
     });
 
@@ -56,6 +58,8 @@ const createUser = asyncHandler(async (req: Request, res: Response) => {
         passwordHash: hashedPassword,
       },
     });
+
+    await tx.usage.create({ data: { accountId: account.id } });
 
     await createFreeSubscriptionTransaction(tx, account.id);
   });

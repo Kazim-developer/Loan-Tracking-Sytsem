@@ -11,11 +11,6 @@ import { useState, useRef, useEffect } from "react";
 import { toast } from "react-toastify";
 
 export default function ResetPasswordForm({ token }: { token: string }) {
-  const [resetPassword, setResetPassword] = useState<ResetPassword>({
-    token,
-    newPassword: "",
-  });
-
   const newPasswordRef = useRef<HTMLInputElement>(null);
 
   const router = useRouter();
@@ -59,18 +54,20 @@ export default function ResetPasswordForm({ token }: { token: string }) {
         className={clsx("flex flex-col gap-[1rem]")}
         onSubmit={(e) => {
           e.preventDefault();
-          setResetPassword({
-            ...resetPassword,
-            newPassword: newPasswordRef?.current?.value as string,
+
+          const newPassword = newPasswordRef.current?.value || "";
+
+          mutate({
+            token,
+            newPassword,
           });
-          mutate(resetPassword);
         }}
       >
         <input
           type={showPassword ? "text" : "password"}
           placeholder="Enter new password"
           className={clsx(
-            "p-2 focus:outline-none border-1 border-[#ccc] w-[100%]",
+            "p-2 focus:outline-none border-1 border-[#ccc] w-[100%] rounded-lg",
           )}
           ref={newPasswordRef}
           required

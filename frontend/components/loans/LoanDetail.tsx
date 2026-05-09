@@ -4,18 +4,27 @@ import { formatCurrency } from "@/utils/formatCurrency";
 import { StatusBadge } from "./StatusBadge";
 import { toTitleCase } from "@/utils/toTitleCase";
 import { getLoanDuration } from "@/utils/getLoanDuration";
+import { LoanPayment } from "./LoanDetailPage";
+
+export type InstallmentPayment = {
+  amount: number;
+  status: string;
+};
 
 export default function LoanDetail({ data }) {
   let totalPaid;
 
   if (data.loan.hasInstallments) {
     totalPaid =
-      data.installments.reduce((acc, p) => {
+      data.installments.reduce((acc: number, p: InstallmentPayment) => {
         return p.status === "PAID" ? acc + p.amount : acc;
       }, 0) ?? 0;
   } else {
     totalPaid =
-      data.loan.loanPayments?.reduce((acc, p) => acc + p.amount, 0) ?? 0;
+      data.loan.loanPayments?.reduce(
+        (acc: number, p: LoanPayment) => acc + p.amount,
+        0,
+      ) ?? 0;
   }
 
   const totalPayable = data.loan.totalPayable;

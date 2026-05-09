@@ -81,14 +81,18 @@ export default function LoginForm() {
           type="text"
           placeholder="Email"
           ref={emailRef}
-          className={clsx("p-2 focus:outline-none border-1 border-[#ccc] ")}
+          className={clsx(
+            "p-2 focus:outline-none border-1 border-[#ccc] rounded-lg",
+          )}
           onChange={(e) => setFormData({ ...formData, email: e.target.value })}
           required
         />
         <input
           type={showPassword ? "text" : "password"}
           placeholder="Password"
-          className={clsx("p-2 focus:outline-none border-1 border-[#ccc] ")}
+          className={clsx(
+            "p-2 focus:outline-none border-1 border-[#ccc] rounded-lg",
+          )}
           onChange={(e) =>
             setFormData({ ...formData, password: e.target.value })
           }

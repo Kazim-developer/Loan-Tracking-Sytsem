@@ -9,9 +9,6 @@ export const createClient = asyncHandler(
     const { name, email, phone } = req.body;
 
     const result = await prisma.$transaction(async (tx) => {
-      // ======================================================
-      // 1. Load usage + plan
-      // ======================================================
       const user = await tx.account.findUnique({
         where: { id: accountId },
         include: {
@@ -30,9 +27,6 @@ export const createClient = asyncHandler(
 
       const { subscription, usage } = user;
 
-      // ======================================================
-      // 2. LIMIT CHECK (INSIDE TRANSACTION ✅)
-      // ======================================================
       if (
         subscription.plan.maxClients !== null &&
         usage.usedClients >= subscription.plan.maxClients
@@ -40,9 +34,6 @@ export const createClient = asyncHandler(
         throw new AppError("Client limit reached", 403);
       }
 
-      // ======================================================
-      // 3. DUPLICATE CHECK
-      // ======================================================
       const existingUser = await tx.client.findFirst({
         where: {
           accountId,
@@ -57,9 +48,6 @@ export const createClient = asyncHandler(
         throw new AppError("Client with email or phone already exists", 409);
       }
 
-      // ======================================================
-      // 4. CREATE CLIENT
-      // ======================================================
       const client = await tx.client.create({
         data: {
           accountId,
@@ -69,9 +57,6 @@ export const createClient = asyncHandler(
         },
       });
 
-      // ======================================================
-      // 5. INCREMENT USAGE (SAFE)
-      // ======================================================
       await tx.usage.update({
         where: { accountId },
         data: {

@@ -91,7 +91,7 @@ td {
 }
 
 .center-section {
-  @apply w-[80%] max-w-[900px] mx-auto;
+  @apply w-[90%] max-w-[1000px] mx-auto;
 }
 
 .box {
@@ -99,7 +99,7 @@ td {
 }
 
 .upgrade-button {
-  @apply px-[1rem] py-[0.5rem] cursor-pointer bg-black text-2xl text-white;
+  @apply px-4 py-2 rounded-lg cursor-pointer bg-black font-bold text-white;
 }
 
 .cancel-subscription {

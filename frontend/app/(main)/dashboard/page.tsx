@@ -13,7 +13,7 @@ export default function DashboardPage() {
     staleTime: 1000 * 60 * 5,
     gcTime: 1000 * 60 * 30,
 
-    refetchOnWindowFocus: false,
+    refetchOnWindowFocus: true,
     refetchOnReconnect: false,
 
     retry: 1,

@@ -32,7 +32,7 @@ export default function UsageGuide({
         <ClipBoardIcon />
       )}
       <h1 className="text-2xl text-center font-[500] my-[1rem]">{title}</h1>
-      <p className="text-[#555]">{description}</p>
+      <p className="text-gray-600 text-lg">{description}</p>
     </section>
   );
 }

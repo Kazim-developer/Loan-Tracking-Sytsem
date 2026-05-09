@@ -1,7 +1,6 @@
 "use client";
 
 import { useAuthStore } from "@/stores/auth.store";
-import { useSubscriptionStore } from "@/stores/subscription.store";
 import { useQuery } from "@tanstack/react-query";
 import { checkAuth } from "@/handlers/checkAuth";
 import { useEffect } from "react";
@@ -15,11 +14,6 @@ export default function AuthLoader({
   const hydrated = useAuthStore((s) => s.hydrated);
   const authChecked = useAuthStore((s) => s.authChecked);
   const setAuthUser = useAuthStore((s) => s.setAuthUser);
-  const setAuthChecked = useAuthStore((s) => s.setAuthChecked);
-
-  const setSubscriptionData = useSubscriptionStore(
-    (s) => s.setSubscriptionData,
-  );
 
   const { data, isSuccess, isError } = useQuery({
     queryKey: ["me"],
@@ -29,8 +23,6 @@ export default function AuthLoader({
     staleTime: 5 * 60 * 1000,
     refetchOnWindowFocus: false,
   });
-
-  // 🚨 CRITICAL: block UI until Zustand is ready
 
   useEffect(() => {
     if (!hydrated) return;
@@ -46,15 +38,9 @@ export default function AuthLoader({
         loginMethod: user.loginMethod,
         isGoogleLogin: user.isGoogleLogin,
         isAuthenticated: true,
+        authChecked: true,
+        subscriptionPlan: user.subscriptionPlan,
       });
-
-      setSubscriptionData({
-        activeSubscriptionPlan: user.activeSubscriptionPlan ?? "",
-        cancellingPlan: user.cancelAt ? user.activeSubscriptionPlan : "",
-        cancelAt: user.cancelAt ?? "",
-      });
-
-      setAuthChecked(true);
     }
 
     if (isError) {
@@ -66,15 +52,9 @@ export default function AuthLoader({
         loginMethod: "",
         isGoogleLogin: false,
         isAuthenticated: false,
+        authChecked: true,
+        subscriptionPlan: "",
       });
-
-      setSubscriptionData({
-        activeSubscriptionPlan: "",
-        cancellingPlan: "",
-        cancelAt: "",
-      });
-
-      setAuthChecked(true);
     }
   }, [hydrated, isSuccess, isError, data]);
 

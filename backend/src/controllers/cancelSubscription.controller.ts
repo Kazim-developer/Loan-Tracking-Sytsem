@@ -27,6 +27,16 @@ export const cancelSubscription = asyncHandler(
       effectiveFrom: "next_billing_period",
     });
 
+    await prisma.subscription.update({
+      where: {
+        accountId,
+      },
+      data: {
+        autoRenew: false,
+        cancelAt: subscription.endDate,
+      },
+    });
+
     res.status(200).json({
       message: "Cancellation scheduled successfully",
     });

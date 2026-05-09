@@ -5,16 +5,13 @@ import Image from "next/image";
 import { useAuthStore } from "@/stores/auth.store";
 import ProfileIcon from "../icons/ProfileIcon";
 import Logout from "./Logout";
-import { useSubscriptionStore } from "@/stores/subscription.store";
 
 export default function Profile({ isNavbar }: { isNavbar: boolean }) {
   const email = useAuthStore((s) => s.email);
   const imageUrl = useAuthStore((s) => s.imageUrl);
   const isGoogleLogin = useAuthStore((s) => s.isGoogleLogin);
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
-  const subscriptionPlan = useSubscriptionStore(
-    (s) => s.activeSubscriptionPlan,
-  );
+  const subscriptionPlan = useAuthStore((s) => s.subscriptionPlan);
 
   const [showMenu, setShowMenu] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);

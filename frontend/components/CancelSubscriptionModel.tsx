@@ -1,30 +1,30 @@
 "use client";
 
 import clsx from "clsx";
-import { useSubscriptionStore } from "@/stores/subscription.store";
 import cancelSubscription from "@/handlers/cancelSubscription";
 import useShowModelStore from "@/stores/showElement.store";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useAuthStore } from "@/stores/auth.store";
 
 export default function CancelSubscriptionModel() {
-  const activeSubscriptionPlan = useSubscriptionStore(
-    (s) => s.activeSubscriptionPlan,
-  );
-
-  const setSubscriptionData = useSubscriptionStore(
-    (s) => s.setSubscriptionData,
-  );
-
   const setShowCancelSubscriptionModel = useShowModelStore(
     (s) => s.setShowCancelSubscription,
   );
 
+  const queryClient = useQueryClient();
+
   const { mutate } = useMutation({
-    mutationFn: () => cancelSubscription(),
-    onSuccess: () => {
-      setSubscriptionData({ pendingCancellationPlan: "" });
+    mutationFn: cancelSubscription,
+    onSuccess: async () => {
+      //* dont remove them, both are necessary
+      await queryClient.invalidateQueries({ queryKey: ["subscription"] });
+      await queryClient.invalidateQueries({ queryKey: ["subscription"] });
+
+      await queryClient.invalidateQueries({ queryKey: ["stats"] });
     },
   });
+
+  const subscriptionPlan = useAuthStore((s) => s.subscriptionPlan);
 
   return (
     <div
@@ -35,7 +35,7 @@ export default function CancelSubscriptionModel() {
     >
       <div className="space-y-2">
         <h1 className="text-xl font-[500] text-gray-900">
-          Cancel your {activeSubscriptionPlan} subscription?
+          Cancel your {subscriptionPlan} subscription plan?
         </h1>
 
         <p className="text-sm text-gray-500 leading-relaxed">
@@ -56,9 +56,6 @@ export default function CancelSubscriptionModel() {
           className="px-4 py-2 rounded-lg bg-red-500 text-white font-semibold hover:bg-red-600 transition cursor-pointer"
           onClick={() => {
             mutate();
-            setSubscriptionData({
-              cancellingPlan: activeSubscriptionPlan,
-            });
           }}
         >
           Confirm Cancellation

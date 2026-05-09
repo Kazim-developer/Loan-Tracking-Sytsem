@@ -3,7 +3,7 @@
 import useShowElementStore from "@/stores/showElement.store";
 import Close from "../icons/Close";
 import { useEffect, useRef, useState } from "react";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { postFormData } from "@/handlers/postFormData";
 import { ClientData } from "@/validators/clientData.validator";
 import { toast } from "react-toastify";
@@ -22,11 +22,14 @@ export default function CreateClientForm() {
     phone: undefined,
   });
 
+  const queryClient = useQueryClient();
+
   const { mutate } = useMutation({
     mutationFn: (data: ClientData) => postFormData("create-client", data),
     onSuccess: (data) => {
       setClientData({ name: "", email: "", phone: undefined });
       toast.success(data.message);
+      queryClient.invalidateQueries({ queryKey: ["stats"] });
     },
     onError: (error) => {
       if (error.errors) {

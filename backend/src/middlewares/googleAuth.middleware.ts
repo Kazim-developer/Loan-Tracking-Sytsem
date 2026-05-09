@@ -85,6 +85,8 @@ passport.use(
                   refreshToken,
                 },
               });
+
+              await tx.usage.create({ data: { accountId: account.id } });
             } else {
               user = await tx.user.create({
                 data: {
@@ -105,7 +107,8 @@ passport.use(
               });
             }
 
-            // ✅ Use your helper here
+            await tx.usage.create({ data: { accountId: account.id } });
+
             await createFreeSubscriptionTransaction(tx, account.id);
 
             return { user, account };

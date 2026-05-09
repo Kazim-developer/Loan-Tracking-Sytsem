@@ -16,7 +16,7 @@ export default function HowItWorks() {
         </section>
         <section
           className={clsx(
-            "grid grid-cols-3 gap-[2rem] my-[2rem] max-[880px]:grid-cols-2 max-[750px]:grid-cols-1",
+            "grid grid-cols-3 gap-[1rem] my-[2rem] max-[820px]:grid-cols-2 max-[550px]:grid-cols-1",
           )}
         >
           <UsageGuide

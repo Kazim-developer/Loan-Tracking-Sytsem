@@ -20,7 +20,7 @@ async function handleSubscriptionUpdated(event: any) {
   const newBillingEnd = new Date(data.currentBillingPeriod.endsAt);
 
   const billingCycleAdvanced =
-    usage.billingPeriodStart.getTime() !== newBillingStart.getTime();
+    usage.billingPeriodStart?.getTime() !== newBillingStart.getTime();
 
   await prisma.$transaction([
     prisma.subscription.update({
@@ -48,7 +48,7 @@ async function handleSubscriptionUpdated(event: any) {
         billingPeriodEnd: newBillingEnd,
 
         ...(billingCycleAdvanced && {
-          remindersUsed: 0,
+          usedEmailReminders: 0,
         }),
       },
     }),

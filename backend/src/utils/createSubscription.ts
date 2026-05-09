@@ -55,7 +55,6 @@ async function handleSubscriptionCreated(event: any) {
       accountId,
       billingPeriodStart: new Date(data.currentBillingPeriod.startsAt),
       billingPeriodEnd: new Date(data.currentBillingPeriod.endsAt),
-      remindersUsed: 0,
     },
   });
 }

@@ -104,12 +104,18 @@ export const getStats = asyncHandler(async (req: Request, res: Response) => {
       totalOverdueAmount,
     },
     usage: {
-      totalLoanLimit: currentPlan?.subscription?.plan.maxTotalLoans,
-      activeLoanLimit: currentPlan?.subscription?.plan.maxActiveLoans,
-      clientLimit: currentPlan?.subscription?.plan.maxClients,
-      usedTotalLoans: usage?.usedTotalLoans,
-      usedActiveLoans: usage?.usedActiveLoans,
-      usedClients: usage?.usedClients,
+      totalLoans: {
+        used: usage?.usedTotalLoans,
+        limit: currentPlan?.subscription?.plan.maxTotalLoans,
+      },
+      activeLoans: {
+        used: usage?.usedActiveLoans,
+        limit: currentPlan?.subscription?.plan.maxActiveLoans,
+      },
+      clients: {
+        used: usage?.usedClients,
+        limit: currentPlan?.subscription?.plan.maxClients,
+      },
     },
   });
 });

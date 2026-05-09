@@ -3,11 +3,35 @@
 import Plan from "./Plan";
 import ShowCancelSubscriptionContainer from "../CancelSubscriptionModelContainer";
 import useShowModelStore from "@/stores/showElement.store";
+import { useQuery } from "@tanstack/react-query";
+import { checkSubscriptionDetail } from "@/handlers/checkSubscriptionDetail";
+import { useAuthStore } from "@/stores/auth.store";
+import { useEffect } from "react";
 
 export default function Pricing() {
   const showCancelSubscriptionModel = useShowModelStore(
     (s) => s.showCancelSubscription,
   );
+
+  const setAuthUser = useAuthStore((s) => s.setAuthUser);
+
+  const { data, isLoading } = useQuery({
+    queryKey: ["subscription"],
+    queryFn: checkSubscriptionDetail,
+    staleTime: 0,
+    refetchOnWindowFocus: true,
+    retry: false,
+  });
+
+  useEffect(() => {
+    if (!data?.subscription?.activeSubscriptionPlan) return;
+
+    setAuthUser({
+      subscriptionPlan: data.subscription.activeSubscriptionPlan,
+    });
+  }, [data?.subscription?.activeSubscriptionPlan, setAuthUser]);
+
+  if (isLoading) return <h1>Loading ...</h1>;
 
   return (
     <section id="pricing" className="center-section py-[3rem]">
@@ -22,10 +46,25 @@ export default function Pricing() {
               increases.
             </p>
           </section>
-          <section className="plans grid grid-cols-2 gap-[2rem] mt-[3rem] max-[740px]:grid-cols-1">
-            <Plan plan="Free" />
-            <Plan plan="Pro" />
-            <Plan plan="Business" />
+          <section className="plans grid grid-cols-3 mt-[3rem] max-[900px]:grid-cols-2 max-[900px]:gap-[1rem] max-[650px]:grid-cols-1">
+            <Plan
+              plan="Free"
+              activeSubscriptionPlan={data.subscription.activeSubscriptionPlan}
+              cancelAt={data.subscription.cancelAt}
+              autoRenew={data.subscription.autoRenew}
+            />
+            <Plan
+              plan="Pro"
+              activeSubscriptionPlan={data.subscription.activeSubscriptionPlan}
+              cancelAt={data.subscription.cancelAt}
+              autoRenew={data.subscription.autoRenew}
+            />
+            <Plan
+              plan="Business"
+              activeSubscriptionPlan={data.subscription.activeSubscriptionPlan}
+              cancelAt={data.subscription.cancelAt}
+              autoRenew={data.subscription.autoRenew}
+            />
           </section>
         </section>
       </section>

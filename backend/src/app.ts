@@ -21,9 +21,11 @@ import createLoanRouter from "./routes/createLoan.route.js";
 import getLoansRouter from "./routes/getLoans.route.js";
 import getLoanDetailRouter from "./routes/getLoanDetail.route.js";
 import updateInstallmentStatusRouter from "./routes/updateInstallmentStatus.route.js";
-import updateScheduleRouter from "./routes/updateSchedule.route.js";
 import addLoanPaymentRouter from "./routes/addLoanPayment.route.js";
 import getStatsRouter from "./routes/getStats.route.js";
+import supportRouter from "./routes/support.route.js";
+import subscriptionDetailRouter from "./routes/subscriptionDetail.route.js";
+import prepareUpgradeRouter from "./routes/prepareUpgrade.route.js";
 
 const app = express();
 
@@ -56,9 +58,11 @@ app.use("/auth", logoutRouter);
 
 // /me route
 app.use(currentUserRouter);
+app.use(subscriptionDetailRouter);
 
 // cancel subscription route
 app.use(cancelSubscriptionRouter);
+app.use(prepareUpgradeRouter);
 
 // client routes
 app.use(createClientRouter);
@@ -71,6 +75,9 @@ app.use(getLoanDetailRouter);
 app.use(updateInstallmentStatusRouter);
 app.use(addLoanPaymentRouter);
 app.use(getStatsRouter);
+
+// support
+app.use(supportRouter);
 
 // global error middleware
 app.use(errorHandler);

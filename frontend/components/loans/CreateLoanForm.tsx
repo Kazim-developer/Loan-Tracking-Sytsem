@@ -69,6 +69,7 @@ export default function CreateLoanForm() {
       toast.success("loan has been created successfully");
 
       queryClient.invalidateQueries({ queryKey: ["loans"] });
+      queryClient.invalidateQueries({ queryKey: ["stats"] });
 
       setLoanData({
         clientId: "",

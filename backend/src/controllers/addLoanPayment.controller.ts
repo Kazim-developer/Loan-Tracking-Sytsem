@@ -8,6 +8,8 @@ export const addLoanPayment = asyncHandler(
     const { accountId } = req.sessionData;
     const data = req.body;
 
+    console.log(data);
+
     if (!accountId) {
       throw new AppError("unauthenticated", 403);
     }
@@ -49,7 +51,7 @@ export const addLoanPayment = asyncHandler(
         0,
       );
 
-      const remaining = Number(loan.totalAmount) - totalPaid;
+      const remaining = Number(loan.totalPayable) - totalPaid;
 
       if (remaining <= 0) {
         throw new AppError("Loan already fully paid", 400);

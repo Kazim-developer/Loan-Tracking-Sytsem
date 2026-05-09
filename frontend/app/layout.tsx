@@ -51,7 +51,7 @@ export default function RootLayout({
           <ReactToastifyProviders>
             <AuthLoader>
               <PaddleScriptTag />
-              <SubscriptionProvider>{children}</SubscriptionProvider>
+              {children}
             </AuthLoader>
           </ReactToastifyProviders>
         </TanstackProviders>

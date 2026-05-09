@@ -6,7 +6,6 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import handleLogout from "@/handlers/logoutMethod";
 
 import { useAuthStore } from "@/stores/auth.store";
-import { useSubscriptionStore } from "@/stores/subscription.store";
 import useShowElementStore from "@/stores/showElement.store";
 
 export default function Logout() {
@@ -14,9 +13,6 @@ export default function Logout() {
   const queryClient = useQueryClient();
 
   const resetAuthStore = useAuthStore((s) => s.resetAuthStore);
-  const resetSubscriptionStore = useSubscriptionStore(
-    (s) => s.resetWorkflowState,
-  );
 
   const setShowSidebar = useShowElementStore((s) => s.setShowSidebar);
 
@@ -25,7 +21,6 @@ export default function Logout() {
 
     onSuccess: async () => {
       resetAuthStore();
-      resetSubscriptionStore();
 
       queryClient.clear();
 

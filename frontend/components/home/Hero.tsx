@@ -19,7 +19,7 @@ export default function Hero() {
           <h1 className="text-4xl font-[500] mb-[1rem]">
             All your loans. One simple system.
           </h1>
-          <p className="text-2xl font-[300] text-[#555]">
+          <p className="text-2xl font-[300] text-gray-600">
             Automate calculations, monitor payments, and handle overdue accounts
             with ease
           </p>

@@ -327,8 +327,8 @@ model Usage{
 
   accountId String @unique
 
-  billingPeriodStart DateTime
-  billingPeriodEnd DateTime
+  billingPeriodStart DateTime?
+  billingPeriodEnd DateTime?
 
   usedClients Int @default(0)
   usedActiveLoans Int @default(0)

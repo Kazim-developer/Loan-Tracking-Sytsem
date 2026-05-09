@@ -12,7 +12,7 @@ export default function Footer() {
   return (
     <footer className="bg-[#efefef] py-[3rem]">
       <section className="center-section flex justify-between items-start gap-[2rem] max-[520px]:flex-col">
-        <section className="flex flex-col gap-[1rem]">
+        <section className="flex flex-col gap-[1rem] max-w-[600px]">
           <MyLogo />
           <h1>
             Loqvio simplifies loan and repayment tracking, giving you full
@@ -36,6 +36,7 @@ export default function Footer() {
               </>
             )}
             <Link href="/dashboard">Dashboard</Link>
+            <Link href="/support">Support</Link>
           </section>
         </section>
         {!isAuthenticated && (
@@ -49,13 +50,18 @@ export default function Footer() {
         )}
       </section>
       <hr className="center-section my-[1rem]" />
-      <section className="center-section flex justify-between items-center max-[520px]:flex-col">
-        <p className="max-[520px]:mb-[1rem]">
-          © {new Date().getFullYear()} Loqvio. All rights reserved.
-        </p>
+      <section className="center-section flex justify-between items-center gap-[2rem] max-[780px]:flex-col">
+        <p>© {new Date().getFullYear()} Loqvio. All rights reserved.</p>
         <section className="flex justify-center items-center gap-[2rem]">
-          <Link href="/privacy">Privacy Policy</Link>
-          <Link href="/terms">Terms and Services</Link>
+          <Link href="/privacy" target="_blank">
+            Privacy Policy
+          </Link>
+          <Link href="/refund" target="_blank">
+            Refund Policy
+          </Link>
+          <Link href="/terms" target="_blank">
+            Terms and Services
+          </Link>
         </section>
       </section>
     </footer>

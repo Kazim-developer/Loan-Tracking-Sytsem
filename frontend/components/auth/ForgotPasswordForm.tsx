@@ -57,7 +57,7 @@ export default function ForgotPasswordForm() {
           type="text"
           placeholder="Enter email"
           className={clsx(
-            "p-2 focus:outline-none border-1 border-[#ccc] w-[100%]",
+            "p-2 focus:outline-none border-1 border-[#ccc] w-[100%] rounded-lg",
           )}
           ref={emailRef}
           required

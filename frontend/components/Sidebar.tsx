@@ -33,11 +33,10 @@ export default function Sidebar() {
         {isAuthenticated && (
           <>
             <Link
-              href="/"
-              className={clsx(pathName === "/" ? "active-link" : null)}
-              onClick={() => setShowSidebar(false)}
+              href="/dashboard"
+              className={clsx(pathName === "/dashboard" ? "active-link" : null)}
             >
-              Home
+              Dashboard
             </Link>
             <Link
               href="/loans"
@@ -48,18 +47,16 @@ export default function Sidebar() {
               Loans
             </Link>
             <Link
-              href="/dashboard"
-              className={clsx(pathName === "/dashboard" ? "active-link" : null)}
-              onClick={() => setShowSidebar(false)}
-            >
-              Dashboard
-            </Link>
-            <Link
               href="/upgrade"
               className={clsx(pathName === "/upgrade" ? "active-link" : null)}
-              onClick={() => setShowSidebar(false)}
             >
               Upgrade
+            </Link>
+            <Link
+              href="/support"
+              className={clsx(pathName === "/support" ? "active-link" : null)}
+            >
+              Support
             </Link>
             <Logout />
           </>

@@ -4,7 +4,7 @@ const createClientSchema = z.object({
   name: z
     .string()
     .min(1, { error: "name required" })
-    .max(20, { error: "name is too long, max. 20 characters " }),
+    .max(30, { error: "name is too long, max. 20 characters " }),
   phone: z
     .string()
     .length(11, { message: "Phone must be exactly 11 digits" })

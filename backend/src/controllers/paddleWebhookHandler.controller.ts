@@ -18,7 +18,6 @@ export const paddleWebhookHandler = asyncHandler(
       signature,
     );
 
-    // 1. Idempotency check
     const existingEvent = await prisma.webhookEvent.findUnique({
       where: {
         eventId: event.eventId,
@@ -29,7 +28,6 @@ export const paddleWebhookHandler = asyncHandler(
       return res.sendStatus(200);
     }
 
-    // 2. Process event
     switch (event.eventType) {
       case "subscription.created":
         await handleSubscriptionCreated(event);
@@ -48,7 +46,6 @@ export const paddleWebhookHandler = asyncHandler(
         break;
     }
 
-    // 3. Mark processed
     await prisma.webhookEvent.create({
       data: {
         eventId: event.eventId,

@@ -17,6 +17,10 @@ type LoanDetail = {
   loanId: string;
 };
 
+export type LoanPayment = {
+  amount: number;
+};
+
 export default function LoanDetailPage({ loanId }: LoanDetail) {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -40,6 +44,7 @@ export default function LoanDetailPage({ loanId }: LoanDetail) {
     refetchOnReconnect: false,
 
     retry: 1,
+    placeholderData: (prev) => prev,
   });
 
   if (!data) return <h1>Loading ...</h1>;
@@ -47,7 +52,10 @@ export default function LoanDetailPage({ loanId }: LoanDetail) {
   const pagination = data?.pagination;
 
   const totalPaid =
-    data.loan.loanPayments?.reduce((acc, p) => acc + p.amount, 0) ?? 0;
+    data.loan.loanPayments?.reduce(
+      (acc: number, p: LoanPayment) => acc + p.amount,
+      0,
+    ) ?? 0;
 
   const isFullyPaid = totalPaid >= data.loan.totalPayable;
 
@@ -75,10 +83,10 @@ export default function LoanDetailPage({ loanId }: LoanDetail) {
         <LoanDetail data={data} />
       </div>
       {data.loan.hasInstallments ? (
-        <div className="flex flex-col gap-[2rem] mt-[2rem]">
+        <div className="flex flex-col gap-[1rem] mt-[2rem]">
           <h1 className=" font-[500] text-2xl">All Installments</h1>
           <div className="flex flex-col gap-[1rem]">
-            <div className="flex justify-start">
+            <div className="flex justify-start max-w-[20%]">
               <FilteringSelection
                 options={["ALL", "PENDING", "PAID", "DUE", "OVERDUE"]}
                 type="status"

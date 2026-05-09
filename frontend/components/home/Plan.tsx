@@ -4,29 +4,33 @@ import { plans } from "@/utils/subscriptionPlanData";
 import CheckIcon from "../icons/CheckIcon";
 import clsx from "clsx";
 import { useAuthStore } from "@/stores/auth.store";
-import { useSubscriptionStore } from "@/stores/subscription.store";
 import ActiveSubscriptionTag from "../ActiveSubscriptionTag";
 import MostPopularPlan from "../MostPopularPlan";
 import { openCheckout } from "@/services/payment/openCheckout";
 import { PRICES } from "@/config/pricing";
 import useShowModelStore from "@/stores/showElement.store";
 import CancelledPlanMessage from "../CancelledPlanMessage";
-import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 
-export default function Plan({ plan }: { plan: string }) {
+import { toTitleCase } from "@/utils/toTitleCase";
+import { prepareUpgrade } from "@/utils/prepareUpgrade";
+
+type Plan = {
+  plan: string;
+  activeSubscriptionPlan: string;
+  cancelAt: string;
+  autoRenew: boolean;
+};
+
+export default function Plan({
+  plan,
+  activeSubscriptionPlan,
+  cancelAt,
+  autoRenew,
+}: Plan) {
   const res = plans.find((p) => p.plan === plan);
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
-  const activeSubscriptionPlan = useSubscriptionStore(
-    (s) => s.activeSubscriptionPlan,
-  );
 
-  const setSubscriptionData = useSubscriptionStore(
-    (s) => s.setSubscriptionData,
-  );
-
-  const cancelAt = useSubscriptionStore((s) => s.cancelAt);
-  const cancellingPlan = useSubscriptionStore((s) => s.cancellingPlan);
   const email = useAuthStore((s) => s.email);
   const accountId = useAuthStore((s) => s.accountId);
 
@@ -41,15 +45,7 @@ export default function Plan({ plan }: { plan: string }) {
       className={clsx(
         `${plan}`,
         "relative p-[2rem] border-1 rounded-[20px] flex flex-col gap-[2rem]",
-        plan === "Free"
-          ? "border-gray-300"
-          : plan === "Pro"
-            ? "border-black"
-            : plan === "Business"
-              ? "border-gray-500"
-              : plan === "Enterprise"
-                ? "border-2 border-black"
-                : null,
+        plan === "Pro" ? "border-black" : "border-gray-300",
       )}
     >
       {plan === "Pro" ? <MostPopularPlan /> : null}
@@ -79,85 +75,104 @@ export default function Plan({ plan }: { plan: string }) {
           );
         })}
       </section>
-      {plan === "Free" ? (
-        !isAuthenticated && (
+      {!isAuthenticated && (
+        <button
+          className="signup-button"
+          onClick={() => router.push("/signup")}
+        >
+          Sign Up
+        </button>
+      )}
+      {plan !== activeSubscriptionPlan && plan !== "Free" ? (
+        <button
+          className="upgrade-button"
+          onClick={async () => {
+            await prepareUpgrade();
+            openCheckout(
+              PRICES[`${plan.toUpperCase()}_MONTHLY` as keyof typeof PRICES],
+              email,
+              accountId,
+              false,
+            );
+          }}
+        >
+          Upgrade to {toTitleCase(plan)}
+        </button>
+      ) : (
+        !cancelAt &&
+        autoRenew &&
+        plan !== "Free" && (
           <button
-            className="upgrade-button"
-            onClick={() => router.push("/signup")}
+            className="cancel-subscription"
+            onClick={() => {
+              setShowCancelSubscriptionModel(true);
+            }}
           >
-            Sign Up
+            Cancel Subscription
           </button>
         )
-      ) : plan === "Pro" && activeSubscriptionPlan !== "Pro" ? (
-        <button
-          className="upgrade-button"
-          onClick={() => {
-            if (cancelAt && cancellingPlan) {
-              return toast.warning(
-                `Your cancellation of ${cancellingPlan} plan is due on ${cancelAt}, upgrade after that`,
-              );
-            }
-            setSubscriptionData({ upgradingPlan: "Pro" });
-            openCheckout(PRICES.PRO_MONTHLY, email, accountId, false);
-          }}
-        >
-          Upgrade to Pro
-        </button>
-      ) : plan === "Business" && activeSubscriptionPlan !== "Business" ? (
-        <button
-          className="upgrade-button"
-          onClick={() => {
-            if (cancelAt && cancellingPlan) {
-              return toast.warning(
-                `Your cancellation of ${cancellingPlan} plan is due on ${cancelAt}, upgrade after that`,
-              );
-            }
-            setSubscriptionData({ upgradingPlan: "Business" });
-            openCheckout(PRICES.BUSINESS_MONTHLY, email, accountId, false);
-          }}
-        >
-          Upgrade to Business
-        </button>
-      ) : plan === "Pro" && activeSubscriptionPlan === "Pro" && !cancelAt ? (
-        <button
-          className="cancel-subscription"
-          onClick={() => {
-            setShowCancelSubscriptionModel(true);
-            setSubscriptionData({ isCancellatingPlan: true });
-          }}
-        >
-          Cancel Subscription
-        </button>
-      ) : plan === "Business" &&
-        activeSubscriptionPlan === "Business" &&
-        !cancelAt ? (
-        <button
-          className="cancel-subscription"
-          onClick={() => {
-            setShowCancelSubscriptionModel(true);
-            setSubscriptionData({ isCancellatingPlan: true });
-          }}
-        >
-          Cancel Subscription
-        </button>
-      ) : null}
-      {cancelAt &&
-      plan === "Pro" &&
-      activeSubscriptionPlan === "Pro" &&
-      cancellingPlan === "Pro" ? (
+      )}
+
+      {plan === activeSubscriptionPlan && cancelAt && !autoRenew && (
         <CancelledPlanMessage
-          cancellingPlan={cancellingPlan}
+          cancellingPlan={activeSubscriptionPlan}
           cancelAt={cancelAt}
         />
-      ) : cancelAt &&
-        plan === "Business" &&
-        activeSubscriptionPlan === "Business" &&
-        cancellingPlan === "Business" ? (
-        <CancelledPlanMessage
-          cancellingPlan={cancellingPlan}
-          cancelAt={cancelAt}
-        />
-      ) : null}
+      )}
     </section>
   );
 }
+
+// plan === "Pro" && activeSubscriptionPlan !== "Pro" ? (
+//         <button
+//           className="upgrade-button"
+//           onClick={() => {
+//             if (cancelAt && cancellingPlan) {
+//               return toast.warning(
+//                 `Your cancellation of ${cancellingPlan} plan is due on ${cancelAt}, upgrade after that`,
+//               );
+//             }
+//             setSubscriptionData({ pendingSubscriptionPlan: "Pro" });
+//             openCheckout(PRICES.PRO_MONTHLY, email, accountId, false);
+//           }}
+//         >
+//           Upgrade to Pro
+//         </button>
+//       ) : plan === "Business" && activeSubscriptionPlan !== "Business" ? (
+//         <button
+//           className="upgrade-button"
+//           onClick={() => {
+//             if (cancelAt && cancellingPlan) {
+//               return toast.warning(
+//                 `Your cancellation of ${cancellingPlan} plan is due on ${cancelAt}, upgrade after that`,
+//               );
+//             }
+//             setSubscriptionData({ pendingSubscriptionPlan: "Business" });
+//             openCheckout(PRICES.BUSINESS_MONTHLY, email, accountId, false);
+//           }}
+//         >
+//           Upgrade to Business
+//         </button>
+//       ) : plan === "Pro" && activeSubscriptionPlan === "Pro" && !cancelAt ? (
+//         <button
+//           className="cancel-subscription"
+//           onClick={() => {
+//             setShowCancelSubscriptionModel(true);
+//             setSubscriptionData({ isCancellatingPlan: true });
+//           }}
+//         >
+//           Cancel Subscription
+//         </button>
+//       ) : plan === "Business" &&
+//         activeSubscriptionPlan === "Business" &&
+//         !cancelAt ? (
+//         <button
+//           className="cancel-subscription"
+//           onClick={() => {
+//             setShowCancelSubscriptionModel(true);
+//             setSubscriptionData({ isCancellatingPlan: true });
+//           }}
+//         >
+//           Cancel Subscription
+//         </button>
+//       ) :
