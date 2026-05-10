@@ -3,7 +3,6 @@ import TanstackProviders from "../components/providers/TanstackProviders";
 import ReactToastifyProviders from "../components/providers/ReactToastifyProviders";
 import AuthLoader from "@/components/providers/AuthLoader";
 import PaddleScriptTag from "@/components/providers/PaddleScriptTag";
-import SubscriptionProvider from "@/components/providers/SubscriptionProvider";
 import { Geist } from "next/font/google";
 import { cn } from "@/lib/utils";
 import type { Metadata } from "next";

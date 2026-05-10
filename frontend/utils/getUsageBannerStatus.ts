@@ -6,7 +6,7 @@ export function getUsageBannerStatus({
   clients,
 }: Usage) {
   const getPercentage = (used: number, limit: number | null) => {
-    if (limit === null) return 0; // unlimited → ignore
+    if (limit === null) return 0;
     return (used / limit) * 100;
   };
 

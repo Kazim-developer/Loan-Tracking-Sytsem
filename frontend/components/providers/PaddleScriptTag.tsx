@@ -2,6 +2,7 @@
 
 import Script from "next/script";
 import { useQueryClient } from "@tanstack/react-query";
+import { toast } from "react-toastify";
 
 declare global {
   interface Window {
@@ -24,6 +25,7 @@ export default function PaddleScriptTag() {
 
       eventCallback: async (event: any) => {
         if (event.name === "checkout.completed") {
+          toast.info("please wait, request is processing ...");
           setTimeout(() => {
             queryClient.invalidateQueries({ queryKey: ["subscription"] });
             queryClient.invalidateQueries({ queryKey: ["stats"] });

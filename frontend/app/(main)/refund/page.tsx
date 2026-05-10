@@ -115,7 +115,7 @@ export default function RefundPolicyPage() {
             </p>
 
             <div className="mt-4 rounded-xl border border-gray-200 bg-gray-50 p-4 w-[fit-content]">
-              <p className="font-medium">hello@loqvio.com</p>
+              <p className="font-medium">support@loqvio.com</p>
             </div>
 
             <p className="text-gray-700 mt-4">

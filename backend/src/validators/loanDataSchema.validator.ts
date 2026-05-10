@@ -14,13 +14,18 @@ const Installment = z.object({
 const InstallmentData = z
   .object({
     installmentFrequency: z.enum(InstallmentFrequency).optional(),
+
     installmentAmount: z.number().optional(),
+
     firstInstallmentDate: z.string().optional(),
+
     lastInstallmentDate: z.string().optional(),
+
     totalInstallments: z
       .number()
       .min(2, {
-        error: "min 2 installments required, or choose one-time repayment",
+        error:
+          "At least 2 installments are required, or select one-time repayment",
       })
       .optional(),
 
@@ -29,16 +34,22 @@ const InstallmentData = z
   .optional();
 
 export const loanDataSchema = z.object({
-  clientId: z.string().min(5, { error: "no client found, select again" }),
+  clientId: z
+    .string()
+    .min(5, { error: "No client selected. Please select a client again" }),
+
   totalAmount: z
-    .number({ error: "invalid loan amount, only integer allowed" })
-    .min(1, { error: "loan amount cannot be zero" }),
+    .number({ error: "Loan amount must be a number" })
+    .min(1, { error: "Loan amount must be greater than 0" }),
+
   startingDate: z.string(),
+
   hasInstallments: z.boolean(),
 
   interestRate: z
-    .number({ error: "invalid interest rate, only integer allowed" })
+    .number({ error: "Interest rate must be a number" })
     .optional(),
+
   interestType: z.enum(InterestType).optional(),
 
   endDate: z.string().optional(),

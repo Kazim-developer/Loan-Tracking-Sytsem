@@ -30,7 +30,7 @@ export default function SignupForm() {
   const { mutate } = useMutation({
     mutationFn: (formData: FormData) => postFormData("auth/signup", formData),
     onSuccess: () => {
-      toast.success("account created successfully");
+      toast.success("account created successfully, redirecting ...");
       setTimeout(() => {
         router.replace("/login");
       }, 3000);

@@ -5,6 +5,7 @@ import cancelSubscription from "@/handlers/cancelSubscription";
 import useShowModelStore from "@/stores/showElement.store";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useAuthStore } from "@/stores/auth.store";
+import { toast } from "react-toastify";
 
 export default function CancelSubscriptionModel() {
   const setShowCancelSubscriptionModel = useShowModelStore(
@@ -55,6 +56,7 @@ export default function CancelSubscriptionModel() {
         <button
           className="px-4 py-2 rounded-lg bg-red-500 text-white font-semibold hover:bg-red-600 transition cursor-pointer"
           onClick={() => {
+            toast.info("please wait, we are processing your request");
             mutate();
           }}
         >

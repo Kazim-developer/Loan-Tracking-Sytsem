@@ -85,7 +85,7 @@ export default function PrivacyPolicyPage() {
 
           <section>
             <h1 className="text-2xl font-medium text-black mb-2">Contact</h1>
-            <p>For support or privacy questions, contact: hello@loqvio.com</p>
+            <p>For support or privacy questions, contact: support@loqvio.com</p>
           </section>
         </div>
       </div>

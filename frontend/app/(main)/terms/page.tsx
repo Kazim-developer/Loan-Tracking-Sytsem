@@ -96,7 +96,7 @@ export default function TermsPage() {
 
           <section>
             <h1 className="text-2xl font-medium text-black mb-2">Contact</h1>
-            <p>For support, contact: hello@loqvio.com</p>
+            <p>For support, contact: support@loqvio.com</p>
           </section>
         </div>
       </div>
