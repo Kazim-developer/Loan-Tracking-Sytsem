@@ -12,13 +12,9 @@ import { FormData } from "@/validators/formData.validator";
 import { postFormData } from "@/handlers/postFormData";
 import ShowPasswordCheckbox from "@/components/auth/ShowPasswordCheckbox";
 import { useAuthStore } from "@/stores/auth.store";
-import { useSubscriptionStore } from "@/stores/subscription.store";
 
 export default function LoginForm() {
   const setAuthUser = useAuthStore((store) => store.setAuthUser);
-  const setSubscriptionData = useSubscriptionStore(
-    (s) => s.setSubscriptionData,
-  );
 
   const [formData, setFormData] = useState<FormData>({
     email: "",
@@ -42,7 +38,6 @@ export default function LoginForm() {
         router.replace("/dashboard");
       }, 3000);
 
-      setSubscriptionData({ activeSubscriptionPlan: data.plan });
       setAuthUser({ email: data.email });
       setAuthUser({ loginMethod: data.method });
       setAuthUser({ isAuthenticated: true });
