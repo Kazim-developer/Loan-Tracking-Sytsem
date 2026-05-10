@@ -6,6 +6,11 @@ import AppError from "../utils/customErrorClass.js";
 export const createClient = asyncHandler(
   async (req: Request, res: Response) => {
     const accountId = req.sessionData?.accountId;
+
+    if (!accountId) {
+      throw new AppError("unauthorized", 403);
+    }
+
     const { name, email, phone } = req.body;
 
     const result = await prisma.$transaction(async (tx) => {
@@ -37,10 +42,7 @@ export const createClient = asyncHandler(
       const existingUser = await tx.client.findFirst({
         where: {
           accountId,
-          OR: [
-            email ? { email } : undefined,
-            phone ? { phone } : undefined,
-          ].filter(Boolean),
+          OR: [email && { email }, phone && { phone }].filter(Boolean),
         },
       });
 

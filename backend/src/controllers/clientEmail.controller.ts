@@ -4,7 +4,7 @@ import AppError from "../utils/customErrorClass.js";
 import { sendEmail } from "../services/emailNotifications.service.js";
 
 export const clientEmail = asyncHandler(async (req: Request, res: Response) => {
-  const { accountId } = req.sessionData;
+  const accountId = req.sessionData?.accountId;
 
   const { email, supportType, message, name } = req.body;
 

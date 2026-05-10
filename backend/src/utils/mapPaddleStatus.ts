@@ -3,8 +3,8 @@ function mapPaddleStatus(status: string) {
     case "active":
       return "ACTIVE";
 
-    case "trialing":
-      return "TRIALING";
+    case "expired":
+      return "EXPIRED";
 
     case "past_due":
       return "PAST_DUE";

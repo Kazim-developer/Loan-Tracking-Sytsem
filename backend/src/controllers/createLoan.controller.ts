@@ -42,7 +42,7 @@ const createLoan = asyncHandler(async (req: Request, res: Response) => {
       throw new AppError("Total loan limit reached", 403);
     }
 
-    let loan;
+    let loan: any;
 
     const start = toDate(startingDate);
 
@@ -114,7 +114,7 @@ const createLoan = asyncHandler(async (req: Request, res: Response) => {
       });
 
       await tx.loanInstallment.createMany({
-        data: installmentSchedule.map((inst) => ({
+        data: installmentSchedule.map((inst: any) => ({
           loanId: loan.id,
           ...inst,
         })),

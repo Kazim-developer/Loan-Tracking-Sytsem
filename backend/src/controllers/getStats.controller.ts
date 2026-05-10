@@ -4,7 +4,7 @@ import { prisma } from "../db/prisma.js";
 import AppError from "../utils/customErrorClass.js";
 
 export const getStats = asyncHandler(async (req: Request, res: Response) => {
-  const { accountId } = req.sessionData;
+  const accountId = req.sessionData?.accountId;
 
   if (!accountId) {
     throw new AppError("not authenticated", 403);

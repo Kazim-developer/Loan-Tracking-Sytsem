@@ -5,7 +5,7 @@ import { start } from "node:repl";
 
 export const syncLoanState = asyncHandler(
   async (req: Request, _: Response, next: NextFunction) => {
-    const { accountId } = req.sessionData;
+    const accountId = req.sessionData?.accountId;
     // const now = new Date();
     const startOfToday = new Date();
     startOfToday.setHours(0, 0, 0, 0);
@@ -97,6 +97,7 @@ export const syncLoanState = asyncHandler(
           newStatus = "CLOSED";
           repaymentStatus = "PAID";
         } else {
+          if (!loan.endDate) continue;
           if (loan.endDate < startOfToday) {
             repaymentStatus = "OVERDUE";
           } else if (

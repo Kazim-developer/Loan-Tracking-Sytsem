@@ -5,7 +5,7 @@ import { prisma } from "../db/prisma.js";
 
 export const addLoanPayment = asyncHandler(
   async (req: Request, res: Response) => {
-    const { accountId } = req.sessionData;
+    const accountId = req.sessionData?.accountId;
     const data = req.body;
 
     console.log(data);

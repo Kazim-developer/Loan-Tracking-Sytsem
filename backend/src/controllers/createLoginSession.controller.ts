@@ -115,9 +115,6 @@ const createLoginSession = asyncHandler(async (req: Request, res: Response) => {
     method: account.provider,
     plan: account.subscription.plan.name,
     status: account.subscription.status,
-    limits: {
-      maxAccounts: account.subscription.plan.maxAccounts,
-    },
   });
 });
 

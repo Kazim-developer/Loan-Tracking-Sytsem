@@ -4,7 +4,7 @@ import asyncHandler from "../middlewares/asyncHandler.middleware.js";
 
 export const searchClients = asyncHandler(
   async (req: Request, res: Response) => {
-    const { search = "" } = req.query;
+    const search = req.query.search as string;
     const accountId = req.sessionData?.accountId;
 
     let clients;

@@ -5,7 +5,7 @@ import { prisma } from "../db/prisma.js";
 
 export const getLoanDetail = asyncHandler(
   async (req: Request, res: Response) => {
-    const { accountId } = req?.sessionData;
+    const accountId = req?.sessionData?.accountId;
 
     if (!accountId) {
       throw new AppError("unauthenticated", 403);

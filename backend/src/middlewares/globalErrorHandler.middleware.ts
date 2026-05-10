@@ -11,7 +11,7 @@ const errorHandler = (
     const errors: { [key: string]: string } = {};
 
     err.issues.forEach((issue) => {
-      const field = issue.path[0];
+      const field = issue.path[0] as string;
       errors[field] = issue.message;
     });
 
