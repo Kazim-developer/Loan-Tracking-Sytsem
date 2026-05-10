@@ -18,7 +18,7 @@ import {
 
 import { columns } from "@/components/loans/LoanPaymentTableColumns";
 
-export default function LoanPaymentTable({ data }) {
+export default function LoanPaymentTable({ data }: { data: any }) {
   const table = useReactTable({
     data,
     columns,

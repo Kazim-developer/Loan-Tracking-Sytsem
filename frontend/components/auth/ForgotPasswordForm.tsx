@@ -7,6 +7,7 @@ import { useEffect, useRef } from "react";
 import { toast } from "react-toastify";
 import { ForgotPassword } from "@/validators/forgotPassword.validator";
 import { useRouter } from "next/navigation";
+import { hasErrors } from "@/utils/hasErrors.util";
 
 export default function ForgotPasswordForm() {
   const emailRef = useRef<HTMLInputElement>(null);
@@ -27,7 +28,7 @@ export default function ForgotPasswordForm() {
       }, 3000);
     },
     onError: (error) => {
-      if (error.errors) {
+      if (hasErrors(error)) {
         Object.values(error.errors).forEach((msg) => {
           toast.error(String(msg));
         });

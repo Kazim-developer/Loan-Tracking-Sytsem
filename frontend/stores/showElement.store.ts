@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-const storeFunc = (set) => ({
+const storeFunc = (set: any) => ({
   showCancelSubscription: false,
 
   showCreateLoanModel: false,

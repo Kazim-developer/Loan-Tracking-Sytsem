@@ -6,6 +6,12 @@ import clsx from "clsx";
 import { LoanData } from "@/validators/loanData.validator";
 import { toTitleCase } from "@/utils/toTitleCase";
 
+type Client = {
+  id: string;
+  name: string;
+  email: string;
+};
+
 export default function ClientAutocomplete({
   setLoanData,
   className,
@@ -18,7 +24,7 @@ export default function ClientAutocomplete({
 
   const { data: clients = [], isLoading } = useSearchClients(query);
 
-  const ref = useRef(null);
+  const ref = useRef<any>(null);
 
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -27,7 +33,7 @@ export default function ClientAutocomplete({
   }, []);
 
   useEffect(() => {
-    function handleClickOutside(e) {
+    function handleClickOutside(e: MouseEvent) {
       if (!ref.current?.contains(e.target)) {
         setIsOpen(false);
       }
@@ -64,7 +70,7 @@ export default function ClientAutocomplete({
         <div className="absolute left-0 mt-1 w-full bg-white rounded-[10px] shadow-md z-10 max-h-60 overflow-y-auto">
           {!isLoading &&
             clients.length > 0 &&
-            clients.map((client) => (
+            clients.map((client: Client) => (
               <div
                 key={client.id}
                 onClick={() => {

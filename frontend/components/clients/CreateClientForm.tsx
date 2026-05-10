@@ -7,6 +7,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { postFormData } from "@/handlers/postFormData";
 import { ClientData } from "@/validators/clientData.validator";
 import { toast } from "react-toastify";
+import { hasErrors } from "@/utils/hasErrors.util";
 
 export default function CreateClientForm() {
   const setShowCreateClientModel = useShowElementStore(
@@ -32,7 +33,7 @@ export default function CreateClientForm() {
       queryClient.invalidateQueries({ queryKey: ["stats"] });
     },
     onError: (error) => {
-      if (error.errors) {
+      if (hasErrors(error)) {
         Object.values(error.errors).forEach((msg) => {
           toast.error(String(msg));
         });

@@ -11,7 +11,7 @@ export type InstallmentPayment = {
   status: string;
 };
 
-export default function LoanDetail({ data }) {
+export default function LoanDetail({ data }: { data: any }) {
   let totalPaid;
 
   if (data.loan.hasInstallments) {

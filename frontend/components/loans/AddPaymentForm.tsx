@@ -7,6 +7,7 @@ import useShowElementStore from "@/stores/showElement.store";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { postFormData } from "@/handlers/postFormData";
 import { toast } from "react-toastify";
+import { hasErrors } from "@/utils/hasErrors.util";
 
 export type LoanPaymentPayload = {
   id: string;
@@ -15,11 +16,14 @@ export type LoanPaymentPayload = {
 
 type Mode = "FULL" | "PARTIAL";
 
-export default function AddPaymentForm({ data }) {
+export default function AddPaymentForm({ data }: { data: any }) {
   const totalPayable = data.loan.totalPayable;
 
   const totalPaid =
-    data.loan.loanPayments?.reduce((acc, p) => acc + p.amount, 0) ?? 0;
+    data.loan.loanPayments?.reduce(
+      (acc: number, p: { amount: number }) => acc + p.amount,
+      0,
+    ) ?? 0;
 
   const remaining = Math.max(totalPayable - totalPaid, 0);
 
@@ -53,7 +57,7 @@ export default function AddPaymentForm({ data }) {
     },
 
     onError: (error) => {
-      if (error.errors) {
+      if (hasErrors(error)) {
         Object.values(error.errors).forEach((msg) => {
           toast.error(String(msg));
         });

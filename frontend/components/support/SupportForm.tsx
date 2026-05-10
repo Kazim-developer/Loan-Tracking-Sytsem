@@ -1,6 +1,7 @@
 "use client";
 
 import { postFormData } from "@/handlers/postFormData";
+import { hasErrors } from "@/utils/hasErrors.util";
 import { useMutation } from "@tanstack/react-query";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
@@ -38,7 +39,7 @@ export default function SupportForm() {
       });
     },
     onError: (error) => {
-      if (error.errors) {
+      if (hasErrors(error)) {
         Object.values(error.errors).forEach((msg) => {
           toast.error(String(msg));
         });

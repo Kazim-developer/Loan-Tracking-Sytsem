@@ -98,7 +98,7 @@ export function computeLoan(
       frequency: installmentFrequency,
     });
 
-    const lastDate = d.toISOString().slice(0, 10);
+    const lastDate = d?.toISOString().slice(0, 10);
 
     result.lastInstallmentDate = lastDate;
     result.totalInstallments = totalInstallments;
@@ -107,7 +107,7 @@ export function computeLoan(
       principal: loanAmount,
       rate: annualInterestRate,
       startDate: startingDate,
-      endDate: lastDate,
+      endDate: lastDate as string,
       interestType: interestType as InterestType,
     });
 

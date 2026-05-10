@@ -22,7 +22,7 @@ import { useMemo, useState } from "react";
 import { updateInstallmentStatus } from "@/handlers/updateInstallmentStatus";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-export default function InstallmentTable({ data }) {
+export default function InstallmentTable({ data }: { data: any }) {
   const searchParams = useSearchParams();
 
   const statusFilter = searchParams.get("status") ?? "ALL";

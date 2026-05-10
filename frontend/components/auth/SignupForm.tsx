@@ -11,6 +11,7 @@ import Link from "next/link";
 import { useMutation } from "@tanstack/react-query";
 import { postFormData } from "@/handlers/postFormData";
 import { toast } from "react-toastify";
+import { hasErrors } from "@/utils/hasErrors.util";
 
 export default function SignupForm() {
   const [formData, setFormData] = useState<FormData>({
@@ -36,7 +37,7 @@ export default function SignupForm() {
       }, 3000);
     },
     onError: (error) => {
-      if (error.errors) {
+      if (hasErrors(error)) {
         Object.values(error.errors).forEach((msg) => {
           toast.error(String(msg));
         });

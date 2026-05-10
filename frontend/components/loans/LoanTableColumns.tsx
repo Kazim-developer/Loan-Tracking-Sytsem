@@ -54,9 +54,9 @@ export const columns: ColumnDef<any>[] = [
       if (!row.hasInstallments) return "-";
 
       const next = row.installments
-        ?.filter((inst) => inst.status === "PENDING")
+        ?.filter((inst: { status: string }) => inst.status === "PENDING")
         ?.sort(
-          (a, b) =>
+          (a: { dueDate: string }, b: { dueDate: string }) =>
             new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime(),
         )[0];
 

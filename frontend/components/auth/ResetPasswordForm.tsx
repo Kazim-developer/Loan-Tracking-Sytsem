@@ -2,6 +2,7 @@
 
 import ShowPasswordCheckbox from "./ShowPasswordCheckbox";
 import { postFormData } from "@/handlers/postFormData";
+import { hasErrors } from "@/utils/hasErrors.util";
 import { ResetPassword } from "@/validators/resetPassword.validator";
 import { useMutation } from "@tanstack/react-query";
 import clsx from "clsx";
@@ -31,7 +32,7 @@ export default function ResetPasswordForm({ token }: { token: string }) {
       }, 3000);
     },
     onError: (error) => {
-      if (error.errors) {
+      if (hasErrors(error)) {
         Object.values(error.errors).forEach((msg) => {
           toast.error(String(msg));
         });

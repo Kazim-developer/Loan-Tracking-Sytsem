@@ -12,6 +12,7 @@ import { FormData } from "@/validators/formData.validator";
 import { postFormData } from "@/handlers/postFormData";
 import ShowPasswordCheckbox from "@/components/auth/ShowPasswordCheckbox";
 import { useAuthStore } from "@/stores/auth.store";
+import { hasErrors } from "@/utils/hasErrors.util";
 
 export default function LoginForm() {
   const setAuthUser = useAuthStore((store) => store.setAuthUser);
@@ -44,7 +45,7 @@ export default function LoginForm() {
     },
     onError: (error) => {
       setAuthUser({ isAuthenticated: false });
-      if (error.errors) {
+      if (hasErrors(error)) {
         Object.values(error.errors).forEach((msg) => {
           toast.error(String(msg));
         });

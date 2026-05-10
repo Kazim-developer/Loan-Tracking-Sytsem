@@ -1,4 +1,4 @@
-function addMonthsSafely(date, months) {
+function addMonthsSafely(date: Date, months: number) {
   const d = new Date(date);
   const day = d.getDate();
 

@@ -18,6 +18,7 @@ import {
   LoanData,
   AutomaticCalculations,
 } from "@/validators/loanData.validator";
+import { hasErrors } from "@/utils/hasErrors.util";
 
 export default function CreateLoanForm() {
   const setShowCreateLoanModel = useShowElementStore(
@@ -94,7 +95,7 @@ export default function CreateLoanForm() {
       setAutomaticCalculation("installments");
     },
     onError: (error) => {
-      if (error.errors) {
+      if (hasErrors(error)) {
         Object.values(error.errors).forEach((msg) => {
           toast.error(String(msg));
         });

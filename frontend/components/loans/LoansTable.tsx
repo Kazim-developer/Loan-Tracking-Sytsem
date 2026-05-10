@@ -20,7 +20,7 @@ import { columns } from "@/components/loans/LoanTableColumns";
 import { useMemo } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
-export default function LoansTable({ data }) {
+export default function LoansTable({ data }: { data: any }) {
   const searchParams = useSearchParams();
   const router = useRouter();
 

@@ -1,6 +1,13 @@
 import Stat from "./Stat";
 
-export default function StatisticsGrid({ data }) {
+type Stats = {
+  totalPayableAmount: number;
+  totalLoanAmount: number;
+  totalPaidAmount: number;
+  totalOverdueAmount: number;
+};
+
+export default function StatisticsGrid({ data }: { data: Stats }) {
   const profitPercentage =
     data.totalLoanAmount > 0
       ? ((data.totalPayableAmount - data.totalLoanAmount) * 100) /

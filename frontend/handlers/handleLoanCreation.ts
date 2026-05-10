@@ -69,7 +69,7 @@ const handleLoanCreation = (
     };
   }
 
-  return postFormData("create-loan", payload);
+  return postFormData("create-loan", payload as any);
 };
 
 export default handleLoanCreation;
