@@ -6,6 +6,7 @@ import PaddleScriptTag from "@/components/providers/PaddleScriptTag";
 import { Geist } from "next/font/google";
 import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
+import { Analytics } from "@vercel/analytics/next";
 
 const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -46,6 +47,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={cn("font-sans", geist.variable)}>
       <body>
+        <Analytics />
         <TanstackProviders>
           <ReactToastifyProviders>
             <AuthLoader>
