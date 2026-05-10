@@ -14,6 +14,7 @@ export default function Pricing() {
   );
 
   const setAuthUser = useAuthStore((s) => s.setAuthUser);
+  const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
 
   const { data, isLoading } = useQuery({
     queryKey: ["subscription"],
@@ -47,24 +48,40 @@ export default function Pricing() {
             </p>
           </section>
           <section className="plans grid grid-cols-3 mt-[3rem] max-[900px]:grid-cols-2 max-[900px]:gap-[1rem] max-[650px]:grid-cols-1">
-            <Plan
-              plan="Free"
-              activeSubscriptionPlan={data.subscription.activeSubscriptionPlan}
-              cancelAt={data.subscription.cancelAt}
-              autoRenew={data.subscription.autoRenew}
-            />
-            <Plan
-              plan="Pro"
-              activeSubscriptionPlan={data.subscription.activeSubscriptionPlan}
-              cancelAt={data.subscription.cancelAt}
-              autoRenew={data.subscription.autoRenew}
-            />
-            <Plan
-              plan="Business"
-              activeSubscriptionPlan={data.subscription.activeSubscriptionPlan}
-              cancelAt={data.subscription.cancelAt}
-              autoRenew={data.subscription.autoRenew}
-            />
+            {isAuthenticated ? (
+              <>
+                <Plan
+                  plan="Free"
+                  activeSubscriptionPlan={
+                    data.subscription.activeSubscriptionPlan
+                  }
+                  cancelAt={data.subscription.cancelAt}
+                  autoRenew={data.subscription.autoRenew}
+                />
+                <Plan
+                  plan="Pro"
+                  activeSubscriptionPlan={
+                    data.subscription.activeSubscriptionPlan
+                  }
+                  cancelAt={data.subscription.cancelAt}
+                  autoRenew={data.subscription.autoRenew}
+                />
+                <Plan
+                  plan="Business"
+                  activeSubscriptionPlan={
+                    data.subscription.activeSubscriptionPlan
+                  }
+                  cancelAt={data.subscription.cancelAt}
+                  autoRenew={data.subscription.autoRenew}
+                />
+              </>
+            ) : (
+              <>
+                <Plan plan="Free" />
+                <Plan plan="Pro" />
+                <Plan plan="Business" />
+              </>
+            )}
           </section>
         </section>
       </section>

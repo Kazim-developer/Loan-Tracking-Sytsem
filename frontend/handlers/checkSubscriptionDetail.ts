@@ -3,7 +3,6 @@ export const checkSubscriptionDetail = async () => {
     credentials: "include",
   });
 
-  console.log("request send for subsxription detail");
   const data = await res.json();
 
   if (!res.ok) {

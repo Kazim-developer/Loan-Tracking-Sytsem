@@ -99,7 +99,11 @@ td {
 }
 
 .upgrade-button {
-  @apply px-4 py-2 rounded-lg cursor-pointer bg-black font-bold text-white;
+  @apply px-4 py-2 rounded-lg bg-black font-bold text-white;
+}
+
+.signup-button {
+  @apply px-4 py-2 rounded-lg bg-black font-bold text-white;
 }
 
 .cancel-subscription {

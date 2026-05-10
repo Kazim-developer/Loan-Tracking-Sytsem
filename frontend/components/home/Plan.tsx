@@ -17,9 +17,9 @@ import { prepareUpgrade } from "@/utils/prepareUpgrade";
 
 type Plan = {
   plan: string;
-  activeSubscriptionPlan: string;
-  cancelAt: string;
-  autoRenew: boolean;
+  activeSubscriptionPlan?: string;
+  cancelAt?: string;
+  autoRenew?: boolean;
 };
 
 export default function Plan({
@@ -83,7 +83,7 @@ export default function Plan({
           Sign Up
         </button>
       )}
-      {plan !== activeSubscriptionPlan && plan !== "Free" ? (
+      {isAuthenticated && plan !== activeSubscriptionPlan && plan !== "Free" ? (
         <button
           className="upgrade-button"
           onClick={async () => {
@@ -99,6 +99,7 @@ export default function Plan({
           Upgrade to {toTitleCase(plan)}
         </button>
       ) : (
+        isAuthenticated &&
         !cancelAt &&
         autoRenew &&
         plan !== "Free" && (
@@ -113,12 +114,15 @@ export default function Plan({
         )
       )}
 
-      {plan === activeSubscriptionPlan && cancelAt && !autoRenew && (
-        <CancelledPlanMessage
-          cancellingPlan={activeSubscriptionPlan}
-          cancelAt={cancelAt}
-        />
-      )}
+      {isAuthenticated &&
+        plan === activeSubscriptionPlan &&
+        cancelAt &&
+        !autoRenew && (
+          <CancelledPlanMessage
+            cancellingPlan={activeSubscriptionPlan}
+            cancelAt={cancelAt}
+          />
+        )}
     </section>
   );
 }
