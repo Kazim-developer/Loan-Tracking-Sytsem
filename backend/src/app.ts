@@ -31,7 +31,11 @@ const app = express();
 
 app.use(
   cors({
-    origin: ["http://localhost:3000", "https://www.loqvio.com"],
+    origin: [
+      "http://localhost:3000",
+      "https://loqvio.com",
+      "https://www.loqvio.com",
+    ],
     credentials: true,
   }),
 );
