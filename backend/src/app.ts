@@ -48,6 +48,10 @@ app.use(cookieParser());
 
 app.use(passport.initialize());
 
+app.get("/", (req, res) => {
+  res.send("backend is working");
+});
+
 // auth routes
 app.use(googleRouter);
 app.use("/auth", signupRouter);
