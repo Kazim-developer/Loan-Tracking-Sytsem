@@ -19,9 +19,11 @@ export default function Pricing() {
   const { data, isLoading } = useQuery({
     queryKey: ["subscription"],
     queryFn: checkSubscriptionDetail,
-    staleTime: 0,
+    staleTime: 1000 * 60 * 5,
+    gcTime: 1000 * 60 * 30,
     refetchOnWindowFocus: true,
-    retry: false,
+    refetchOnReconnect: false,
+    retry: 1,
   });
 
   useEffect(() => {
