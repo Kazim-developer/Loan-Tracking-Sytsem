@@ -11,7 +11,7 @@ import { Analytics } from "@vercel/analytics/next";
 const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
 
 export const metadata: Metadata = {
-  title: "Loqvio - Simple Loan & Repayment Tracking for Businesses",
+  title: "Loqvio - Simple Loan & Repayment Tracking for Lenders",
 
   description:
     "Track client loans, repayments, and outstanding balances in one place. Loqvio helps you stay organized, automate tracking, and eliminate manual spreadsheets.",
