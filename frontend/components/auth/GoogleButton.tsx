@@ -13,7 +13,7 @@ const GoogleButton: React.FC<GoogleButtonProps> = ({ text }) => {
         "flex items-center justify-center gap-[1rem] px-4 py-2 border-1 rounded-md hover:bg-[#eee] cursor-pointer mx-auto",
       )}
       onClick={() => {
-        window.location.href = "http://localhost:5000/auth/google";
+        window.location.href = `${process.env.NEXT_PUBLIC_API_URL}/auth/google`;
       }}
     >
       <Image
