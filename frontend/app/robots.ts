@@ -10,6 +10,6 @@ export default function robots() {
         disallow: ["/dashboard", "/loans", "/upgrade"],
       },
     ],
-    sitemap: "https://www.loqvio.com/sitemap.xml",
+    sitemap: "https://loqvio.com/sitemap.xml",
   };
 }

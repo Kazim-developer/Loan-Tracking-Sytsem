@@ -1,5 +1,5 @@
 export default function sitemap() {
-  const baseUrl = "https://www.loqvio.com";
+  const baseUrl = "https://loqvio.com";
 
   return [
     {
