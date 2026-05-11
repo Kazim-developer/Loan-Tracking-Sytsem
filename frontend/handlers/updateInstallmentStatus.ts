@@ -1,6 +1,6 @@
 export const updateInstallmentStatus = async (installId: string) => {
   const res = await fetch(
-    `http://localhost:5000/installs/${installId}/payment`,
+    `${process.env.NEXT_PUBLIC_API_URL}/installs/${installId}/payment`,
     {
       method: "POST",
       headers: { "Content-Type": "application/json" },

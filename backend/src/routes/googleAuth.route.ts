@@ -22,12 +22,14 @@ googleRouter.get(
 
     res.cookie("session_token", sessionToken, {
       httpOnly: true,
-      secure: false,
+      secure: process.env.NODE_ENV === "production",
       sameSite: "lax",
       expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30),
     });
 
-    res.redirect("http://localhost:3000/dashboard");
+    const CLIENT_URL = process.env.CLIENT_URL || "http://localhost:3000";
+
+    res.redirect(`${CLIENT_URL}/dashboard`);
   },
 );
 

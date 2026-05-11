@@ -102,7 +102,7 @@ const createLoginSession = asyncHandler(async (req: Request, res: Response) => {
 
   res.cookie("session_token", sessionToken, {
     httpOnly: true,
-    secure: false, // true in production
+    secure: process.env.NODE_ENV === "production",
     sameSite: "lax",
     expires: session.expiresAt,
   });

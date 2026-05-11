@@ -1,6 +1,6 @@
 export const prepareUpgrade = async () => {
   const res = await fetch(
-    "http://localhost:5000/subscription/prepare-upgrade",
+    `${process.env.NEXT_PUBLIC_API_URL}/subscription/prepare-upgrade`,
     { method: "POST", credentials: "include" },
   );
 

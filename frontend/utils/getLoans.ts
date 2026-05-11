@@ -25,9 +25,12 @@ export const getLoans = async (
   if (repaymentType) params.set("repay_type", repaymentType);
   if (repaymentStatus) params.set("repay_status", repaymentStatus);
 
-  const res = await fetch(`http://localhost:5000/loans?${params.toString()}`, {
-    credentials: "include",
-  });
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/loans?${params.toString()}`,
+    {
+      credentials: "include",
+    },
+  );
 
   return res.json();
 };

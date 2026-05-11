@@ -1,5 +1,5 @@
 export const getStats = async () => {
-  const res = await fetch("http://localhost:5000/stats", {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/stats`, {
     credentials: "include",
   });
 
