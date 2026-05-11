@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   description:
     "Track client loans, repayments, and outstanding balances in one place. Loqvio helps you stay organized, automate tracking, and eliminate manual spreadsheets.",
 
-  metadataBase: new URL("https://www.loqvio.com"),
+  metadataBase: new URL("https://loqvio.com"),
 
   icons: {
     icon: "/assets/icon1.png",
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     title: "Loqvio - Loan & Repayment Tracking System",
     description:
       "Manage client loans, track repayments, and stay on top of balances with a simple, automated system built for businesses.",
-    url: "https://www.loqvio.com",
+    url: "https://loqvio.com",
     siteName: "Loqvio",
     type: "website",
   },
