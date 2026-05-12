@@ -58,7 +58,7 @@ export default function LoginForm() {
   return (
     <section
       className={clsx(
-        "login-form border-1 w-[80%] max-w-[500px] min-w-[300px] p-5 shadow-md rounded-lg",
+        "login-form border-1 w-[80%] max-w-[500px] min-w-[300px] p-5 shadow-md rounded-xl",
       )}
     >
       <h1 className={clsx("mb-[1.5rem] text-2xl font-md text-center")}>
@@ -78,7 +78,7 @@ export default function LoginForm() {
           placeholder="Email"
           ref={emailRef}
           className={clsx(
-            "p-2 focus:outline-none border-1 border-[#ccc] rounded-lg",
+            "p-2 focus:outline-none border border-gray-300 focus:border-black rounded-lg",
           )}
           onChange={(e) => setFormData({ ...formData, email: e.target.value })}
           required
@@ -87,7 +87,7 @@ export default function LoginForm() {
           type={showPassword ? "text" : "password"}
           placeholder="Password"
           className={clsx(
-            "p-2 focus:outline-none border-1 border-[#ccc] rounded-lg",
+            "p-2 focus:outline-none border border-gray-300 focus:border-black rounded-lg",
           )}
           onChange={(e) =>
             setFormData({ ...formData, password: e.target.value })

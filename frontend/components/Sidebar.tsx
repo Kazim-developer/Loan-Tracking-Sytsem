@@ -35,6 +35,7 @@ export default function Sidebar() {
             <Link
               href="/dashboard"
               className={clsx(pathName === "/dashboard" ? "active-link" : null)}
+              onClick={() => setShowSidebar(false)}
             >
               Dashboard
             </Link>
@@ -43,18 +44,21 @@ export default function Sidebar() {
               className={clsx(
                 pathName.startsWith("/loans") ? "active-link" : "",
               )}
+              onClick={() => setShowSidebar(false)}
             >
               Loans
             </Link>
             <Link
               href="/upgrade"
               className={clsx(pathName === "/upgrade" ? "active-link" : null)}
+              onClick={() => setShowSidebar(false)}
             >
               Upgrade
             </Link>
             <Link
               href="/support"
               className={clsx(pathName === "/support" ? "active-link" : null)}
+              onClick={() => setShowSidebar(false)}
             >
               Support
             </Link>

@@ -8,8 +8,6 @@ export const addLoanPayment = asyncHandler(
     const accountId = req.sessionData?.accountId;
     const data = req.body;
 
-    console.log(data);
-
     if (!accountId) {
       throw new AppError("unauthenticated", 403);
     }

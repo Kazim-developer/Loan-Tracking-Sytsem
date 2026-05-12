@@ -72,7 +72,7 @@ export default function LoanDetailPage({ loanId }: LoanDetail) {
         {!data?.loan?.hasInstallments && (
           <div className="flex justify-end items-center">
             <button
-              className="px-3 py-2 bg-black text-white rounded-[10px] disabled:opacity-50"
+              className="px-5 py-3 bg-black text-white font-bold rounded-lg"
               onClick={() => setShowAddPaymentModel(true)}
               disabled={isFullyPaid}
             >

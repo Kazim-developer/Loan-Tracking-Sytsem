@@ -1,4 +1,4 @@
 export const PRICES = {
-  PRO_MONTHLY: "pri_01knpe2npgqjm1yk79mc0dz772",
-  BUSINESS_MONTHLY: "pri_01knpe67753cvzbxt3kxnbkrf6",
+  PRO_MONTHLY: process.env.NEXT_PUBLIC_PADDLE_PRO_PRICE_ID,
+  BUSINESS_MONTHLY: process.env.NEXT_PUBLIC_PADDLE_BUSINESS_PRICE_ID,
 };

@@ -27,7 +27,7 @@ googleRouter.get(
       expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30),
     });
 
-    const CLIENT_URL = process.env.CLIENT_URL || "http://localhost:3000";
+    const CLIENT_URL = process.env.CLIENT_URL;
 
     res.redirect(`${CLIENT_URL}/dashboard`);
   },

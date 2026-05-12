@@ -45,7 +45,7 @@ export default function ResetPasswordForm({ token }: { token: string }) {
   return (
     <section
       className={clsx(
-        "reset-password-form border-1 w-[50%] max-w-[400px] min-w-[300px] p-5 rounded-lg",
+        "reset-password-form border-1 w-[50%] max-w-[400px] min-w-[300px] p-5 rounded-xl",
       )}
     >
       <h1 className={clsx("mb-[1.5rem] text-2xl font-md text-center")}>
@@ -68,7 +68,7 @@ export default function ResetPasswordForm({ token }: { token: string }) {
           type={showPassword ? "text" : "password"}
           placeholder="Enter new password"
           className={clsx(
-            "p-2 focus:outline-none border-1 border-[#ccc] w-[100%] rounded-lg",
+            "p-2 focus:outline-none focus:border-black border border-gray-300 w-[100%] rounded-lg",
           )}
           ref={newPasswordRef}
           required

@@ -41,7 +41,7 @@ export default function ForgotPasswordForm() {
   return (
     <section
       className={clsx(
-        "forget-password-form border-1 w-[50%] max-w-[400px] min-w-[300px] p-5 rounded-lg",
+        "forget-password-form border-1 w-[50%] max-w-[400px] min-w-[300px] p-5 rounded-xl",
       )}
     >
       <h1 className={clsx("mb-[1.5rem] text-2xl font-md text-center")}>
@@ -58,7 +58,7 @@ export default function ForgotPasswordForm() {
           type="text"
           placeholder="Enter email"
           className={clsx(
-            "p-2 focus:outline-none border-1 border-[#ccc] w-[100%] rounded-lg",
+            "p-2 focus:outline-none focus:border-black border border-gray-300 w-[100%] rounded-lg",
           )}
           ref={emailRef}
           required

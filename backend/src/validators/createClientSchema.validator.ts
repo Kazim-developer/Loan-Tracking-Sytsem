@@ -1,4 +1,21 @@
 import { z } from "zod";
+import { parsePhoneNumberFromString } from "libphonenumber-js";
+
+const phoneSchema = z
+  .string()
+  .refine(
+    (value) => {
+      const phone = parsePhoneNumberFromString(value);
+      return phone ? phone.isValid() : false;
+    },
+    {
+      message: "Invalid phone number",
+    },
+  )
+  .transform((value) => {
+    const phone = parsePhoneNumberFromString(value);
+    return phone ? phone.number : value;
+  });
 
 const createClientSchema = z.object({
   name: z
@@ -6,13 +23,7 @@ const createClientSchema = z.object({
     .min(1, { error: "Client name is required" })
     .max(30, { error: "Client name cannot exceed 30 characters" }),
 
-  phone: z
-    .string()
-    .length(11, { message: "Phone number must be exactly 11 digits" })
-    .regex(/^\d+$/, {
-      message: "Phone number must contain only digits",
-    })
-    .optional(),
+  phone: phoneSchema,
 
   email: z.email({ error: "Please enter a valid email address" }),
 });

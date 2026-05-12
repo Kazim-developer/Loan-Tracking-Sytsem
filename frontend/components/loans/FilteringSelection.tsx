@@ -27,20 +27,10 @@ export default function FilteringSelection({
 
   return (
     <div className="relative w-full">
-      <p className="text-[#aaa] ml-2 mb-2">{label}</p>
+      <p className="text-[#555] ml-2 mb-2">{label}</p>
       <div>
-        {/* <div
-          className="flex items-center justify-between gap-2 border-2 border-[#aaa] rounded-[10px] p-2 cursor-pointer"
-          onClick={() => setIsOpen(!isOpen)}
-        >
-          <div className="flex items-center gap-5">
-            <FilterIcon />
-            <span className="text-center">{currentFilter}</span>
-          </div>
-          <DownArrow size={"5"} />
-        </div> */}
         <div
-          className="flex items-center justify-between gap-2 border-2 border-[#aaa] rounded-[10px] p-2 cursor-pointer w-full"
+          className="flex items-center justify-between gap-2 border border-gray-300 rounded-lg p-2 cursor-pointer w-full"
           onClick={() => setIsOpen(!isOpen)}
         >
           <div className="flex items-center gap-3 min-w-0">

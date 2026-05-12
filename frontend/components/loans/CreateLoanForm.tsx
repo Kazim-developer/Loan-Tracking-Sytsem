@@ -108,7 +108,7 @@ export default function CreateLoanForm() {
   return (
     <>
       <section
-        className="bg-white px-3 py-5 w-[80%] max-w-[500px] max-h-[80vh] rounded-[10px] flex flex-col gap-[0.8rem] overflow-y-auto"
+        className="bg-white p-5 w-[80%] max-w-[500px] max-h-[80vh] rounded-xl flex flex-col gap-[0.8rem] overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
       >
         <div
@@ -152,12 +152,12 @@ export default function CreateLoanForm() {
               setLoanData={setLoanData}
             />
 
-            <label htmlFor="loan-start-date" className="flex-1 w-full">
+            <label htmlFor="loan-amount" className="flex-1 w-full">
               <span>Loan Amount *</span>
               <input
                 type="text"
                 inputMode="decimal"
-                placeholder="total amount"
+                id="loan-amount"
                 value={loanData.totalAmount ?? ""}
                 onChange={(e) => {
                   const normalized = normalizeDecimalInput(e.target.value);
@@ -233,6 +233,7 @@ export default function CreateLoanForm() {
                 type="text"
                 inputMode="decimal"
                 placeholder="e.g: 8.5, optional"
+                id="annual-interest"
                 value={loanData.interestRate ?? ""}
                 onChange={(e) => {
                   const normalized = normalizeDecimalInput(e.target.value, {
@@ -276,6 +277,7 @@ export default function CreateLoanForm() {
                 id="end-date"
                 required
                 value={loanData.endDate ?? ""}
+                itemID="end-date"
                 onChange={(e) =>
                   setLoanData((s) => {
                     return {

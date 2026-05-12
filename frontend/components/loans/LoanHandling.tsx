@@ -47,9 +47,9 @@ export default function LoanHandling() {
       </div>
       <div className="grid grid-cols-4 max-[700px]:grid-cols-3 max-[480px]:grid-cols-1 gap-4 items-end">
         <div className="max-[700px]:col-span-2 max-[480px]:col-span-1">
-          <p className="text-[#aaa] ml-2 mb-2">Borrower name</p>
+          <p className="text-[#555] ml-2 mb-2">Borrower name</p>
           <input
-            className="p-2 border-2 border-[#aaa] rounded-[10px] focus:outline-none w-full"
+            className="p-2 border border-gray-300 rounded-lg focus:outline-none focus:border-black w-full"
             type="text"
             placeholder="Search..."
             value={inputValue}
