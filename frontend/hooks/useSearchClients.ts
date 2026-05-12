@@ -5,7 +5,7 @@ export function useSearchClients(search: string) {
     queryKey: ["clients", search],
     queryFn: async () => {
       const res = await fetch(
-        `http://localhost:5000/clients?search=${search}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/clients?search=${search}`,
         { credentials: "include" },
       );
       if (!res.ok) throw new Error("Failed to fetch clients");

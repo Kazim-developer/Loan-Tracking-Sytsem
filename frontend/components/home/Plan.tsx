@@ -91,12 +91,6 @@ export default function Plan({
               `${plan.toUpperCase()}_MONTHLY` as keyof typeof PRICES
             ] as string;
 
-            console.log("price ID", priceId);
-            console.log(
-              "client token ID",
-              process.env.NEXT_PUBLIC_PADDLE_CLIENT_TOKEN,
-            );
-
             await prepareUpgrade();
 
             openCheckout(priceId, email, accountId, false);
