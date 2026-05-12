@@ -87,13 +87,13 @@ export default function Plan({
         <button
           className="upgrade-button"
           onClick={async () => {
+            const priceId = PRICES[
+              `${plan.toUpperCase()}_MONTHLY` as keyof typeof PRICES
+            ] as string;
+
             await prepareUpgrade();
-            openCheckout(
-              PRICES[`${plan.toUpperCase()}_MONTHLY` as keyof typeof PRICES],
-              email,
-              accountId,
-              false,
-            );
+
+            openCheckout(priceId, email, accountId, false);
           }}
         >
           Upgrade to {toTitleCase(plan)}
