@@ -18,7 +18,7 @@ export default function PaddleScriptTag() {
 
     const token = process.env.NEXT_PUBLIC_PADDLE_CLIENT_TOKEN!;
 
-    window.Paddle.Environment.set("sandbox");
+    // window.Paddle.Environment.set("sandbox");
 
     window.Paddle.Initialize({
       token,
