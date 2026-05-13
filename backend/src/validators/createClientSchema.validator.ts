@@ -2,7 +2,7 @@ import { z } from "zod";
 import { parsePhoneNumberFromString } from "libphonenumber-js";
 
 const phoneSchema = z
-  .string()
+  .string({ error: "phone number is required" })
   .refine(
     (value) => {
       const phone = parsePhoneNumberFromString(value);

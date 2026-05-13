@@ -95,7 +95,7 @@ export default function CreateClientForm() {
           </label>
 
           <label className="flex-1 min-w-0 w-full">
-            <span>Phone</span>
+            <span>Phone *</span>
 
             <PhoneInput
               placeholder="start with country code without +"
