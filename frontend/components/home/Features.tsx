@@ -7,33 +7,38 @@ export default function Features() {
       <section className={clsx("features-content center-section")}>
         <section className="intro-section text-center font-[500]">
           <h1 className={clsx("text-4xl mb-[1rem]")}>
-            Powerful tools to manage client payments
+            Everything a lending business needs. Nothing it doesn`t.
           </h1>
           <p className={clsx("text-2xl font-[300] text-[#555]")}>
-            From loans and invoices to installments and reminders, everything is
-            organized in one place.
+            Built specifically for lenders — track clients, loans, repayments,
+            and overdue accounts without the spreadsheet chaos.
           </p>
         </section>
         <section className="features grid grid-cols-2 gap-[2rem] mt-[2rem] max-[650px]:grid-cols-1">
           <Feature
             icon="group"
             title="Client Management"
-            description="Store all clients in one place with their active loans, repayments, and balances clearly organized."
+            description="Every borrower's loan history, active balances, 
+and repayment status — organized and searchable in seconds."
           />
           <Feature
             icon="clip"
             title="Smart Loan Creation"
-            description="Create loans in seconds with automatic calculations for total amount, interest, and repayment structure."
+            description="Fill in the amount, rate, and term — Loqvio 
+instantly calculates installments, total interest, and the 
+final due date before you confirm anything."
           />
           <Feature
             icon="calendar"
             title="Installment Tracking"
-            description="Record payments instantly and automatically update balances and loan status in real time."
+            description="Mark payments as received and watch balances 
+update automatically. No manual math, no outdated records."
           />
           <Feature
             icon="payment"
             title="Loan Insights"
-            description="Get a clear view of total lending, repayments, outstanding amounts, and overdue loans at a glance."
+            description="See how much you've lent, what's been repaid, 
+and who's overdue — all on one screen, always up to date."
           />
         </section>
       </section>

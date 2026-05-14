@@ -17,11 +17,11 @@ export default function Hero() {
       <section className={clsx("flex-1")}>
         <section className={clsx("text-content mb-[2rem]")}>
           <h1 className="text-4xl font-[500] mb-[1rem]">
-            All your loans. One simple system.
+            Your Lending Business Deserves Better Than Excel.
           </h1>
           <p className="text-2xl font-[300] text-gray-600">
-            Automate calculations, monitor payments, and handle overdue accounts
-            with ease
+            Track loans, repayments, and defaulters in one place — without
+            formulas, errors, or chasing payments manually.
           </p>
         </section>
         {!isAuthenticated && (

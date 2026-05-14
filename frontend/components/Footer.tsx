@@ -15,8 +15,8 @@ export default function Footer() {
         <section className="flex flex-col gap-[1rem] max-w-[600px]">
           <MyLogo />
           <h1>
-            Loqvio simplifies loan and repayment tracking, giving you full
-            control over your clients and payments in one place.
+            Built for lending businesses that are done managing loans on
+            spreadsheets.
           </h1>
         </section>
         <section className="flex flex-col gap-[1rem]">

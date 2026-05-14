@@ -10,7 +10,7 @@ export default function ProductPreview() {
         <div className="flex flex-col items-center gap-[2rem]">
           <div>
             <h1 className="text-4xl font-[500]">
-              Complete visibility across all loans
+              Your entire loan book. At a glance.
             </h1>
           </div>
           <div className="rounded-2xl border border-gray-200 shadow-xl max-w-[900px] overflow-hidden bg-white">

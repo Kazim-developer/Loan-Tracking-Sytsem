@@ -11,8 +11,7 @@ export default function CTA() {
     <section className="cta center-section py-[3rem] flex flex-col justify-center items-center gap-[2rem]">
       <section>
         <h1 className="text-[#555] text-center text-xl mb-[2rem]">
-          Join thousands of users who trust Loqvio with their financial
-          management
+          Ready to ditch the spreadsheet?
         </h1>
         <section className="hooks flex justify-between items-center gap-[2rem] max-[830px]:flex-col max-[830px]:items-start">
           <Hook desc="Sign Up to start using" />
