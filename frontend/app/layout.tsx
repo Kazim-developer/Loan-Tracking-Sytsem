@@ -11,10 +11,10 @@ import { Analytics } from "@vercel/analytics/next";
 const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
 
 export const metadata: Metadata = {
-  title: "Loqvio - Simple Loan & Repayment Tracking for Lending Businesses",
+  title: "Loqvio — Loan Tracking Software for Lending Businesses",
 
   description:
-    "Track client loans, repayments, and outstanding balances in one place. Loqvio helps you stay organized, automate tracking, and eliminate manual spreadsheets.",
+    "Loqvio helps lending businesses track loans, repayments, and overdue accounts automatically — no spreadsheets,no manual calculations, no missed payments.",
 
   metadataBase: new URL("https://loqvio.com"),
 
@@ -23,9 +23,9 @@ export const metadata: Metadata = {
   },
 
   openGraph: {
-    title: "Loqvio - Loan & Repayment Tracking System",
+    title: "Loqvio — Loan Tracking Software for Lending Businesses",
     description:
-      "Manage client loans, track repayments, and stay on top of balances with a simple, automated system built for businesses.",
+      "Track loans, repayments, and overdue accounts automatically — no spreadsheets, no manual calculations, no missed payments.",
     url: "https://loqvio.com",
     siteName: "Loqvio",
     type: "website",
@@ -33,9 +33,9 @@ export const metadata: Metadata = {
 
   twitter: {
     card: "summary_large_image",
-    title: "Loqvio - Loan Tracking Made Simple",
+    title: "Loqvio — Loan Tracking Software for Lending Businesses",
     description:
-      "Manage client loans and repayments without spreadsheets. Simple, fast, and automated.",
+      "Lending businesses use Loqvio to replace Excel — track every loan, repayment, and overdue account in one place.",
   },
 };
 
