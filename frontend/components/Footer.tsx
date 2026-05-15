@@ -37,6 +37,7 @@ export default function Footer() {
             )}
             <Link href="/dashboard">Dashboard</Link>
             <Link href="/support">Support</Link>
+            <Link href="/blog">Blog</Link>
           </section>
         </section>
         {!isAuthenticated && (
