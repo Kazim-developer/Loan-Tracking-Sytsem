@@ -75,7 +75,7 @@ button {
 
 button,
 a {
-  @apply inline-block cursor-pointer active:scale-95 disabled:opacity-50 disabled:cursor-none;
+  @apply inline-block cursor-pointer active:scale-95 disabled:opacity-50 disabled:cursor-default;
 }
 
 h1 {
