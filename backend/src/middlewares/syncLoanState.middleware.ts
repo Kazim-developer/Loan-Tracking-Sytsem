@@ -1,7 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import asyncHandler from "./asyncHandler.middleware.js";
 import { prisma } from "../db/prisma.js";
-import { start } from "node:repl";
 
 export const syncLoanState = asyncHandler(
   async (req: Request, _: Response, next: NextFunction) => {
