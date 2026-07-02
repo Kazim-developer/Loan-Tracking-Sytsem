@@ -1,10 +1,6 @@
 import { Queue } from "bullmq";
-
-const connection = {
-  host: "localhost",
-  port: 6379,
-};
+import { redisConnection } from "../../config/redis.js";
 
 export const loanStatusQueue = new Queue("loan-status", {
-  connection,
+  connection: redisConnection,
 });

@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import asyncHandler from "../middlewares/asyncHandler.middleware.js";
 import AppError from "../utils/customErrorClass.js";
 import { prisma } from "../db/prisma.js";
+import { calculateLoanState } from "../utils/calculateLoanState.js";
 
 const getLoans = asyncHandler(async (req: Request, res: Response) => {
   const accountId = req.sessionData?.accountId;
@@ -68,9 +69,9 @@ const getLoans = asyncHandler(async (req: Request, res: Response) => {
         totalPayable: true,
         hasInstallments: true,
         status: true,
+        repaymentStatus: true,
         startingDate: true,
         endDate: true,
-        repaymentStatus: true,
 
         client: {
           select: {
@@ -85,18 +86,29 @@ const getLoans = asyncHandler(async (req: Request, res: Response) => {
             status: true,
           },
         },
+
+        loanPayments: {
+          select: {
+            amount: true,
+          },
+        },
       },
     }),
 
     prisma.loan.count({ where }),
   ]);
 
+  const computedLoans = loans.map((loan) => ({
+    ...loan,
+    ...calculateLoanState(loan),
+  }));
+
   // -----------------------------
   // Response
   // -----------------------------
   res.status(200).json({
     message: "loans fetched successfully",
-    data: loans,
+    data: computedLoans,
     pagination: {
       total,
       page,

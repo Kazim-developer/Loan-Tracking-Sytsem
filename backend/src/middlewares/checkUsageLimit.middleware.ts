@@ -1,10 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { prisma } from "../db/prisma.js";
 import AppError from "../utils/customErrorClass.js";
-import {
-  UsageResource,
-  usageConfig,
-} from "../config/usagePlanMapping.config.js";
+import { UsageResource, usageConfig } from "../config/usagePlanMapping.js";
 
 export const checkUsageLimit =
   (resource: UsageResource) =>
