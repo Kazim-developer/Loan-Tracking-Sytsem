@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import asyncHandler from "../middlewares/asyncHandler.middleware.js";
 import AppError from "../utils/customErrorClass.js";
 import { prisma } from "../db/prisma.js";
+import { redis } from "../config/redis.js";
 
 export const getSubscriptionDetail = asyncHandler(
   async (req: Request, res: Response) => {
@@ -9,6 +10,13 @@ export const getSubscriptionDetail = asyncHandler(
 
     if (!accountId) {
       throw new AppError("unauthorized", 401);
+    }
+
+    const cacheKey = `subscription-plan:${accountId}`;
+    const cachedData = await redis.get(cacheKey);
+
+    if (cachedData) {
+      return res.status(200).json(JSON.parse(cachedData));
     }
 
     const subscription = await prisma.subscription.findUnique({
@@ -29,7 +37,7 @@ export const getSubscriptionDetail = asyncHandler(
       throw new AppError("no subscription found", 401);
     }
 
-    res.status(200).json({
+    const response = {
       message: "success",
       subscription: {
         activeSubscriptionPlan: subscription?.plan?.name ?? null,
@@ -39,6 +47,11 @@ export const getSubscriptionDetail = asyncHandler(
           : null,
         endDate: subscription?.endDate ?? null,
       },
-    });
+    };
+
+    await redis.set(cacheKey, JSON.stringify(response));
+    await redis.expire(cacheKey, 300);
+
+    res.status(200).json(response);
   },
 );

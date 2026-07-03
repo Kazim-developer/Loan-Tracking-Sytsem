@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { prisma } from "../db/prisma.js";
 import asyncHandler from "../middlewares/asyncHandler.middleware.js";
+import { redis } from "../config/redis.js";
 
 export const searchClients = asyncHandler(
   async (req: Request, res: Response) => {
@@ -10,7 +11,6 @@ export const searchClients = asyncHandler(
     let clients;
 
     if (!search || search.trim().length === 0) {
-      // 🔥 No search → return recent / default list
       clients = await prisma.client.findMany({
         where: { accountId },
         select: {
@@ -20,12 +20,11 @@ export const searchClients = asyncHandler(
           phone: true,
         },
         orderBy: {
-          createdAt: "desc", // 👈 recent clients first
+          createdAt: "desc",
         },
-        take: 10, // 🔥 NEVER return all
+        take: 10,
       });
     } else {
-      // 🔍 Search case
       clients = await prisma.client.findMany({
         where: {
           accountId,
@@ -62,7 +61,17 @@ export const searchClients = asyncHandler(
       });
     }
 
-    res.json(clients);
+    const cacheKey = `clients:${accountId}:client:${search}`;
+    const cachedData = await redis.get(cacheKey);
+
+    if (cachedData) {
+      return res.status(200).json(JSON.parse(cachedData));
+    }
+
+    await redis.set(cacheKey, JSON.stringify(clients));
+    await redis.expire(cacheKey, 300);
+
+    res.status(200).json(clients);
   },
 );
 

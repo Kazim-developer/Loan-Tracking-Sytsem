@@ -2,12 +2,20 @@ import { Request, Response } from "express";
 import asyncHandler from "../middlewares/asyncHandler.middleware.js";
 import { prisma } from "../db/prisma.js";
 import AppError from "../utils/customErrorClass.js";
+import { redis } from "../config/redis.js";
 
 export const getStats = asyncHandler(async (req: Request, res: Response) => {
   const accountId = req.sessionData?.accountId;
 
   if (!accountId) {
     throw new AppError("not authenticated", 403);
+  }
+
+  const cacheKey = `dashboard-stats:${accountId}`;
+  const cachedData = await redis.get(cacheKey);
+
+  if (cachedData) {
+    return res.status(200).json(JSON.parse(cachedData));
   }
 
   const totalLoanAmount = await prisma.loan.aggregate({
@@ -95,7 +103,7 @@ export const getStats = asyncHandler(async (req: Request, res: Response) => {
     },
   });
 
-  res.status(200).json({
+  const response = {
     message: "success",
     stats: {
       totalLoanAmount: totalLoanAmount._sum.totalAmount,
@@ -117,5 +125,10 @@ export const getStats = asyncHandler(async (req: Request, res: Response) => {
         limit: currentPlan?.subscription?.plan.maxClients,
       },
     },
-  });
+  };
+
+  await redis.set(cacheKey, JSON.stringify(response));
+  await redis.expire(cacheKey, 300);
+
+  res.status(200).json(response);
 });

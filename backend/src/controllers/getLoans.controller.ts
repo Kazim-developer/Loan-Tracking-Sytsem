@@ -3,6 +3,7 @@ import asyncHandler from "../middlewares/asyncHandler.middleware.js";
 import AppError from "../utils/customErrorClass.js";
 import { prisma } from "../db/prisma.js";
 import { calculateLoanState } from "../utils/calculateLoanState.js";
+import { redis } from "../config/redis.js";
 
 const getLoans = asyncHandler(async (req: Request, res: Response) => {
   const accountId = req.sessionData?.accountId;
@@ -11,28 +12,18 @@ const getLoans = asyncHandler(async (req: Request, res: Response) => {
     throw new AppError("user not authenticated", 403);
   }
 
-  // -----------------------------
-  // Pagination
-  // -----------------------------
   const page = Math.max(parseInt(req.query.page as string) || 1, 1);
   const limit = Math.min(parseInt(req.query.limit as string) || 10, 50);
   const skip = (page - 1) * limit;
 
-  // -----------------------------
-  // Filters
-  // -----------------------------
   const search = (req.query.search as string) || "";
   const status = (req.query.status as string) || "ALL";
   const repayment = (req.query.repayment as string) || "ALL";
 
-  // -----------------------------
-  // Prisma WHERE builder
-  // -----------------------------
   const where: any = {
     accountId,
   };
 
-  // 🔍 Search by borrower name
   if (search.trim()) {
     where.client = {
       name: {
@@ -42,19 +33,29 @@ const getLoans = asyncHandler(async (req: Request, res: Response) => {
     };
   }
 
-  // 📌 Status filter
   if (status !== "ALL") {
     where.status = status;
   }
 
-  // 📌 Repayment filter
   if (repayment !== "ALL") {
     where.hasInstallments = repayment === "INSTALLMENTS";
   }
 
-  // -----------------------------
-  // Query DB
-  // -----------------------------
+  const cacheKey = `loans:${JSON.stringify({
+    accountId,
+    page,
+    limit,
+    search,
+    status,
+    repayment,
+  })}`;
+
+  const cachedData = await redis.get(cacheKey);
+
+  if (cachedData) {
+    return res.status(200).json(JSON.parse(cachedData));
+  }
+
   const [loans, total] = await Promise.all([
     prisma.loan.findMany({
       where,
@@ -103,10 +104,7 @@ const getLoans = asyncHandler(async (req: Request, res: Response) => {
     ...calculateLoanState(loan),
   }));
 
-  // -----------------------------
-  // Response
-  // -----------------------------
-  res.status(200).json({
+  const response = {
     message: "loans fetched successfully",
     data: computedLoans,
     pagination: {
@@ -115,7 +113,12 @@ const getLoans = asyncHandler(async (req: Request, res: Response) => {
       limit,
       totalPages: Math.ceil(total / limit),
     },
-  });
+  };
+
+  await redis.set(cacheKey, JSON.stringify(response));
+  await redis.expire(cacheKey, 300);
+
+  res.status(200).json(response);
 });
 
 export default getLoans;

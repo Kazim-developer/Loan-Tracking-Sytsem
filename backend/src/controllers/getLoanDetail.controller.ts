@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import asyncHandler from "../middlewares/asyncHandler.middleware.js";
 import AppError from "../utils/customErrorClass.js";
 import { prisma } from "../db/prisma.js";
+import { redis } from "../config/redis.js";
 
 export const getLoanDetail = asyncHandler(
   async (req: Request, res: Response) => {
@@ -19,6 +20,13 @@ export const getLoanDetail = asyncHandler(
 
     if (!loanId) {
       throw new AppError("Loan ID is required", 400);
+    }
+
+    const cacheKey = `loan-detail:${accountId}:${loanId}:page:${page}`;
+    const cachedData = await redis.get(cacheKey);
+
+    if (cachedData) {
+      return res.status(200).json(JSON.parse(cachedData));
     }
 
     const loan = await prisma.loan.findUnique({
@@ -81,7 +89,7 @@ export const getLoanDetail = asyncHandler(
 
     const totalPages = Math.ceil(totalCount / limit);
 
-    res.status(200).json({
+    const response = {
       message: "success",
       loan,
       installments,
@@ -91,6 +99,11 @@ export const getLoanDetail = asyncHandler(
         totalCount,
         totalPages,
       },
-    });
+    };
+
+    await redis.set(cacheKey, JSON.stringify(response));
+    await redis.expire(cacheKey, 300);
+
+    res.status(200).json(response);
   },
 );
