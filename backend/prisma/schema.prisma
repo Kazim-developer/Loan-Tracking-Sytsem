@@ -1,8 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Get a free hosted Postgres database in seconds: `npx create-db`
-
 generator client {
   provider = "prisma-client"
   output   = "../src/generated/prisma"
@@ -13,53 +8,43 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(uuid())
-  email     String   @unique
-
-  accounts  Account[]
+  id                 String               @id @default(uuid())
+  email              String               @unique
+  createdAt          DateTime             @default(now())
+  updatedAt          DateTime             @updatedAt
+  accounts           Account[]
   passwordRestTokens PasswordResetToken[]
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
 }
 
 model Account {
-  id                String  @id @default(uuid())
+  id                String              @id @default(uuid())
   userId            String
-
-  name      String?
-  imageUrl  String?
-
   provider          String
   providerAccountId String
   passwordHash      String?
   accessToken       String?
   refreshToken      String?
   expiresAt         Int?
-
-  clients Client[]
-  loans Loan[]
-  sessions Session[]
-
-  subscription  Subscription?
-  usage Usage?
+  imageUrl          String?
+  name              String?
+  user              User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  clients           Client[]
+  loans             Loan[]
+  sessions          Session[]
+  subscription      Subscription?
   subscriptionAddOn SubscriptionAddOn[]
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  usage             Usage?
 
   @@unique([provider, providerAccountId])
 }
 
-
 model Session {
   id           String   @id @default(uuid())
-
-  accountId String
   sessionToken String   @unique
-  createdAt DateTime @default(now())
   expiresAt    DateTime
-
-  account Account @relation(fields:[accountId], references:[id], onDelete: Cascade)
+  createdAt    DateTime @default(now())
+  accountId    String
+  account      Account  @relation(fields: [accountId], references: [id], onDelete: Cascade)
 }
 
 model PasswordResetToken {
@@ -67,90 +52,69 @@ model PasswordResetToken {
   token     String   @unique
   userId    String
   expiresAt DateTime
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Client {
   id        String   @id @default(uuid())
-  accountId String
   name      String
   email     String?
   phone     String?
   address   String?
   notes     String?
-
-  loans Loan[]
-
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  accountId String
+  account   Account  @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  loans     Loan[]
 
-  account Account @relation(fields:[accountId], references:[id], onDelete: Cascade)
-
-  @@index([accountId])
   @@unique([accountId, email])
+  @@index([accountId])
 }
 
 model Loan {
-  id                String   @id @default(uuid())
-
-  accountId String
-  account Account @relation(fields:[accountId], references:[id], onDelete: Cascade)
-
-  clientId          String
-  client            Client   @relation(fields: [clientId], references: [id], onDelete:Cascade)
-
-  totalAmount       Float
-  totalPayable Float
-  
-  interestRate      Float?   
-  interestType      InterestType? 
-
+  id                   String            @id @default(uuid())
+  clientId             String
+  totalAmount          Float
+  interestRate         Float?
+  interestType         InterestType?
+  hasInstallments      Boolean           @default(false)
+  installmentAmount    Float?
+  createdAt            DateTime          @default(now())
+  updatedAt            DateTime          @updatedAt
+  endDate              DateTime?
+  firstInstallmentDate DateTime?
+  totalPayable         Float
+  lastInstallmentDate  DateTime?
+  installmentFrequency Frequency?
   startingDate         DateTime
-  endDate DateTime?
-
-  status LoanStatus @default(ACTIVE)
-  repaymentStatus RepaymentStatus @default(PENDING)
-  
-  hasInstallments   Boolean  @default(false)
-  totalInstallments  Int?
-  installmentAmount Float?   
-  installmentFrequency         Frequency?
-  firstInstallmentDate  DateTime?
-  lastInstallmentDate DateTime?
-
-  installments      LoanInstallment[]
-  loanPayments          LoanPayment[]
-  loanReminders Reminder[]
-
-  createdAt         DateTime @default(now())
-  updatedAt         DateTime @updatedAt
+  status               LoanStatus        @default(ACTIVE)
+  totalInstallments    Int?
+  accountId            String
+  repaymentStatus      RepaymentStatus   @default(PENDING)
+  account              Account           @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  client               Client            @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  installments         LoanInstallment[]
+  loanPayments         LoanPayment[]
+  loanReminders        Reminder[]
 
   @@index([accountId])
-
   @@index([accountId, status])
-
   @@index([accountId, repaymentStatus])
-
   @@index([accountId, createdAt])
 }
 
 model LoanInstallment {
-  id           String   @id @default(uuid())
-
-  loanId       String
-  loan         Loan     @relation(fields: [loanId], references: [id], onDelete:Cascade)
-
-  dueDate      DateTime
-  amount       Float
-
-  status       InstallmentStatus @default(PENDING)
-
-  paidAt      DateTime?
-
+  id                   String            @id @default(uuid())
+  loanId               String
+  dueDate              DateTime
+  amount               Float
+  status               InstallmentStatus @default(PENDING)
+  createdAt            DateTime          @default(now())
+  updatedAt            DateTime          @updatedAt
+  paidAt               DateTime?
+  loan                 Loan              @relation(fields: [loanId], references: [id], onDelete: Cascade)
   installmentReminders Reminder[]
-
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
 
   @@index([loanId])
   @@index([loanId, status])
@@ -159,19 +123,117 @@ model LoanInstallment {
 
 model LoanPayment {
   id        String   @id @default(uuid())
-
   loanId    String
-  loan      Loan     @relation(fields: [loanId], references: [id], onDelete:Cascade)
-
   amount    Float
-  paidAt      DateTime @default(now())
-
   createdAt DateTime @default(now())
+  paidAt    DateTime @default(now())
+  loan      Loan     @relation(fields: [loanId], references: [id], onDelete: Cascade)
 
   @@index([loanId])
   @@index([loanId, paidAt])
 }
 
+model Reminder {
+  id            String           @id @default(uuid())
+  reminderDate  DateTime
+  sent          Boolean          @default(false)
+  type          ReminderType
+  createdAt     DateTime         @default(now())
+  installmentId String?
+  loanId        String?
+  installment   LoanInstallment? @relation(fields: [installmentId], references: [id])
+  loan          Loan?            @relation(fields: [loanId], references: [id])
+}
+
+model Plan {
+  id                   String         @id @default(uuid())
+  name                 String         @unique
+  priceMonth           Int
+  createdAt            DateTime       @default(now())
+  description          String?
+  isActive             Boolean        @default(true)
+  priceYear            Int?
+  updatedAt            DateTime       @updatedAt
+  maxEmailReminders    Int?
+  maxTeamMembers       Int?
+  maxWhatsappReminders Int?
+  monthlyPriceId       String?        @unique
+  maxActiveLoans       Int?
+  maxClients           Int?
+  maxTotalLoans        Int?
+  features             PlanFeature[]
+  subscriptions        Subscription[]
+}
+
+model PlanFeature {
+  id      String  @id @default(uuid())
+  planId  String
+  key     String
+  enabled Boolean
+  plan    Plan    @relation(fields: [planId], references: [id], onDelete: Cascade)
+
+  @@unique([planId, key])
+  @@index([key])
+}
+
+model Subscription {
+  id                     String             @id @default(uuid())
+  planId                 String
+  status                 SubscriptionStatus
+  startDate              DateTime
+  endDate                DateTime?
+  cancelAt               DateTime?
+  createdAt              DateTime           @default(now())
+  accountId              String             @unique
+  autoRenew              Boolean            @default(true)
+  billingCycle           BillingCycle
+  provider               String             @default("paddle")
+  providerCustomerId     String?
+  providerSubscriptionId String?            @unique
+  updatedAt              DateTime           @updatedAt
+  account                Account            @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  plan                   Plan               @relation(fields: [planId], references: [id])
+
+  @@index([planId])
+  @@index([accountId])
+  @@index([providerCustomerId])
+}
+
+model SubscriptionAddOn {
+  id                  String    @id @default(uuid())
+  accountId           String
+  type                AddOnType
+  quantity            Int
+  used                Int       @default(0)
+  paddleTransactionId String?   @unique
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
+  account             Account   @relation(fields: [accountId], references: [id], onDelete: Cascade)
+
+  @@index([accountId])
+}
+
+model WebhookEvent {
+  id          String   @id @default(uuid())
+  eventId     String   @unique
+  processedAt DateTime @default(now())
+  createdAt   DateTime @default(now())
+  eventType   String
+}
+
+model Usage {
+  id                 String    @id @default(uuid())
+  accountId          String    @unique
+  billingPeriodStart DateTime?
+  billingPeriodEnd   DateTime?
+  usedActiveLoans    Int       @default(0)
+  usedClients        Int       @default(0)
+  usedEmailReminders Int       @default(0)
+  usedTotalLoans     Int       @default(0)
+  account            Account   @relation(fields: [accountId], references: [id], onDelete: Cascade)
+
+  @@index([accountId])
+}
 
 enum InterestType {
   SIMPLE
@@ -183,7 +245,7 @@ enum Frequency {
   MONTHLY
 }
 
-enum LoanStatus{
+enum LoanStatus {
   ACTIVE
   CLOSED
 }
@@ -192,8 +254,8 @@ enum RepaymentStatus {
   PENDING
   PARTIAL
   PAID
-  DUE
   OVERDUE
+  DUE
 }
 
 enum InstallmentStatus {
@@ -203,141 +265,9 @@ enum InstallmentStatus {
   OVERDUE
 }
 
-model Reminder {
-  id              String   @id @default(uuid())
-
-  installmentId   String?
-  installment     LoanInstallment? @relation(fields: [installmentId], references: [id])
-
-  loanId String?
-  loan Loan? @relation(fields:[loanId], references:[id])
-
-  reminderDate    DateTime
-  sent            Boolean  @default(false)
-
-  type            ReminderType
-
-  createdAt       DateTime @default(now())
-}
-
 enum ReminderType {
   EMAIL
   WHATSAPP
-}
-
-
-model Plan {
-  id                 String   @id @default(uuid())
-  name               String   @unique
-  description        String?
-
-  priceMonth         Int      
-  priceYear          Int?
-
-  monthlyPriceId String? @unique
-
-  maxClients Int?
-  maxActiveLoans        Int?
-  maxTotalLoans Int?
-  maxTeamMembers     Int?
-
-  maxEmailReminders  Int?
-  maxWhatsappReminders Int?
-
-  features  PlanFeature[]
-
-  isActive           Boolean  @default(true)
-
-  subscriptions      Subscription[]
-
-  createdAt          DateTime @default(now())
-  updatedAt          DateTime @updatedAt
-}
-
-model PlanFeature {
-  id      String @id @default(uuid())
-  planId  String
-  key     String
-  enabled Boolean
-
-  plan Plan @relation(fields: [planId], references: [id], onDelete: Cascade)
-
-  @@unique([planId, key])
-  @@index([key])
-}
-
-model Subscription {
-  id        String   @id @default(uuid())
-  accountId String   @unique  
-  planId    String
-
-  status       SubscriptionStatus
-  billingCycle BillingCycle
-  autoRenew    Boolean @default(true)
-
-  startDate DateTime
-  endDate   DateTime?
-  cancelAt  DateTime?
-
-  provider                String @default("paddle")
-  providerSubscriptionId  String? @unique
-  providerCustomerId      String?
-
-  account Account @relation(fields: [accountId], references: [id], onDelete: Cascade)
-  plan    Plan    @relation(fields: [planId], references: [id], onDelete: Restrict)
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  @@index([planId])
-  @@index([accountId])
-  @@index([providerCustomerId])
-}
-
-model SubscriptionAddOn{
-  id String @id @default(uuid())
-
-  accountId String
-
-  type AddOnType
-  quantity Int
-  used Int @default(0)
-
-  paddleTransactionId String? @unique
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  account Account @relation(fields:[accountId], references:[id], onDelete:Cascade)
-
-  @@index([accountId])
-}
-
-model WebhookEvent {
-  id          String   @id @default(uuid())
-  eventId     String   @unique
-  eventType        String
-  processedAt DateTime @default(now())
-
-  createdAt   DateTime @default(now())
-}
-
-model Usage{
-  id String @id @default(uuid())
-
-  accountId String @unique
-
-  billingPeriodStart DateTime?
-  billingPeriodEnd DateTime?
-
-  usedClients Int @default(0)
-  usedActiveLoans Int @default(0)
-  usedTotalLoans Int @default(0)
-  usedEmailReminders Int @default(0)
-
-  account Account @relation(fields:[accountId], references:[id], onDelete:Cascade)
-
-  @@index([accountId])
 }
 
 enum AddOnType {
